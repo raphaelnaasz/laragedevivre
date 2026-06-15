@@ -45,9 +45,10 @@ img.abs{display:block;}
   width:calc(var(--u)*571.4);height:calc(var(--u)*815.6);border:calc(var(--u)*1) solid var(--jaune);pointer-events:none;}
 .titre{font-size:calc(var(--u)*80);line-height:1;letter-spacing:-0.017em;white-space:nowrap;}
 .titre-en{font-size:calc(var(--u)*15.5);letter-spacing:.205em;white-space:nowrap;opacity:.95;}
-.byline{font-size:calc(var(--u)*12);line-height:calc(var(--u)*14.4);letter-spacing:-0.012em;white-space:nowrap;}
-.byline .lien-img.mezz-nom{font-size:calc(var(--u)*18.5);letter-spacing:.004em;border-bottom:none;}
-.byline .lien-img.mezz-nom::after{content:none;}
+.byline{font-size:calc(var(--u)*12);line-height:calc(var(--u)*15.2);letter-spacing:-0.012em;white-space:nowrap;text-align:right;}
+.byline .lien-img.mezz-nom{display:inline-block;font-size:calc(var(--u)*17);letter-spacing:.004em;
+  border-bottom:1px dashed rgba(239,213,26,.6);line-height:calc(var(--u)*22);}
+.byline .lien-img.mezz-nom::after{content:"\2197";font-size:.62em;vertical-align:.45em;margin-left:.12em;opacity:.8;}
 .noms{font-size:calc(var(--u)*24);line-height:calc(var(--u)*36);letter-spacing:-0.022em;white-space:nowrap;}
 .entete{position:absolute;left:calc(var(--u)*74.4);width:calc(var(--u)*446);height:calc(var(--u)*33.6);
   border:calc(var(--u)*2) solid var(--jaune);display:flex;align-items:center;justify-content:space-between;
@@ -126,9 +127,24 @@ img.abs{display:block;}
   text-transform:uppercase;text-shadow:0 0 3px rgba(0,0,0,.6);pointer-events:none;}
 #credit-audio .slot{transition:opacity .9s ease;}
 #credit-audio .note{display:inline-block;margin-right:.4em;}
-#aide{position:fixed;top:52px;right:16px;z-index:51;color:var(--jaune);font-family:inherit;font-weight:900;
-  font-size:9.5px;line-height:1.4;letter-spacing:.07em;text-transform:uppercase;opacity:0;transition:opacity .7s ease;pointer-events:none;text-align:right;max-width:min(46vw,300px);}
-#aide.visible{opacity:.95;}
+/* ── écran d'accueil : invite à activer le son avant d'entrer ── */
+#intro{position:fixed;inset:0;z-index:90;background:var(--noir);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6vh;
+  text-align:center;padding:24px;-webkit-tap-highlight-color:transparent;
+  transition:opacity .8s ease,visibility .8s ease;}
+#intro.parti{opacity:0;visibility:hidden;pointer-events:none;}
+#intro .intro-titre{color:var(--jaune);font-weight:900;letter-spacing:-0.01em;
+  font-size:clamp(30px,9vw,72px);line-height:.98;text-transform:uppercase;}
+#intro .intro-sous{color:var(--jaune);opacity:.78;font-weight:900;text-transform:uppercase;
+  letter-spacing:.14em;font-size:clamp(10px,2.6vw,13px);line-height:1.7;max-width:30ch;}
+#intro .intro-btn{cursor:pointer;border:2px solid var(--jaune);background:transparent;color:var(--jaune);
+  font-family:inherit;font-weight:900;text-transform:uppercase;letter-spacing:.12em;
+  font-size:clamp(15px,4.4vw,22px);padding:.85em 2.2em;border-radius:999px;
+  transition:background .25s ease,color .25s ease,transform .15s ease;-webkit-tap-highlight-color:transparent;}
+#intro .intro-btn:hover,#intro .intro-btn:active{background:var(--jaune);color:var(--noir);}
+#intro .intro-btn:active{transform:scale(.97);}
+#intro .intro-pied{color:var(--jaune);opacity:.5;font-weight:900;text-transform:uppercase;
+  letter-spacing:.1em;font-size:clamp(8px,2.2vw,10px);}
 
 @media (prefers-reduced-motion: reduce){ .panneau .fleche{animation:none;} }
 /* ── liens-images dans le texte (mobile + desktop) ── */
@@ -202,7 +218,13 @@ img.abs{display:block;}
 
 <button id="son" data-on="1" aria-pressed="true">SON&nbsp;ON</button>
 <div id="credit-audio"><span class="slot"></span></div>
-<div id="aide">le son démarre<br>au premier geste</div>
+
+<div id="intro" role="dialog" aria-label="Entrée">
+  <div class="intro-titre">La Rage<br>de Vivre</div>
+  <button id="intro-btn" class="intro-btn">Écouter&nbsp;&amp;&nbsp;entrer</button>
+  <div class="intro-sous">Ce dossier se lit avec le son.<br>Activez le son de votre appareil,<br>puis entrez.</div>
+  <div class="intro-pied">défilez pour parcourir</div>
+</div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -211,7 +233,7 @@ img.abs{display:block;}
   <div class="abs titre" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
   <div class="abs titre" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
   <div class="abs titre-en" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
-  <div class="abs byline" style="left:calc(var(--u)*254.6);top:calc(var(--u)*462.5)">D’après le roman de <span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span> et Bernard<br>Wolfe</div>
+  <div class="abs byline" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)">D’après le roman de<br><span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br>et Bernard Wolfe</div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">Raphaël Naasz<br>Margaux Eskenazi<br>Julia Baudet</div>
   <div class="cv-photo gauche"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/img-mezz-cv.jpg" alt="Mezz Mezzrow"><div class="lg">Mezz Mezzrow</div></div>
   <div class="cv-photo droite"><img id="img-bechet-cv" data-cap="Sidney Bechet" src="assets/img-bechet-cv.jpg" alt="Sidney Bechet"><div class="lg">Sidney Bechet</div></div>
@@ -325,7 +347,7 @@ img.abs{display:block;}
 </main>
 
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
-<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absence.</p><p>Mon grand demi-frère était saxophoniste. Il avait quinze ans de plus que moi. Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
+<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absence.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi. Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p><hr class="separ"><figure><img src="assets/img-18.jpg" id="img-noone" alt="Jimmy Noone à la clarinette" data-cap="Jimmy Noone"><figcaption>Jimmy Noone</figcaption></figure><figure><div class="attente">Johnny Dodds<br>photo à insérer</div><figcaption>Johnny Dodds</figcaption></figure><figure><img src="assets/img-noone.jpg" id="img-bechet" alt="All Star Jazz Band, 1944" data-cap="Sidney Bechet — All Star Jazz Band, 1944"><figcaption>Sidney Bechet — All Star Jazz Band, 1944</figcaption></figure></div>
@@ -336,7 +358,7 @@ img.abs{display:block;}
 </div>
 
 <aside id="panneau-g" class="panneau" role="dialog" aria-modal="false">
-  <div class="tete"><h2></h2><span class="tap-hint">tap&nbsp;: figer · glisser&nbsp;&#8595; fermer</span></div>
+  <div class="tete"><h2></h2></div>
   <div class="corps"><div class="defile"></div><div class="fleche">&#9660;</div></div>
 </aside>
 <aside id="panneau-d" class="panneau" role="dialog" aria-modal="false">
@@ -358,12 +380,11 @@ img.abs{display:block;}
   var SRC={ "EMB:RTB":RTB, "EMB:DARN":(typeof DARN!=='undefined'?DARN:RTB) };
 
   var bouton=document.getElementById('son');
-  var aide=document.getElementById('aide');
   var creditAudio=document.getElementById('credit-audio');
   var slotA=creditAudio.querySelector('.slot');
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="";
-  var VOL=0.4;
+  var VOL=0.72;
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -478,7 +499,6 @@ img.abs{display:block;}
 
   function debloquer(){
     if(debloque) return; debloque=true;
-    aide.classList.remove('visible');          /* l'aide s'efface d'abord */
     if(!ctx){ try{ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} }
     if(ctx && ctx.state==='suspended'){ try{ctx.resume();}catch(e){} }
     pisteActuelle=''; courante=-1;
@@ -502,14 +522,24 @@ img.abs{display:block;}
     }catch(e){}
     majAudio();                                  /* synchrone : enclenche la bonne piste + crédit */
   }
-  // On amorce sur tout premier geste plausible. 'click' et 'scroll' inclus en plus
-  // des gestes tactiles, et NON-passifs pour pointerdown/touchstart (autorise play()).
+  // ENTRÉE : le clic sur le bouton d'accueil débloque l'audio DANS le geste
+  // utilisateur (même contexte fiable que le bouton SON), puis efface l'écran.
+  var intro=document.getElementById('intro');
+  var introBtn=document.getElementById('intro-btn');
+  function entrer(){
+    debloquer();                 // play() synchrone dans le clic → démarrage fiable
+    if(intro){ intro.classList.add('parti'); }
+    // sécurité : on retire l'écran du DOM après la transition
+    setTimeout(function(){ if(intro && intro.parentNode){ intro.parentNode.removeChild(intro); intro=null; } },900);
+  }
+  if(introBtn){ introBtn.addEventListener('click', entrer); }
+  // Fallback : si pour une raison quelconque l'écran n'est pas là, tout premier
+  // geste débloque quand même l'audio.
   ['pointerdown','touchstart','mousedown','keydown','click'].forEach(function(ev){
     window.addEventListener(ev,debloquer,{passive:true,capture:true});
   });
   window.addEventListener('scroll',debloquer,{passive:true});
   document.addEventListener('touchend',debloquer,{passive:true});
-  setTimeout(function(){ if(!debloque) aide.classList.add('visible'); },700);
 
 
   bouton.addEventListener('click', function(){
@@ -564,9 +594,9 @@ img.abs{display:block;}
     P.defile.innerHTML=s.html;
     P.defile.scrollTop=0;
   }
-  function appliquer(P, id, prog){
-    // prog: progression d'apparition+déroulé [0..1] ; <=0 => caché
-    if(prog<=0.001){
+  function appliquer(P, id, pres, dr){
+    // pres: présence en cloche [0..1..0] ; <=0 => caché. dr: déroulé du texte [0..1].
+    if(pres<=0.001){
       if(P.el.classList.contains('actif')){
         P.el.classList.remove('actif'); P.el.style.opacity='';
       }
@@ -575,9 +605,8 @@ img.abs{display:block;}
     }
     // monter le bon contenu si nécessaire
     if(P._id!==id){ monter(P,id); P._id=id; }
-    // phase apparition (0→0.30), pose (0.30→0.42), puis déroulé (0.42→1)
-    var ap=Math.min(1, prog/0.30);
-    var dr=Math.min(1, Math.max(0, (prog-0.42)/0.58));
+    var ap=easeInOutPoids(Math.max(0,Math.min(1,pres)));  // même easing pesant que mobile
+    dr=Math.max(0,Math.min(1, dr||0));
     P.el.classList.add('actif');
     P.el.style.opacity=String(ap);
     var dx=(1-ap)* (P.el.id==='panneau-d'? 22 : -22);
@@ -598,7 +627,7 @@ img.abs{display:block;}
   function tick(){
     if(etroit()){ tickMobile(); majAudio(); raf=null; return; }
     var H=window.innerHeight;
-    var actiG=null, actiD=null, progG=0, progD=0;
+    var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0;
     for(var i=0;i<pages.length;i++){
       var info=infosPage[i]; if(!info) continue;
       var r=pages[i].getBoundingClientRect();
@@ -607,21 +636,31 @@ img.abs{display:block;}
       // p basé sur le passage du HAUT de la page de H*0.55 (entrée) à -H*0.05 (sortie)
       // fenêtre active : du moment où la page est bien visible (haut ~ 45% de H)
       // jusqu'à ce qu'elle commence à sortir par le haut (haut ~ -55% de sa hauteur).
-      var top=r.top, h=r.height;
-      // image découverte longtemps, puis apparition tardive et déroulé posé :
-      // fenêtre étirée, entrée décalée vers le bas (page bien installée au centre).
-      var p=( (H*0.30) - top ) / (h*0.92);
-      // au-delà de la sortie, on coupe net (évite qu'une page passée garde p=1)
-      if(top < -h*0.66) p=0;
-      if(top > H*0.46) p=0;          // pas encore entrée : image seule
-      p=Math.max(0,Math.min(1,p));
-      if(p>0){
-        if(info.g){ if(p>progG){progG=p;actiG=info.g;} }
-        if(info.d){ if(p>progD){progD=p;actiD=info.d;} }
+      var top=r.top, h=r.height, H2=H;
+      /* CYCLE DE VIE en cloche (comme sur mobile), pour une apparition ET une
+         disparition douces, parfaitement symétriques en scroll up/down — fini les
+         seuils binaires qui faisaient « sauter » les panneaux et rendaient la
+         réapparition incertaine.
+           top = 0.46*H  : seuil d'entrée, le panneau commence à apparaître
+           top = 0.02*H  : panneau pleinement présent (début lecture)
+           top = -0.40*H : fin de lecture, début de la sortie
+           top = -0.66*H : panneau totalement sorti */
+      var tIn0=0.46*H2, tIn1=0.02*H2, tRd1=-0.40*H2, tOut=-0.66*H2;
+      var pres=0, dr=0;
+      if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
+      else if(top<=tIn1 && top>tRd1){ pres=1; dr=(tIn1-top)/(tIn1-tRd1); }
+      else if(top<=tRd1 && top>tOut){ pres=(top-tOut)/(tRd1-tOut); dr=1; }
+      else { pres=0; }
+      pres=Math.max(0,Math.min(1,pres)); dr=Math.max(0,Math.min(1,dr));
+      // on encode présence+déroulé dans un seul réel : entier=phase, décimale=détail.
+      // plus simple : on choisit la page la plus « présente » et on passe (pres,dr).
+      if(pres>0){
+        if(info.g){ if(pres>progG){progG=pres;drG=dr;actiG=info.g;} }
+        if(info.d){ if(pres>progD){progD=pres;drD=dr;actiD=info.d;} }
       }
     }
-    appliquer(PG, actiG, actiG?progG:0);
-    appliquer(PD, actiD, actiD?progD:0);
+    appliquer(PG, actiG, actiG?progG:0, drG);
+    appliquer(PD, actiD, actiD?progD:0, drD);
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
        (l'utilisateur a pris le temps de regarder l'affiche), les visages entrent. */
@@ -689,9 +728,9 @@ img.abs{display:block;}
          Entre 0.14H et -0.06H : MONTÉE (présence 0→1).
          Entre -0.06H et -0.44H : LECTURE (présence 1, déroulé 0→1).
          Entre -0.44H et -0.72H : SORTIE (présence 1→0, symétrique de la montée). */
-      var tIn0= 0.14*H2, tIn1=-0.06*H2;     // fenêtre de montée
-      var tRd1=-0.44*H2;                      // fin de lecture
-      var tOut=-0.72*H2;                      // fin de sortie
+      var tIn0= 0.30*H2, tIn1=-0.02*H2;     // fenêtre de montée (démarre plus tôt)
+      var tRd1=-0.42*H2;                      // fin de lecture
+      var tOut=-0.70*H2;                      // fin de sortie
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){              // MONTÉE
         pres=(tIn0-top)/(tIn0-tIn1); dr=0;
@@ -747,80 +786,9 @@ img.abs{display:block;}
   function easeInOutPoids(t){
     return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
   }
-  // ── TAP = figer / défiger ; GLISSER VERS LE BAS = fermer et revenir à l'image ──
-  var tStartY=null, tStartX=null, tMoved=false, tDragging=false, tBaseTransform=0;
-  function sheetVisibleHeight(){ return PG.el.getBoundingClientRect().height || 1; }
-
-  PG.el.addEventListener('touchstart', function(e){
-    if(!etroit() || !PG.el.classList.contains('actif')) return;
-    var t=e.touches[0]; tStartY=t.clientY; tStartX=t.clientX; tMoved=false; tDragging=false;
-    // on n'autorise le drag-to-dismiss que si le texte est en haut (sinon le doigt scrolle le texte)
-    tBaseTransform=0;
-  }, {passive:true});
-
-  PG.el.addEventListener('touchmove', function(e){
-    if(tStartY===null) return;
-    var t=e.touches[0];
-    var dy=t.clientY-tStartY, dx=t.clientX-tStartX;
-    if(!tMoved && (Math.abs(dy)>6 || Math.abs(dx)>6)) tMoved=true;
-    // drag vers le bas pour fermer : seulement si le texte est déjà tout en haut
-    var atTop = PG.defile.scrollTop<=0;
-    if(dy>0 && atTop && Math.abs(dy)>Math.abs(dx)){
-      tDragging=true;
-      PG.el.style.transition='none';
-      var tr=Math.min(100, dy/sheetVisibleHeight()*100);
-      PG.el.style.transform='translateY('+tr+'%)';
-      PG.el.style.opacity=String(Math.max(0.1, 1-tr/100));
-    }
-  }, {passive:true});
-
-  PG.el.addEventListener('touchend', function(e){
-    if(tStartY===null) return;
-    var endY=(e.changedTouches&&e.changedTouches[0])?e.changedTouches[0].clientY:tStartY;
-    var dy=endY-tStartY;
-    if(tDragging){
-      PG.el.style.transition='transform .32s cubic-bezier(.22,.8,.2,1), opacity .32s ease';
-      if(dy > sheetVisibleHeight()*0.28){
-        // fermeture confirmée → on revient face à l'image
-        fermeManuel=true; figeId=null;
-        PG.el.classList.remove('fige','actif');
-        PG.defile.classList.remove('scrollable');
-        PG.el.style.transform='translateY(100%)'; PG.el.style.opacity='0';
-        setTimeout(function(){ PG.el.style.transition=''; PG.el.style.transform=''; PG.el.style.opacity=''; }, 340);
-      } else {
-        // pas assez tiré → on remet en place
-        PG.el.style.transform='translateY(0)'; PG.el.style.opacity='1';
-        setTimeout(function(){ PG.el.style.transition=''; }, 340);
-      }
-      tStartY=tStartX=null; tDragging=false; return;
-    }
-    // pas de drag → simple tap : figer / défiger
-    if(!tMoved){
-      if(figeId===null){
-        figeId=PG._mkey||'x';
-        PG.el.classList.add('fige');
-        PG.defile.classList.add('scrollable');
-        PG.el.style.transform='translateY(0)'; PG.el.style.opacity='1';
-      } else {
-        figeId=null;
-        PG.el.classList.remove('fige');
-        PG.defile.classList.remove('scrollable');
-      }
-    }
-    tStartY=tStartX=null;
-  }, {passive:true});
-
-  // desktop / souris : un clic fige toujours (inchangé)
-  PG.el.addEventListener('click', function(e){
-    if(etroit()) return;                          // mobile géré par touch
-    if(e.target.closest('.lien-img')) return;
-    if(!PG.el.classList.contains('actif')) return;
-    if(figeId===null){
-      figeId=PG._mkey||'x'; PG.el.classList.add('fige'); PG.defile.classList.add('scrollable');
-    } else {
-      figeId=null; PG.el.classList.remove('fige'); PG.defile.classList.remove('scrollable');
-    }
-  });
+  // ── Le scroll est le SEUL moteur : plus de tap-pour-figer ni de glisser-pour-fermer.
+  //    (mécanisme retiré : il entrait en conflit avec le cycle de vie continu et
+  //     rendait la réapparition des textes incertaine.) Les liens-images restent actifs.
 
   /* ════════ LIGHTBOX (liens-images dans le texte) ════════ */
   var lb=document.getElementById('lightbox');
