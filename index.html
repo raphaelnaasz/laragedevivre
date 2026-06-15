@@ -174,7 +174,7 @@ img.abs{display:block;}
   /* ── SHEET BAS piloté par le scroll (transposition verticale du moteur desktop) ── */
   #panneau-g{
     left:0;right:0;bottom:0;top:auto;width:100%;
-    height:auto;max-height:78vh;
+    height:auto;max-height:58vh;
     border:0;border-top:1px solid var(--jaune);
     border-radius:18px 18px 0 0;
     background:rgba(14,14,14,.97);
@@ -205,6 +205,13 @@ img.abs{display:block;}
   .page[data-panneau-page] .entete::after,
   .page .declencheur.premier{}
 }
+/* ── diptyque panoramique pages 8-9 (halves d'une même photo) ── */
+.page[data-folio="8"],.page[data-folio="9"]{margin-bottom:0;margin-top:0;}
+.page[data-folio="8"]{margin-bottom:-18px;}
+.page[data-folio="8"] .fond{object-fit:cover;object-position:left center;}
+.page[data-folio="9"] .fond{object-fit:cover;object-position:right center;}
+/* masquer l'en-tête page 9 pour ne pas couper la jointure visuelle */
+.page[data-folio="9"] .entete{display:none;}
 @media print{
   body{background:#fff}
   #flux{padding:0;gap:0}
@@ -272,7 +279,7 @@ img.abs{display:block;}
     </div>
   </div>
   <div class="cadre4 bas">
-    <div class="citation">
+    <div class="citation declencheur suivant" data-panneau="src-opacite">
       <p class="ex">«&nbsp;Nous réclamons le droit à l’opacité pour tous.&nbsp;»</p>
       <p class="qui">Édouard Glissant — Poétique de la Relation, 1990</p>
     </div>
@@ -357,11 +364,12 @@ img.abs{display:block;}
 <div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absence.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi. Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
-<div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p><hr class="separ"><figure><picture><source srcset="assets/images/img-18.webp" type="image/webp"><img src="assets/images/img-18.jpg" id="img-noone" alt="Jimmy Noone à la clarinette" data-cap="Jimmy Noone"></picture><figcaption>Jimmy Noone</figcaption></figure><figure><div class="attente">Johnny Dodds<br>photo à insérer</div><figcaption>Johnny Dodds</figcaption></figure><figure><picture><source srcset="assets/images/img-noone.webp" type="image/webp"><img src="assets/images/img-noone.jpg" id="img-bechet" alt="All Star Jazz Band, 1944" data-cap="Sidney Bechet — All Star Jazz Band, 1944"></picture><figcaption>Sidney Bechet — All Star Jazz Band, 1944</figcaption></figure></div>
+<div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
+<div class="panneau-source" id="src-opacite" data-titre="Le droit à l'opacité" hidden><p>L'opacité, pour Édouard Glissant, n'est pas le mystère ni l'obscurantisme&nbsp;: c'est le droit de n'être pas transparent pour l'Autre — de ne pas avoir à se justifier, à se traduire, à se réduire pour être compris. Dans la <em>Poétique de la Relation</em>&nbsp;(1990), il soutient que reconnaître l'autre n'implique pas de le pénétrer&nbsp;: on peut consentir à ce qu'on ne comprend pas. Cette pensée renverse le rapport classique entre connaissance et relation&nbsp;: ce n'est pas parce qu'on comprend qu'on respecte — c'est parce qu'on accepte de ne pas tout comprendre qu'on peut vraiment rencontrer. Ce que Mezzrow ne comprend jamais tout à fait — la musique noire, les corps noirs, la colère noire — est peut-être la condition même de sa dévotion.</p></div>
 <div class="panneau-source" id="src-trio" data-titre="Noone · Dodds · Bechet" hidden>
-  <figure><picture><source srcset="assets/images/jimmy-noone-trio.webp" type="image/webp"><img src="assets/images/jimmy-noone-trio.jpg" alt="Jimmy Noone"></picture><figcaption>Jimmy Noone</figcaption></figure>
-  <figure><div class="attente">Johnny Dodds<br>photo à insérer</div><figcaption>Johnny Dodds</figcaption></figure>
-  <figure><picture><source srcset="assets/images/jimmy-noone.webp" type="image/webp"><img src="assets/images/jimmy-noone.jpg" alt="Sidney Bechet"></picture><figcaption>Sidney Bechet</figcaption></figure>
+  <figure><img src="assets/images/img-noone-allstar.jpg" alt="Jimmie Noone All Star Jazz Band, 1944" data-cap="Jimmie Noone &amp; All Star Jazz Band, 1944"><figcaption>Jimmie Noone &amp; All Star Jazz Band — 1944</figcaption></figure>
+  <figure><picture><source srcset="assets/images/img-dodds.webp" type="image/webp"><img src="assets/images/img-dodds.jpg" alt="Johnny Dodds" data-cap="Johnny Dodds"></picture><figcaption>Johnny Dodds</figcaption></figure>
+  <figure><picture><source srcset="assets/images/img-bechet-couleur.webp" type="image/webp"><img src="assets/images/img-bechet-couleur.jpg" alt="Sidney Bechet" data-cap="Sidney Bechet — The Unique"></picture><figcaption>Sidney Bechet — The Unique</figcaption></figure>
 </div>
 
 <aside id="panneau-g" class="panneau" role="dialog" aria-modal="false">
@@ -575,9 +583,10 @@ img.abs{display:block;}
   // associe à chaque page l'info panneau
   var infosPage = pages.map(function(p){
     var pp=p.getAttribute('data-panneau-page'); var cote=p.getAttribute('data-cote')||'g';
-    var dcl=p.querySelector('.declencheur');
+    var dcl=p.querySelector('.declencheur:not(.suivant)');
+    var dcl2=p.querySelector('.declencheur.suivant');
     if(pp) return {type:'page', g: cote==='g'?pp:null, d: cote==='d'?pp:null};
-    if(dcl) return {type:'cit', g:dcl.getAttribute('data-panneau'), d:dcl.getAttribute('data-panneau2')};
+    if(dcl||dcl2) return {type:'cit', g:dcl?dcl.getAttribute('data-panneau'):null, d:dcl?dcl.getAttribute('data-panneau2'):null, g2:dcl2?dcl2.getAttribute('data-panneau'):null};
     return null;
   });
 
@@ -662,7 +671,7 @@ img.abs{display:block;}
       // on encode présence+déroulé dans un seul réel : entier=phase, décimale=détail.
       // plus simple : on choisit la page la plus « présente » et on passe (pres,dr).
       if(pres>0){
-        if(info.g){ if(pres>progG){progG=pres;drG=dr;actiG=info.g;} }
+        if(info.g||info.g2){ if(pres>progG){progG=pres;drG=dr;actiG=(info.g2&&dr>=0.5)?info.g2:info.g;} }
         if(info.d){ if(pres>progD){progD=pres;drD=dr;actiD=info.d;} }
       }
     }
@@ -697,12 +706,13 @@ img.abs{display:block;}
   var pageActiveIdx=-1;     // index de la page actuellement active (pour détecter un changement)
   function contenuMobile(info){
     // concatène g+d en une seule source (sur mobile il n'y a qu'un panneau)
-    var s1=info.g?srcHTML(info.g):null, s2=info.d?srcHTML(info.d):null;
-    if(!s1&&!s2) return null;
+    var s1=info.g?srcHTML(info.g):null, s2=info.d?srcHTML(info.d):null, s3=info.g2?srcHTML(info.g2):null;
+    if(!s1&&!s2&&!s3) return null;
+    var parts=[s1,s3,s2].filter(function(s){return s&&s.html;});
     return {
       titre:(s1&&s1.titre)||(s2&&s2.titre)||'',
-      html:(s1?s1.html:'')+((s1&&s2&&s1.html&&s2.html)?'<hr class="separ">':'')+(s2?s2.html:''),
-      key:(info.g||'')+'|'+(info.d||'')
+      html:parts.map(function(s){return s.html;}).join('<hr class="separ">'),
+      key:(info.g||'')+'|'+(info.d||'')+'|'+(info.g2||'')
     };
   }
   function tickMobile(){
