@@ -94,7 +94,7 @@ img.abs{display:block;}
 .panneau h2{margin:0;color:var(--jaune);font-size:18px;letter-spacing:-0.01em;font-weight:900;}
 .panneau h2:empty{display:none;}
 .panneau .corps{position:relative;overflow:hidden;margin:12px 0 0;flex:1 1 auto;min-height:0;}
-.panneau .defile{height:100%;overflow:hidden;padding:2px 22px 26px;}
+.panneau .defile{height:100%;overflow:hidden;padding:2px 22px 26px;transition:opacity 0.35s ease;}
 .panneau .defile.scrollable{overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(239,213,26,.55) transparent;}
 .panneau .defile::-webkit-scrollbar{width:6px}
 .panneau .defile::-webkit-scrollbar-thumb{background:rgba(239,213,26,.5)}
@@ -205,13 +205,14 @@ img.abs{display:block;}
   .page[data-panneau-page] .entete::after,
   .page .declencheur.premier{}
 }
-/* ── diptyque panoramique pages 8-9 (halves d'une même photo) ── */
-.page[data-folio="8"],.page[data-folio="9"]{margin-bottom:0;margin-top:0;}
-.page[data-folio="8"]{margin-bottom:-18px;}
-.page[data-folio="8"] .fond{object-fit:cover;object-position:left center;}
-.page[data-folio="9"] .fond{object-fit:cover;object-position:right center;}
-/* masquer l'en-tête page 9 pour ne pas couper la jointure visuelle */
+/* ── diptyque panoramique pages 8-9 : côte à côte sur desktop ── */
+.diptique-pano{display:flex;flex-direction:row;width:100%;gap:0;align-items:stretch;}
+.diptique-pano .page{flex:0 0 50%;min-width:0;}
 .page[data-folio="9"] .entete{display:none;}
+@media(max-width:760px){
+  .diptique-pano{flex-direction:column;}
+  .diptique-pano .page{flex:none;width:100%;}
+}
 @media print{
   body{background:#fff}
   #flux{padding:0;gap:0}
@@ -234,7 +235,6 @@ img.abs{display:block;}
 <div id="credit-audio"><span class="slot"></span></div>
 
 <div id="intro" role="dialog" aria-label="Entrée">
-  <div class="intro-titre">La Rage<br>de Vivre</div>
   <button id="intro-btn" class="intro-btn">Écouter&nbsp;&amp;&nbsp;entrer</button>
   <div class="intro-sous">Ce dossier se lit avec le son.<br>Activez le son de votre appareil,<br>puis entrez.</div>
   <div class="intro-pied">défilez pour parcourir</div>
@@ -274,12 +274,12 @@ img.abs{display:block;}
   <div class="cadre4 haut">
     <!-- ════ CITATIONS — bloc supprimable ════ -->
     <div class="citation declencheur premier" data-panneau="src-qui" data-panneau2="src-trio">
-      <p class="ex">«&nbsp;<span>J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet.</span>&nbsp;»<sup class="plus">+</sup></p>
+      <p class="ex">«&nbsp;J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet.&nbsp;»</p>
       <p class="qui">Mezz Mezzrow — La Rage de vivre, 1946</p>
     </div>
   </div>
   <div class="cadre4 bas">
-    <div class="citation declencheur suivant" data-panneau="src-opacite">
+    <div class="citation declencheur suivant" data-panneau="src-opacite" data-panneau2="src-glissant">
       <p class="ex">«&nbsp;Nous réclamons le droit à l’opacité pour tous.&nbsp;»</p>
       <p class="qui">Édouard Glissant — Poétique de la Relation, 1990</p>
     </div>
@@ -298,15 +298,16 @@ img.abs{display:block;}
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit"></div>
 </section>
 
+<div class="diptique-pano">
 <section class="page" aria-label="Page 8" data-folio="8">
   <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" src="assets/images/img-5.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit"></div>
 </section>
-
 <section class="page" aria-label="Page 9" data-folio="9">
   <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div><div class="credit"></div>
 </section>
+</div>
 
 <section class="page" aria-label="Page 10" data-folio="10">
   <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" src="assets/images/img-7.jpg" alt=""></picture>
@@ -365,6 +366,12 @@ img.abs{display:block;}
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
+<div class="panneau-source" id="src-glissant" data-titre="Édouard Glissant" hidden>
+  <figure><picture>
+    <source srcset="assets/images/img-glissant.webp" type="image/webp">
+    <img src="assets/images/img-glissant.jpg" alt="Édouard Glissant" data-cap="Édouard Glissant — Martinique, 1928 · Paris, 2011">
+  </picture><figcaption>Édouard Glissant — Martinique, 1928 · Paris, 2011</figcaption></figure>
+</div>
 <div class="panneau-source" id="src-opacite" data-titre="Le droit à l'opacité" hidden><p>L'opacité, pour Édouard Glissant, n'est pas le mystère ni l'obscurantisme&nbsp;: c'est le droit de n'être pas transparent pour l'Autre — de ne pas avoir à se justifier, à se traduire, à se réduire pour être compris. Dans la <em>Poétique de la Relation</em>&nbsp;(1990), il soutient que reconnaître l'autre n'implique pas de le pénétrer&nbsp;: on peut consentir à ce qu'on ne comprend pas. Cette pensée renverse le rapport classique entre connaissance et relation&nbsp;: ce n'est pas parce qu'on comprend qu'on respecte — c'est parce qu'on accepte de ne pas tout comprendre qu'on peut vraiment rencontrer. Ce que Mezzrow ne comprend jamais tout à fait — la musique noire, les corps noirs, la colère noire — est peut-être la condition même de sa dévotion.</p></div>
 <div class="panneau-source" id="src-trio" data-titre="Noone · Dodds · Bechet" hidden>
   <figure><img src="assets/images/img-noone-allstar.jpg" alt="Jimmie Noone All Star Jazz Band, 1944" data-cap="Jimmie Noone &amp; All Star Jazz Band, 1944"><figcaption>Jimmie Noone &amp; All Star Jazz Band — 1944</figcaption></figure>
@@ -586,7 +593,7 @@ img.abs{display:block;}
     var dcl=p.querySelector('.declencheur:not(.suivant)');
     var dcl2=p.querySelector('.declencheur.suivant');
     if(pp) return {type:'page', g: cote==='g'?pp:null, d: cote==='d'?pp:null};
-    if(dcl||dcl2) return {type:'cit', g:dcl?dcl.getAttribute('data-panneau'):null, d:dcl?dcl.getAttribute('data-panneau2'):null, g2:dcl2?dcl2.getAttribute('data-panneau'):null};
+    if(dcl||dcl2) return {type:'cit', g:dcl?dcl.getAttribute('data-panneau'):null, d:dcl?dcl.getAttribute('data-panneau2'):null, g2:dcl2?dcl2.getAttribute('data-panneau'):null, d2:dcl2?dcl2.getAttribute('data-panneau2'):null};
     return null;
   });
 
@@ -606,9 +613,16 @@ img.abs{display:block;}
   function monter(P, id){
     if(!id){ return; }
     var s=srcHTML(id); if(!s) return;
+    // Transition douce : coupe la transition CSS, passe à opacité 0, met à jour le contenu,
+    // force un reflow pour que le navigateur engage l'état 0, puis réactive la transition.
+    P.defile.style.transition='none';
+    P.defile.style.opacity='0';
     P.h2.textContent=s.titre;
     P.defile.innerHTML=s.html;
     P.defile.scrollTop=0;
+    void P.defile.offsetHeight; // force reflow
+    P.defile.style.transition='';
+    P.defile.style.opacity='';
   }
   function appliquer(P, id, pres, dr){
     // pres: présence en cloche [0..1..0] ; <=0 => caché. dr: déroulé du texte [0..1].
@@ -643,7 +657,7 @@ img.abs{display:block;}
   function tick(){
     if(etroit()){ tickMobile(); majAudio(); raf=null; return; }
     var H=window.innerHeight;
-    var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0;
+    var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0, needsGScale=false, needsDScale=false;
     for(var i=0;i<pages.length;i++){
       var info=infosPage[i]; if(!info) continue;
       var r=pages[i].getBoundingClientRect();
@@ -661,7 +675,11 @@ img.abs{display:block;}
            top = 0.02*H  : panneau pleinement présent (début lecture)
            top = -0.40*H : fin de lecture, début de la sortie
            top = -0.66*H : panneau totalement sorti */
-      var tIn0=0.46*H2, tIn1=0.02*H2, tRd1=-0.40*H2, tOut=-0.66*H2;
+      // Pour les pages avec g2 (second panneau), on allonge la fenêtre de lecture
+      // afin que l'utilisateur voit ~85 % du texte du premier panneau avant le switch.
+      var tRd1 = info.g2 ? -0.75*H2 : -0.40*H2;
+      var tOut = info.g2 ? -1.05*H2 : -0.66*H2;
+      var tIn0=0.46*H2, tIn1=0.02*H2;
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
       else if(top<=tIn1 && top>tRd1){ pres=1; dr=(tIn1-top)/(tIn1-tRd1); }
@@ -671,12 +689,16 @@ img.abs{display:block;}
       // on encode présence+déroulé dans un seul réel : entier=phase, décimale=détail.
       // plus simple : on choisit la page la plus « présente » et on passe (pres,dr).
       if(pres>0){
-        if(info.g||info.g2){ if(pres>progG){progG=pres;drG=dr;actiG=(info.g2&&dr>=0.5)?info.g2:info.g;} }
-        if(info.d){ if(pres>progD){progD=pres;drD=dr;actiD=info.d;} }
+        if(info.g||info.g2){ if(pres>progG){progG=pres;drG=dr;var sw=info.g2&&dr>=0.85;actiG=sw?info.g2:info.g;needsGScale=info.g2&&!sw;} }
+        if(info.d||info.d2){ if(pres>progD){progD=pres;drD=dr;var swD=info.d2&&dr>=0.85;actiD=swD?info.d2:info.d;needsDScale=info.d2&&!swD;} }
       }
     }
-    appliquer(PG, actiG, actiG?progG:0, drG);
-    appliquer(PD, actiD, actiD?progD:0, drD);
+    // Si on est sur le premier panneau d'une page g2, on compresse le défilement
+    // sur la fenêtre 0→0.85 pour que le texte soit intégralement visible avant le switch.
+    var drGscaled = needsGScale ? Math.min(drG/0.85, 1) : drG;
+    appliquer(PG, actiG, actiG?progG:0, drGscaled);
+    var drDscaled = needsDScale ? Math.min(drD/0.85, 1) : drD;
+    appliquer(PD, actiD, actiD?progD:0, drDscaled);
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
        (l'utilisateur a pris le temps de regarder l'affiche), les visages entrent. */
@@ -745,9 +767,12 @@ img.abs{display:block;}
          Entre 0.14H et -0.06H : MONTÉE (présence 0→1).
          Entre -0.06H et -0.44H : LECTURE (présence 1, déroulé 0→1).
          Entre -0.44H et -0.72H : SORTIE (présence 1→0, symétrique de la montée). */
-      var tIn0= 0.30*H2, tIn1=-0.02*H2;     // fenêtre de montée (démarre plus tôt)
-      var tRd1=-1.15*H2;                      // fin de lecture (fenêtre allongée : déroulé lent, un seul geste)
-      var tOut=-1.45*H2;                      // fin de sortie (symétrique, douce)
+      var tIn0= 0.30*H2, tIn1=-0.02*H2;     // fenêtre de montée
+      // Lecture ancrée sur la hauteur réelle de la page : le texte finit de défiler
+      // quand la page est presque sortie de l'écran (pas après, pour éviter de lire
+      // du texte sans image visible derrière).
+      var tRd1=-(h*0.85);                    // fin de lecture ≈ page presque hors écran
+      var tOut=-(h*1.15);                    // fin de sortie  ≈ page complètement partie
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){              // MONTÉE
         pres=(tIn0-top)/(tIn0-tIn1); dr=0;
