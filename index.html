@@ -367,6 +367,13 @@ img.abs{display:block;}
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
+  /* Pré-création des éléments <audio> DÈS le chargement (hors de tout geste).
+     Sur iOS/Android, le play() doit se faire dans le geste utilisateur sur un
+     élément déjà existant — d'où cette amorce, indispensable pour que la musique
+     démarre vraiment au premier toucher. */
+  function precreer(){
+    Object.keys(SRC).forEach(function(k){ assure(SRC[k]); });
+  }
   function piste(src){
     if(!pistes[src]) pistes[src]={audio:null,ok:null,noise:null,gain:null,cible:0,raf:null};
     return pistes[src];
@@ -473,11 +480,11 @@ img.abs{display:block;}
     if(debloque) return; debloque=true;
     aide.classList.remove('visible');          /* l'aide s'efface d'abord */
     if(!ctx){ try{ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} }
-    if(ctx && ctx.state==='suspended') ctx.resume();
+    if(ctx && ctx.state==='suspended'){ try{ctx.resume();}catch(e){} }
     pisteActuelle=''; courante=-1;
-    /* iOS/Android : un play() doit avoir lieu DANS le geste. On lance tout de suite
-       la 1re piste sonore (Really the Blues) de façon synchrone, et on amorce sa
-       montée de volume immédiatement pour qu'on l'entende dès le premier mouvement. */
+    /* iOS/Android : le play() DOIT être appelé ici, de façon synchrone, dans le
+       geste utilisateur, sur un élément <audio> DÉJÀ créé (cf. precreer()).
+       On lance la 1re piste (Really the Blues) à volume 0 puis on amorce la montée. */
     try{
       var first=-1;
       for(var k=0;k<pages.length;k++){ if(pages[k].getAttribute('data-son')){ first=k; break; } }
@@ -487,15 +494,23 @@ img.abs{display:block;}
         var pp=assure(src, first);
         if(pp.audio){
           pp.audio.volume=0;
-          var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){});
+          var pr=pp.audio.play();
+          if(pr&&pr.then){ pr.then(function(){ pp.ok=true; }).catch(function(){ /* retenté par fondu */ }); }
           pp.cible = actif?VOL:0; fondu(pp, first);   // amorce la montée tout de suite
         }
       }
     }catch(e){}
     majAudio();                                  /* synchrone : enclenche la bonne piste + crédit */
   }
-  ['pointerdown','keydown','touchstart','touchend','wheel'].forEach(function(ev){ window.addEventListener(ev,debloquer,{passive:true}); });
+  // On amorce sur tout premier geste plausible. 'click' et 'scroll' inclus en plus
+  // des gestes tactiles, et NON-passifs pour pointerdown/touchstart (autorise play()).
+  ['pointerdown','touchstart','mousedown','keydown','click'].forEach(function(ev){
+    window.addEventListener(ev,debloquer,{passive:true,capture:true});
+  });
+  window.addEventListener('scroll',debloquer,{passive:true});
+  document.addEventListener('touchend',debloquer,{passive:true});
   setTimeout(function(){ if(!debloque) aide.classList.add('visible'); },700);
+
 
   bouton.addEventListener('click', function(){
     actif=!actif;
@@ -655,29 +670,46 @@ img.abs{display:block;}
     if(figeId!==null){ return; }     // figé : le moteur ne touche plus au sheet
     if(fermeManuel){ return; }       // fermé à la main : on ne le rouvre pas tant qu'on ne change pas de page
 
-    var acti=null, prog=0, actiIdx=-1;
+    var acti=null, best=-1, actiIdx=-1, bestPres=0, bestDr=0;
     for(var i=0;i<pages.length;i++){
       var info=infosPage[i]; if(!info) continue;
       var r=pages[i].getBoundingClientRect();
-      var top=r.top, h=r.height;
-      /* Fenêtre TRÈS TARDIVE : l'image reste seule longtemps.
-         Le texte ne commence à monter que lorsque la page est vraiment installée
-         au centre (haut de page passé sous ~8% de H), et la fenêtre de progression
-         est ÉTIRÉE (h*0.92) pour que tout se joue lentement : montée pesante du
-         sheet puis déroulé posé. → on voit l'essentiel de l'image avant le texte,
-         et le texte ne file pas. */
-      var p=( (H*0.08) - top ) / (h*0.92);
-      if(top < -h*0.70) p=0;
-      if(top > H*0.20) p=0;          // pas encore assez entrée : image seule, plein cadre
-      p=Math.max(0,Math.min(1,p));
-      if(p>prog){ prog=p; acti=info; actiIdx=i; }
+      var top=r.top, h=r.height, H2=H;
+      /* CYCLE DE VIE en cloche, fondé sur la position de la page dans l'écran.
+         On veut : voir l'image presque entière → le texte MONTE par-dessus →
+         le texte se déroule pendant que la page est centrée → le texte REDESCEND
+         (sortie symétrique de l'entrée) → place à l'image suivante.
+
+         Repères (top = position du HAUT de la page) :
+           top = 0.62*H  : page entre, image seule              → présence 0
+           top = 0.14*H  : seuil ENTRÉE — le sheet commence à monter
+           top = -0.06*H : sheet pleinement monté (début lecture)
+           top = -0.44*H : fin lecture, début de la SORTIE
+           top = -0.72*H : sheet redescendu, présence 0, image suivante visible
+         Entre 0.14H et -0.06H : MONTÉE (présence 0→1).
+         Entre -0.06H et -0.44H : LECTURE (présence 1, déroulé 0→1).
+         Entre -0.44H et -0.72H : SORTIE (présence 1→0, symétrique de la montée). */
+      var tIn0= 0.14*H2, tIn1=-0.06*H2;     // fenêtre de montée
+      var tRd1=-0.44*H2;                      // fin de lecture
+      var tOut=-0.72*H2;                      // fin de sortie
+      var pres=0, dr=0;
+      if(top<=tIn0 && top>tIn1){              // MONTÉE
+        pres=(tIn0-top)/(tIn0-tIn1); dr=0;
+      } else if(top<=tIn1 && top>tRd1){       // LECTURE (déroulé)
+        pres=1; dr=(tIn1-top)/(tIn1-tRd1);
+      } else if(top<=tRd1 && top>tOut){       // SORTIE
+        pres=(top-tOut)/(tRd1-tOut); dr=1;    // présence redescend 1→0, texte resté en bas
+      } else { pres=0; }
+      pres=Math.max(0,Math.min(1,pres)); dr=Math.max(0,Math.min(1,dr));
+      // la page « active » est celle dont la présence est la plus forte
+      if(pres>bestPres){ bestPres=pres; bestDr=dr; acti=info; actiIdx=i; }
     }
     // changement de page → on annule la fermeture manuelle (nouvelle image, nouveau texte)
     if(actiIdx!==pageActiveIdx){ pageActiveIdx=actiIdx; fermeManuel=false; }
-    appliquerMobile(acti, acti?prog:0);
+    appliquerMobile(acti, bestPres, bestDr);
   }
-  function appliquerMobile(info, prog){
-    if(!info || prog<=0.001){
+  function appliquerMobile(info, pres, dr){
+    if(!info || pres<=0.001){
       if(PG.el.classList.contains('actif')){
         PG.el.classList.remove('actif'); PG.el.style.transform=''; PG.el.style.opacity='';
         PG._mkey=null;
@@ -693,23 +725,18 @@ img.abs{display:block;}
       PG._mkey=c.key;
     }
     PG.el.classList.add('actif');
-    /* Trois temps, étalés pour donner du poids et laisser lire :
-       — phase MONTÉE (0 → 0.46) : le sheet monte lentement (easing pesant),
-         sa transparence est tenue longtemps (l'image reste lisible dessous).
-       — phase POSE  (0.46 → 0.58) : le sheet est arrivé, opaque, IMMOBILE.
-         Rien ne défile : on a le temps de lire le haut du texte.
-       — phase DÉROULÉ (0.58 → 1) : le texte se déroule, lentement, sur une grande
-         course de scroll, pour qu'aucun paragraphe ne file avant d'être lu. */
-    var apRaw=Math.min(1, prog/0.46);
-    var ap=easeInOutPoids(apRaw);
-    var dr=Math.max(0, (prog-0.58)/0.42);
-    dr=Math.min(1, dr);
-    // opacité : montée douce, l'image reste perceptible sous le sheet jusqu'assez tard
-    PG.el.style.opacity=String(0.12+0.88*ap);
+    /* PRÉSENCE (pres ∈ 0→1→0, en cloche) pilote l'ENTRÉE *et* la SORTIE du sheet,
+       avec le MÊME easing pesant dans les deux sens : l'apparition et la disparition
+       sont donc symétriques (plus de coupure sèche). Le sheet monte par le bas,
+       reste en place pendant la lecture (pres=1), puis redescend par le bas.
+       DÉROULÉ (dr) pilote le scroll du texte, indépendamment, pendant la lecture. */
+    var ap=easeInOutPoids(Math.max(0,Math.min(1,pres)));
+    // opacité : tenue basse au début/à la fin pour que l'image reste perceptible
+    PG.el.style.opacity=String(0.10+0.90*ap);
     PG.el.style.transform='translateY('+((1-ap)*100)+'%)';
     var max=PG.defile.scrollHeight - PG.defile.clientHeight;
     if(max>4){
-      PG.defile.scrollTop = dr*max;
+      PG.defile.scrollTop = Math.max(0,Math.min(1,dr))*max;
       PG.corps.classList.toggle('dehaut', PG.defile.scrollTop>6);
       PG.corps.classList.toggle('debas', PG.defile.scrollTop < max-6);
     } else {
@@ -826,6 +853,7 @@ img.abs{display:block;}
   });
 
   dim();
+  precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
   // démarrage
   requestAnimationFrame(function(){ tick(); });
 })();
