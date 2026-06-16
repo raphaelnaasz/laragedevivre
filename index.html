@@ -29,7 +29,7 @@
 /* Fonte exacte du PDF — déposer le fichier puis décommenter :
 @font-face{font-family:'Helvetica Now Text';src:url('HelveticaNowText-Black.woff2') format('woff2');font-weight:900;}
 */
-:root{ --jaune:#EFD51A; --noir:#0e0e0e; --pw:min(94vw,760px); }
+:root{ --jaune:#EFD51A; --noir:#0e0e0e; --pw:min(75vw,608px); }
 *{box-sizing:border-box}
 html{scroll-behavior:auto}
 html,body{margin:0;background:var(--noir)}
@@ -188,16 +188,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 /* ── encadré page 6 "Qui il est." — overlay fixe centré, piloté par GSAP ── */
 .p6-qui{
   position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  z-index:46;width:min(680px,76vw);max-height:82vh;
+  z-index:46;width:min(calc(var(--pw)*0.9),76vw);max-height:82vh;
   display:flex;flex-direction:column;
   border:1px solid var(--jaune);background:rgba(14,14,14,.85);
-  padding:clamp(20px,3vh,34px) clamp(22px,3vw,40px);
+  padding:calc(var(--u)*24) calc(var(--u)*30);
   opacity:0;visibility:hidden;pointer-events:none;will-change:opacity;
 }
-.p6-qui h2{flex:0 0 auto;color:var(--jaune);font-size:clamp(20px,2.4vw,30px);letter-spacing:-0.01em;font-weight:900;margin:0 0 16px;}
+.p6-qui h2{flex:0 0 auto;color:var(--jaune);font-size:calc(var(--u)*22);letter-spacing:-0.01em;font-weight:900;margin:0 0 calc(var(--u)*15);}
 .p6-corps{position:relative;overflow:hidden;flex:1 1 auto;min-height:0;}
 .p6-defile{will-change:transform;}
-.p6-defile p{color:var(--jaune);font-size:clamp(13px,1.15vw,16px);line-height:1.58;letter-spacing:.01em;margin:0 0 13px;font-weight:900;}
+.p6-defile p{color:var(--jaune);font-size:calc(var(--u)*13);line-height:1.6;letter-spacing:.01em;margin:0 0 calc(var(--u)*12);font-weight:900;}
 .p6-defile p:last-child{margin-bottom:0;}
 @media (max-width:760px){ .p6-qui{display:none;} }
 
@@ -784,8 +784,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var etroit=function(){ return window.innerWidth<=760; };
   var cvPhotos=[].slice.call(document.querySelectorAll('.cv-photo'));
   function largeurPanneau(){
-    var pw=Math.min(window.innerWidth*0.94,760);
-    return Math.max(300, Math.min(412, (window.innerWidth-pw)/2 - 30));
+    var pw=Math.min(window.innerWidth*0.75,608);
+    return Math.max(340, Math.min(500, (window.innerWidth-pw)/2 - 26));
   }
   function dim(){
     var w=largeurPanneau();
@@ -913,8 +913,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(!corps||!defile) return;
     // L'encadré est position:fixed (opacity 0) donc déjà mis en page : mesure directe.
     var overflow=Math.max(0, defile.scrollHeight - corps.clientHeight);
-    var fadeLead=Math.round(window.innerHeight*0.55); // distance pour le fondu d'apparition
-    var total=overflow+fadeLead;
+    var H=window.innerHeight;
+    var fadeLead=Math.round(H*0.55);   // phase 1 : fondu d'apparition (image visible d'abord)
+    var holdIn  =Math.round(H*0.55);   // phase 3 : station de lecture (texte plein, gelé)
+    var fadeOut =Math.round(H*0.40);   // phase 4 : disparition en fondu avant la page suivante
+    var total=fadeLead+overflow+holdIn+fadeOut;
+    var b2=fadeLead, b3=fadeLead+overflow, b4=fadeLead+overflow+holdIn;
     p6Pin=ScrollTrigger.create({
       trigger:p6secEl,
       start:'top top',            // gel quand le haut de la page atteint le haut de l'écran
@@ -922,14 +926,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       pin:true,pinSpacing:true,scrub:true,
       invalidateOnRefresh:true,
       onUpdate:function(self){
-        var dist=self.progress*total;
-        var fp=Math.min(1, dist/Math.max(1,fadeLead));   // fondu 0→1 sur la phase d'apparition
-        p6quiEl.style.opacity=String(fp);
-        p6quiEl.style.visibility= fp>0.01 ? 'visible':'hidden';
-        var td=Math.max(0, Math.min(dist-fadeLead, overflow)); // déroulé du texte ensuite
+        var d=self.progress*total, op, td;
+        if(d<b2){ op=d/Math.max(1,fadeLead); td=0; }                 // 1. apparition
+        else if(d<b3){ op=1; td=d-b2; }                              // 2. déroulé du texte
+        else if(d<b4){ op=1; td=overflow; }                         // 3. STATION de lecture (plein, gelé)
+        else { op=Math.max(0,1-(d-b4)/Math.max(1,fadeOut)); td=overflow; } // 4. disparition
+        p6quiEl.style.opacity=String(op);
+        p6quiEl.style.visibility= op>0.01 ? 'visible':'hidden';
         defile.style.transform='translate3d(0,'+(-td)+'px,0)';
       },
-      onLeave:p6Hide,        // sorti par le bas → on cache (sinon il resterait par-dessus page 7)
+      onLeave:p6Hide,        // sorti par le bas → on cache (sécurité)
       onLeaveBack:p6Hide     // remonté par le haut → on cache aussi
     });
     p6PinReady=true;
