@@ -290,14 +290,13 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
   <div class="abs titre-en seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
-  <div class="abs byline seq-cache" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)">D’après le roman de<br><span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br>et Bernard Wolfe</div>
+  <div class="abs byline" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)"><span class="seq-cache">D’après le roman de</span><br><span class="lien-img mezz-nom seq-cache" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br><span class="seq-cache">et Bernard Wolfe</span></div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
     <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
     <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
     <span class="nom-seq">Julia Baudet</span>
   </div>
   <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
-  <div class="cv-photo droite seq-cache"><picture><source srcset="assets/images/img-bechet-cv.webp" type="image/webp"><img id="img-bechet-cv" data-cap="Sidney Bechet" src="assets/images/img-bechet-cv.jpg" alt="Sidney Bechet"></picture><div class="lg">Sidney Bechet</div></div>
 </section>
 
 <section class="page" aria-label="Page 2" data-folio="2" data-son="EMB:DARN" data-piste="Darn That Dream — Thelonious Monk, 1963" data-panneau-page="src-p2" data-cote="g">
@@ -646,30 +645,30 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       if(el) el.classList.add('seq-ok');
     }, 800);
 
-    // Étape 2 — "Mezz Mezzrow" à sa place dans l'affiche (byline)
+    // Étape 2 — "Mezz Mezzrow" seul à sa place (span mezz-nom)
     setTimeout(function(){
-      var el=p1&&p1.querySelector('.byline');
+      var el=p1&&p1.querySelector('.mezz-nom');
       if(el) el.classList.add('seq-ok');
-    }, 2000);
+    }, 2500);
 
-    // Étape 3 — fond photo + "La Rage de Vivre" + encadrure + reste (sauf déjà révélés)
+    // Étape 3 — fond photo + "La Rage de Vivre" + encadrure + "D'après / et Bernard Wolfe" + portrait Mezz
     setTimeout(function(){
       if(p1){
         var reste=p1.querySelectorAll('.seq-cache:not(.seq-ok)');
         for(var i=0;i<reste.length;i++) reste[i].classList.add('seq-ok');
       }
-    }, 5500);
+    }, 6000);
 
     // Étapes 4-6 — Raphaël, Margaux, Julia
-    setTimeout(function(){ if(nomSeqs[0]) nomSeqs[0].classList.add('seq-ok'); }, 9500);
-    setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); }, 11500);
-    setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); }, 13500);
+    setTimeout(function(){ if(nomSeqs[0]) nomSeqs[0].classList.add('seq-ok'); }, 10000);
+    setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); }, 12000);
+    setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); }, 14000);
 
     // Étape 7 — SOUND ON + crédit + scroll rétabli (simultanément)
     setTimeout(function(){
       document.body.classList.remove('seq-en-cours');
       document.body.style.overflow='';
-    }, 15500);
+    }, 16000);
   }
 
   function entrer(){
