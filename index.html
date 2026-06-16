@@ -120,11 +120,11 @@ img.abs{display:block;}
 /* ── son + crédit audio sous le bouton ── */
 #son{position:fixed;top:16px;right:16px;z-index:50;cursor:pointer;border:2px solid var(--jaune);
   background:rgba(0,0,0,.6);color:var(--jaune);font-family:inherit;font-weight:900;font-size:12px;letter-spacing:.12em;
-  padding:10px 16px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+  padding:10px 16px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:opacity 1.4s ease;}
 #son[data-on="1"]{background:var(--jaune);color:#000;}
 #credit-audio{position:fixed;top:52px;right:16px;z-index:50;max-width:min(46vw,300px);text-align:right;
   color:var(--jaune);font-family:inherit;font-weight:900;font-size:9.5px;line-height:1.4;letter-spacing:.07em;
-  text-transform:uppercase;text-shadow:0 0 3px rgba(0,0,0,.6);pointer-events:none;}
+  text-transform:uppercase;text-shadow:0 0 3px rgba(0,0,0,.6);pointer-events:none;transition:opacity 1.4s ease;}
 #credit-audio .slot{transition:opacity .9s ease;}
 #credit-audio .note{display:inline-block;margin-right:.4em;}
 /* ── écran d'accueil : invite à activer le son avant d'entrer ── */
@@ -169,13 +169,18 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   right:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));
   transform:translate(22px,-50%);
   z-index:46;
+  width:min(500px,42vw);
+  height:min(84vh,720px);
 }
 #panneau-bio.actif{transform:translate(0,-50%);}
+#panneau-bio .defile p{font-size:17px;line-height:1.6;}
+#panneau-bio figure img{max-height:220px;width:auto;max-width:55%;display:block;}
 @media (max-width:760px){
   #panneau-bio{left:0;right:0;bottom:0;top:auto;width:100%;
-    height:auto;max-height:75vh;border:0;border-top:1px solid var(--jaune);
+    height:auto;max-height:85vh;border:0;border-top:1px solid var(--jaune);
     border-radius:18px 18px 0 0;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,.8,.2,1);}
   #panneau-bio.actif{transform:translateY(0);}
+  #panneau-bio figure img{max-height:160px;max-width:50%;}
 }
 /* ── liens-images dans le texte (mobile + desktop) ── */
 .lien-img{color:var(--jaune);border-bottom:1px dashed rgba(239,213,26,.6);cursor:pointer;
@@ -473,6 +478,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="";
   var VOL=0.72;
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:DARN":0.65};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -521,7 +527,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       var fini=true;
       if(pp.audio && pp.ok!==false){
         var v=pp.audio.volume,dv=pp.cible-v;
-        if(Math.abs(dv)>0.012){pp.audio.volume=Math.max(0,Math.min(1,v+dv*0.07));fini=false;}
+        if(Math.abs(dv)>0.012){pp.audio.volume=Math.max(0,Math.min(1,v+dv*0.027));fini=false;}
         else pp.audio.volume=pp.cible;
         if(pp.cible>0 && pp.audio.paused && debloque){
           var pr=pp.audio.play();
@@ -547,7 +553,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       var pp=pistes[k];
       if(k===src){ /* gardée */ } else { pp.cible=0; fondu(pp); }
     });
-    var pp=assure(src,seed); pp.cible= actif?VOL:0; fondu(pp,seed);
+    var pp=assure(src,seed); pp.cible= actif?(VOL_PISTES[rawSrc]||VOL):0; fondu(pp,seed);
   }
 
   /* crédit audio sous le bouton, cross-fade liquide */
@@ -630,14 +636,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     document.body.classList.add('seq-en-cours');
     document.body.style.overflow='hidden';
 
-    // L'overlay disparaît vite — le noir vient désormais du body (fond masqué par seq-cache)
+    // L'overlay disparaît lentement (1.2s) — on attend que l'intro soit entièrement partie (0.9s)
+    // avant de commencer le fade out, sinon les deux sont semi-transparents en même temps.
     setTimeout(function(){
       if(seq){
-        seq.style.transition='opacity 0.5s ease';
+        seq.style.transition='opacity 1.2s ease';
         seq.style.opacity='0';
-        setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 550);
+        setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 1300);
       }
-    }, 400);
+    }, 950);
 
     // Étape 1 — "Really the Blues" apparaît à sa place sur l'affiche noire
     setTimeout(function(){
