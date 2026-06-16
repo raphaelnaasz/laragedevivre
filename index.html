@@ -204,6 +204,9 @@ img.abs{display:block;}
   /* les pages à panneau : indice visuel discret qu'un texte est disponible */
   .page[data-panneau-page] .entete::after,
   .page .declencheur.premier{}
+  /* GSAP pin : défilement piloté par JS — scrollbar masquée */
+  #panneau-g .defile.gsap-driven{overflow-y:scroll;scrollbar-width:none;}
+  #panneau-g .defile.gsap-driven::-webkit-scrollbar{display:none;}
 }
 /* ── diptyque panoramique pages 8-9 : côte à côte sur desktop ── */
 .diptique-pano{display:flex;flex-direction:row;width:100%;gap:0;align-items:stretch;}
@@ -863,9 +866,10 @@ img.abs{display:block;}
     gsap.set(PG.el, { yPercent:100, opacity:0 });
     PG.el.classList.remove('actif');
 
-    // Ruler DOM : mesure le débordement de texte hors du panel avant de créer les triggers
+    // Ruler : mesure le débordement réel — soustrait la hauteur de la tête du panneau
     var panW = PG.el.offsetWidth || window.innerWidth;
-    var panH = Math.floor(window.innerHeight * 0.58);
+    var teteH = PG.el.querySelector('.tete').offsetHeight || 52;
+    var panH = Math.max(60, Math.floor(window.innerHeight * 0.58) - teteH);
     var ruler = document.createElement('div');
     ruler.setAttribute('aria-hidden','true');
     ruler.style.cssText = [
@@ -880,7 +884,7 @@ img.abs{display:block;}
 
     var currentIdx = -1;
 
-    function showM(idx, c){
+    function showM(idx, c, isLong){
       if(currentIdx===idx && PG._mkey===c.key){ PG.el.classList.add('actif'); return; }
       currentIdx = idx;
       PG.h2.textContent   = c.titre;
@@ -889,10 +893,15 @@ img.abs{display:block;}
       PG._mkey = c.key;
       PG.el.classList.add('actif');
       PG.corps.classList.remove('dehaut','debas');
+      // overflow-y:scroll requis pour que scrollTop fonctionne sur Safari iOS
+      if(isLong){ PG.defile.classList.add('gsap-driven'); }
+      else       { PG.defile.classList.remove('gsap-driven'); }
     }
     function hideM(idx){
       if(currentIdx!==idx) return;
       PG.el.classList.remove('actif');
+      PG.defile.classList.remove('gsap-driven');
+      PG.defile.scrollTop = 0;
       PG.corps.classList.remove('dehaut','debas');
       currentIdx = -1;
     }
@@ -909,9 +918,17 @@ img.abs{display:block;}
       var c = contenuMobile(info); if(!c) return;
 
       ruler.innerHTML = c.html;
+      // Donne une hauteur de substitution aux images non chargées (évite de sous-estimer le débordement)
+      var imgs = ruler.querySelectorAll('img');
+      for(var j=0;j<imgs.length;j++){
+        if(!imgs[j].naturalHeight) imgs[j].style.height = Math.round(panW * 1.35)+'px';
+      }
       var overflow = Math.max(0, ruler.scrollHeight - ruler.clientHeight);
       var isLong   = overflow > 20;
       var pinExtra = overflow + 80;
+
+      // scrollMax par page : calculé paresseusement puis mis en cache (évite les reflows répétés)
+      var cachedMax = -1;
 
       // 1. APPEAR
       ScrollTrigger.create({
@@ -919,11 +936,12 @@ img.abs{display:block;}
         start       : 'top 80%',
         end         : 'top 5%',
         scrub       : 0.5,
-        onEnter     : function(){ showM(i,c); },
-        onEnterBack : function(){ showM(i,c); },
+        onEnter     : function(){ showM(i, c, isLong); },
+        onEnterBack : function(){ showM(i, c, isLong); cachedMax = -1; },
         onLeaveBack : function(){
           gsap.set(PG.el, { yPercent:100, opacity:0 });
           hideM(i);
+          cachedMax = -1;
         },
         onUpdate : function(self){
           if(currentIdx!==i) return;
@@ -933,7 +951,7 @@ img.abs{display:block;}
       });
 
       if(isLong){
-        // 2a. PIN + défilement texte (long)
+        // 2a. PIN + défilement texte
         ScrollTrigger.create({
           trigger    : page,
           start      : 'top top',
@@ -941,16 +959,17 @@ img.abs{display:block;}
           pin        : true,
           pinSpacing : true,
           scrub      : true,
-          onEnterBack: function(){ showM(i,c); gsap.set(PG.el, { yPercent:0, opacity:1 }); },
+          onEnterBack: function(){ showM(i, c, isLong); gsap.set(PG.el, { yPercent:0, opacity:1 }); cachedMax = -1; },
           onLeave    : function(){
+            if(currentIdx!==i) return;
             gsap.set(PG.el, { yPercent:100, opacity:0 });
             hideM(i);
             gsap.set(PG.el, { clearProps:'transform,opacity' });
           },
           onUpdate : function(self){
             if(currentIdx!==i) return;
-            var max = PG.defile.scrollHeight - PG.defile.clientHeight;
-            if(max>4){ PG.defile.scrollTop = self.progress*max; majIndicateurs(); }
+            if(cachedMax<0){ cachedMax = PG.defile.scrollHeight - PG.defile.clientHeight; }
+            if(cachedMax>4){ PG.defile.scrollTop = self.progress * cachedMax; majIndicateurs(); }
           }
         });
       } else {
@@ -960,7 +979,11 @@ img.abs{display:block;}
           start   : 'bottom 60%',
           end     : 'bottom top',
           scrub   : 0.5,
-          onLeave : function(){ gsap.set(PG.el, { clearProps:'transform,opacity' }); hideM(i); },
+          onLeave : function(){
+            if(currentIdx!==i) return;
+            gsap.set(PG.el, { clearProps:'transform,opacity' });
+            hideM(i);
+          },
           onUpdate: function(self){
             if(currentIdx!==i) return;
             var p = easeInOutPoids(self.progress);
