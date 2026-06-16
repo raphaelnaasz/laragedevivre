@@ -98,7 +98,7 @@ img.abs{display:block;}
 .panneau .defile.scrollable{overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(239,213,26,.55) transparent;}
 .panneau .defile::-webkit-scrollbar{width:6px}
 .panneau .defile::-webkit-scrollbar-thumb{background:rgba(239,213,26,.5)}
-.panneau .defile p{color:var(--jaune);font-size:12.5px;line-height:1.62;letter-spacing:.01em;margin:0 0 12px;font-weight:900;}
+.panneau .defile p{color:var(--jaune);font-size:15px;line-height:1.58;letter-spacing:.01em;margin:0 0 14px;font-weight:900;}
 .panneau figure{margin:14px 0 16px;}
 .panneau figure img{display:block;width:100%;height:auto;border:1px solid rgba(239,213,26,.35);}
 .panneau figure img[data-cap]{cursor:zoom-in;}
@@ -147,6 +147,43 @@ img.abs{display:block;}
   letter-spacing:.1em;font-size:clamp(8px,2.2vw,10px);}
 
 @media (prefers-reduced-motion: reduce){ .panneau .fleche{animation:none;} }
+
+/* ── séquence d'intro cinématique ── */
+/* éléments UI cachés pendant la séquence */
+body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:none;}
+/* overlay noir de la séquence (s'affiche après l'intro, avant la page 1) */
+#seq{position:fixed;inset:0;z-index:88;background:var(--noir);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:min(5vh,3em);pointer-events:none;
+  opacity:0;visibility:hidden;transition:opacity 1s ease,visibility 0s linear 1s;}
+#seq.actif{opacity:1;visibility:visible;transition:opacity 1s ease,visibility 0s;}
+#seq-rtb{color:var(--jaune);font-family:inherit;font-weight:900;
+  font-size:clamp(12px,3.5vw,17px);letter-spacing:.22em;text-transform:uppercase;
+  opacity:0;transition:opacity .9s ease;}
+#seq-mezz{color:var(--jaune);font-family:inherit;font-weight:900;
+  font-size:clamp(28px,7.5vw,68px);letter-spacing:-0.015em;
+  opacity:0;transition:opacity .9s ease;}
+#seq.rtb-ok #seq-rtb{opacity:1;}
+#seq.mezz-ok #seq-mezz{opacity:1;}
+/* noms sur page 1 : apparition individuelle pendant la séquence */
+.nom-seq{display:block;opacity:0;transition:opacity .9s ease;}
+.nom-seq.seq-ok{opacity:1;}
+/* lien bio sur les noms */
+.nom-lien{cursor:pointer;border-bottom:1px dashed rgba(239,213,26,.55);}
+.nom-lien::after{content:"\2197";font-size:.58em;vertical-align:.5em;margin-left:.2em;opacity:.75;}
+/* panneau bio (desktop : latéral droit, style panneaux existants) */
+#panneau-bio{
+  right:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));
+  transform:translate(22px,-50%);
+  z-index:46;
+}
+#panneau-bio.actif{transform:translate(0,-50%);}
+@media (max-width:760px){
+  #panneau-bio{left:0;right:0;bottom:0;top:auto;width:100%;
+    height:auto;max-height:75vh;border:0;border-top:1px solid var(--jaune);
+    border-radius:18px 18px 0 0;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,.8,.2,1);}
+  #panneau-bio.actif{transform:translateY(0);}
+}
 /* ── liens-images dans le texte (mobile + desktop) ── */
 .lien-img{color:var(--jaune);border-bottom:1px dashed rgba(239,213,26,.6);cursor:pointer;
   -webkit-tap-highlight-color:transparent;}
@@ -245,9 +282,15 @@ img.abs{display:block;}
 <div id="credit-audio"><span class="slot"></span></div>
 
 <div id="intro" role="dialog" aria-label="Entrée">
-  <button id="intro-btn" class="intro-btn">Écouter&nbsp;&amp;&nbsp;entrer</button>
+  <button id="intro-btn" class="intro-btn">Entrer&nbsp;&amp;&nbsp;écouter</button>
   <div class="intro-sous">Ce dossier se lit avec le son.<br>Activez le son de votre appareil,<br>puis entrez.</div>
   <div class="intro-pied">défilez pour parcourir</div>
+</div>
+
+<!-- séquence cinématique (après clic intro, avant défilement) -->
+<div id="seq" role="presentation" aria-hidden="true">
+  <div id="seq-rtb">Really the Blues</div>
+  <div id="seq-mezz">Mezz Mezzrow</div>
 </div>
 
 <main id="flux">
@@ -258,7 +301,11 @@ img.abs{display:block;}
   <div class="abs titre" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
   <div class="abs titre-en" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
   <div class="abs byline" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)">D’après le roman de<br><span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br>et Bernard Wolfe</div>
-  <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">Raphaël Naasz<br>Margaux Eskenazi<br>Julia Baudet</div>
+  <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
+    <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
+    <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
+    <span class="nom-seq">Julia Baudet</span>
+  </div>
   <div class="cv-photo gauche"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
   <div class="cv-photo droite"><picture><source srcset="assets/images/img-bechet-cv.webp" type="image/webp"><img id="img-bechet-cv" data-cap="Sidney Bechet" src="assets/images/img-bechet-cv.jpg" alt="Sidney Bechet"></picture><div class="lg">Sidney Bechet</div></div>
 </section>
@@ -386,6 +433,16 @@ img.abs{display:block;}
   <figure><picture><source srcset="assets/images/img-bechet-couleur.webp" type="image/webp"><img src="assets/images/img-bechet-couleur.jpg" alt="Sidney Bechet" data-cap="Sidney Bechet — The Unique"></picture><figcaption>Sidney Bechet — The Unique</figcaption></figure>
 </div>
 
+<!-- ════════ BIOS ════════ -->
+<div class="panneau-source" id="src-raph" data-titre="Raphaël Naasz" hidden>
+  <figure><img src="assets/images/raph-naasz.jpg" alt="Raphaël Naasz" data-cap="Raphaël Naasz"><figcaption>Raphaël Naasz</figcaption></figure>
+  <p>[Bio provisoire — à remplacer. Raphaël Naasz est comédien et auteur. Diplômé du CNSAD en 2016, il travaille comme acteur au théâtre et au cinéma, et développe des projets d'écriture à la frontière du récit autobiographique et de la recherche historique.]</p>
+</div>
+<div class="panneau-source" id="src-margaux" data-titre="Margaux Eskenazi" hidden>
+  <figure><img src="assets/images/margaux-eskenazi.jpg" alt="Margaux Eskenazi" data-cap="Margaux Eskenazi"><figcaption>Margaux Eskenazi</figcaption></figure>
+  <p>[Bio provisoire — à remplacer. Margaux Eskenazi est metteuse en scène et pédagogue. Elle dirige la compagnie Article 11, développe un travail sur la langue et le corps, et enseigne au CNSAD. Elle collabore avec Raphaël Naasz sur ce projet depuis 2023.]</p>
+</div>
+
 <aside id="panneau-g" class="panneau" role="dialog" aria-modal="false">
   <div class="tete"><h2></h2></div>
   <div class="corps"><div class="defile"></div><div class="fleche">&#9660;</div></div>
@@ -393,6 +450,13 @@ img.abs{display:block;}
 <aside id="panneau-d" class="panneau" role="dialog" aria-modal="false">
   <div class="tete"><h2></h2></div>
   <div class="corps"><div class="defile"></div><div class="fleche">&#9660;</div></div>
+</aside>
+<aside id="panneau-bio" class="panneau" role="dialog" aria-modal="true" aria-label="Biographie">
+  <div class="tete">
+    <h2></h2>
+    <button class="bio-fermer" aria-label="Fermer" style="margin-left:auto;background:none;border:none;color:var(--jaune);font-size:20px;cursor:pointer;padding:0 0 0 16px;line-height:1;">&times;</button>
+  </div>
+  <div class="corps"><div class="defile"></div></div>
 </aside>
 
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image">
@@ -551,15 +615,46 @@ img.abs{display:block;}
     }catch(e){}
     majAudio();                                  /* synchrone : enclenche la bonne piste + crédit */
   }
-  // ENTRÉE : le clic sur le bouton d'accueil débloque l'audio DANS le geste
-  // utilisateur (même contexte fiable que le bouton SON), puis efface l'écran.
+  // ENTRÉE : le clic débloque l'audio puis lance la séquence cinématique.
   var intro=document.getElementById('intro');
   var introBtn=document.getElementById('intro-btn');
+  var seq=document.getElementById('seq');
+  var nomSeqs=[].slice.call(document.querySelectorAll('.nom-seq'));
+
+  function lancerSequence(){
+    // 1. Bloquer le scroll + cacher UI
+    document.body.classList.add('seq-en-cours');
+    document.body.style.overflow='hidden';
+    // 2. Overlay noir de séquence
+    if(seq){ seq.classList.add('actif'); }
+    // 3. "Really the Blues" apparaît
+    setTimeout(function(){ if(seq) seq.classList.add('rtb-ok'); }, 150);
+    // 4. "Mezz Mezzrow" apparaît
+    setTimeout(function(){ if(seq) seq.classList.add('mezz-ok'); }, 1600);
+    // 5. Overlay fond en transparent → page 1 image + titre + byline révélés
+    setTimeout(function(){
+      if(seq){ seq.style.opacity='0'; seq.style.transition='opacity 1.2s ease'; }
+      setTimeout(function(){ if(seq){ seq.style.visibility='hidden'; } }, 1300);
+    }, 2900);
+    // 6. Noms apparaissent un à un sur page 1
+    [3900, 4900, 5800].forEach(function(t, idx){
+      setTimeout(function(){ if(nomSeqs[idx]) nomSeqs[idx].classList.add('seq-ok'); }, t);
+    });
+    // 7. SON + crédit apparaissent
+    setTimeout(function(){
+      document.body.classList.remove('seq-en-cours');
+    }, 6800);
+    // 8. Scroll réactivé
+    setTimeout(function(){
+      document.body.style.overflow='';
+    }, 7600);
+  }
+
   function entrer(){
     debloquer();                 // play() synchrone dans le clic → démarrage fiable
     if(intro){ intro.classList.add('parti'); }
-    // sécurité : on retire l'écran du DOM après la transition
-    setTimeout(function(){ if(intro && intro.parentNode){ intro.parentNode.removeChild(intro); intro=null; } },900);
+    setTimeout(function(){ if(intro&&intro.parentNode){ intro.parentNode.removeChild(intro); intro=null; } }, 900);
+    lancerSequence();
   }
   if(introBtn){ introBtn.addEventListener('click', entrer); }
   // Fallback : si pour une raison quelconque l'écran n'est pas là, tout premier
@@ -1145,6 +1240,40 @@ img.abs{display:block;}
     var IM=e.target.closest('.panneau figure img[data-cap]');
     if(IM){ e.preventDefault(); e.stopPropagation(); ouvreLightbox(IM.getAttribute('src'), IM.getAttribute('data-cap')); }
   });
+
+  // BIO PANEL — ouvrir/fermer le panneau latéral biographie
+  (function(){
+    var panBio=document.getElementById('panneau-bio');
+    if(!panBio) return;
+    var bioTitre=panBio.querySelector('.tete h2');
+    var bioDefile=panBio.querySelector('.defile');
+
+    function ouvreBio(srcId){
+      var src=document.getElementById(srcId);
+      if(!src||!panBio) return;
+      var titre=src.getAttribute('data-titre')||'';
+      if(bioTitre) bioTitre.textContent=titre;
+      if(bioDefile) bioDefile.innerHTML=src.innerHTML;
+      panBio.classList.add('actif');
+      panBio.setAttribute('aria-hidden','false');
+    }
+    function fermeBio(){
+      if(!panBio) return;
+      panBio.classList.remove('actif');
+      panBio.setAttribute('aria-hidden','true');
+    }
+
+    document.addEventListener('click',function(e){
+      var lien=e.target.closest('.nom-lien[data-bio]');
+      if(lien){ e.preventDefault(); ouvreBio(lien.getAttribute('data-bio')); return; }
+      var fermer=e.target.closest('.bio-fermer');
+      if(fermer){ fermeBio(); return; }
+      if(panBio.classList.contains('actif') && !panBio.contains(e.target)){ fermeBio(); }
+    });
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape') fermeBio();
+    });
+  })();
 
   dim();
   precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
