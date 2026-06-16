@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La Rage de Vivre — dossier</title>
+<meta name="description" content="La Rage de Vivre — solo de théâtre musical de Raphaël Naasz, autour de Mezz Mezzrow et du jazz. Dossier de présentation interactif.">
+<meta name="theme-color" content="#0e0e0e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230e0e0e'/><circle cx='16' cy='16' r='8' fill='%23EFD51A'/></svg>">
+<!-- Partage (Open Graph / Twitter). og:image en chemin relatif : remplacer par l'URL absolue du déploiement si besoin. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="La Rage de Vivre — dossier">
+<meta property="og:description" content="Solo de théâtre musical de Raphaël Naasz, autour de Mezz Mezzrow et du jazz.">
+<meta property="og:image" content="assets/images/couverture-fond.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <!--
   LA RAGE DE VIVRE — dossier V2 (scroll-driven)
   ────────────────────────────────────────────────────────────────
@@ -93,6 +102,9 @@ img.abs{display:block;}
 #panneau-g{left:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));transform:translate(-22px,-50%);}
 #panneau-d{right:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));transform:translate(22px,-50%);}
 .panneau.actif{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,-50%);}
+/* panneau « image seule » (ex. page 5) : la bordure épouse l'image, pas de zone vide */
+.panneau.panneau--image{height:auto;max-height:min(74vh,620px);}
+.panneau.panneau--image .corps::before,.panneau.panneau--image .corps::after{display:none;}
 .panneau .tete{display:flex;align-items:baseline;gap:16px;padding:18px 22px 0;}
 .panneau h2{margin:0;color:var(--jaune);font-size:18px;letter-spacing:-0.01em;font-weight:900;}
 .panneau h2:empty{display:none;}
@@ -282,13 +294,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 }
 
 </style>
-
-  <meta name="description" content="La Rage de Vivre — Un livre interactif sur Mezz Mezzrow, jazzman américain, et la musique afro-américaine des années 30.">
-  <meta property="og:title" content="La Rage de Vivre">
-  <meta property="og:description" content="Un livre interactif sur Mezz Mezzrow et le jazz des origines.">
-  <meta property="og:image" content="assets/images/couverture-fond.jpg">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
 </head>
 <!-- GSAP + ScrollTrigger via CDN (mobile scroll engine) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -309,7 +314,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
-  <picture><source srcset="assets/images/couverture-fond.webp" type="image/webp"><img class="fond seq-cache" src="assets/images/couverture-fond.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/couverture-fond.webp" type="image/webp"><img class="fond seq-cache" fetchpriority="high" decoding="async" src="assets/images/couverture-fond.jpg" alt=""></picture>
   <div class="cadre-couv seq-cache"></div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
@@ -324,22 +329,22 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </section>
 
 <section class="page" aria-label="Page 2" data-folio="2" data-son="EMB:RTB" data-son-cross="EMB:DARN" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938" data-panneau-page="src-p2" data-cote="g">
-  <picture><source srcset="assets/images/sidney-bechet.webp" type="image/webp"><img class="fond" src="assets/images/sidney-bechet.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/sidney-bechet.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/sidney-bechet.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*8.1)"><span>LA RAGE DE VIVRE</span><span>PAGE 2</span></div><div class="credit"></div>
 </section>
 
 <section class="page" aria-label="Page 3" data-folio="3" data-son="EMB:DARN" data-piste="Darn That Dream — Thelonious Monk, 1963" data-panneau-page="src-p3" data-cote="d">
-  <img class="fond" src="assets/images/fond-p3.jpg" alt="">
+  <img class="fond" loading="lazy" decoding="async" src="assets/images/fond-p3.jpg" alt="">
 <div class="entete" style="top:calc(var(--u)*9.1)"><span>LA RAGE DE VIVRE</span><span>PAGE 3</span></div><div class="credit">Idris Khan</div>
 </section>
 
 <section class="page" aria-label="Page 4" data-folio="4" data-son="EMB:DARN" data-piste="Darn That Dream — Thelonious Monk, 1963" data-panneau-page="src-p4" data-cote="g">
-  <picture><source srcset="assets/images/img-1.webp" type="image/webp"><img class="fond" src="assets/images/img-1.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-1.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-1.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 4</span></div><div class="credit"></div>
 </section>
 
 <section class="page" aria-label="Page 5" data-folio="5" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner">
-  <picture><source srcset="assets/images/img-2.webp" type="image/webp"><img class="fond" src="assets/images/img-2.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-2.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-2.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div>
   <div class="cadre4 haut">
     <div class="citation declencheur premier" data-panneau="src-new-orleans" data-panneau2="src-trio">
@@ -357,7 +362,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </section>
 
 <section class="page" aria-label="Page 6" data-folio="6">
-  <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" src="assets/images/img-3.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
   <div class="p6-qui">
     <h2>Qui il est.</h2>
@@ -371,77 +376,77 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </section>
 
 <section class="page" aria-label="Page 7" data-folio="7">
-  <picture><source srcset="assets/images/img-4.webp" type="image/webp"><img class="fond" src="assets/images/img-4.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-4.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-4.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit"></div>
 </section>
 
 <div class="diptique-pano">
 <section class="page" aria-label="Page 8" data-folio="8">
-  <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" src="assets/images/img-5.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-5.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit"></div>
 </section>
 <section class="page" aria-label="Page 9" data-folio="9">
-  <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" src="assets/images/img-6.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div><div class="credit"></div>
 </section>
 </div>
 
 <section class="page" aria-label="Page 10" data-folio="10">
-  <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" src="assets/images/img-7.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-7.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 11" data-folio="11">
-  <picture><source srcset="assets/images/img-8.webp" type="image/webp"><img class="fond" src="assets/images/img-8.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-8.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-8.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 12" data-folio="12">
-  <picture><source srcset="assets/images/img-9.webp" type="image/webp"><img class="fond" src="assets/images/img-9.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-9.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-9.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 13" data-folio="13">
-  <picture><source srcset="assets/images/img-10.webp" type="image/webp"><img class="fond" src="assets/images/img-10.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-10.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-10.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 14" data-folio="14">
-  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" src="assets/images/img-11.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 </section>
 
 <section class="page" aria-label="Page 15" data-folio="15">
-  <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" src="assets/images/img-12.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-12.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
 </section>
 
 <section class="page" aria-label="Page 16" data-folio="16">
-  <picture><source srcset="assets/images/img-13.webp" type="image/webp"><img class="fond" src="assets/images/img-13.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-13.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-13.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Glenn Ligon</div>
 </section>
 
 <section class="page" aria-label="Page 17" data-folio="17">
-  <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
-  <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit"></div>
 </section>
 
 <section class="page" aria-label="Page 18" data-folio="18">
-  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" src="assets/images/img-16.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Roy DeCarava</div>
 </section>
 
 <section class="page" aria-label="Page 19" data-folio="19">
-  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" src="assets/images/img-17.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Roy DeCarava</div>
 </section>
 </main>
 
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
-<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absence.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi. Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
+<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.<br>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
-<div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
+<div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
@@ -804,6 +809,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     P.h2.textContent=s.titre;
     P.defile.innerHTML=s.html;
     P.defile.scrollTop=0;
+    // « image seule » : que des figures, aucun paragraphe → la bordure épouse l'image
+    var imgSeule = P.defile.querySelector('figure') && !P.defile.querySelector('p');
+    P.el.classList.toggle('panneau--image', !!imgSeule);
     void P.defile.offsetHeight; // force reflow
     P.defile.style.transition='';
     P.defile.style.opacity='';
@@ -915,7 +923,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     var overflow=Math.max(0, defile.scrollHeight - corps.clientHeight);
     var H=window.innerHeight;
     var fadeLead=Math.round(H*0.55);   // phase 1 : fondu d'apparition (image visible d'abord)
-    var holdIn  =Math.round(H*0.55);   // phase 3 : station de lecture (texte plein, gelé)
+    var holdIn  =Math.round(H*0.30);   // phase 3 : station de lecture (texte plein, gelé)
     var fadeOut =Math.round(H*0.40);   // phase 4 : disparition en fondu avant la page suivante
     var total=fadeLead+overflow+holdIn+fadeOut;
     var b2=fadeLead, b3=fadeLead+overflow, b4=fadeLead+overflow+holdIn;
@@ -940,7 +948,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     });
     p6PinReady=true;
   }
-  setupP6Scroll();
 
   window.addEventListener('scroll', demande, {passive:true});
   window.addEventListener('resize', function(){
@@ -1425,7 +1432,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   dim();
   precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
   setupGSAPMobile();   // init GSAP mobile après layout stable
-  setupGSAPOverlay();  // pin overlay page 6 desktop
+  setupP6Scroll();     // pin + station de lecture page 6 (desktop), après layout stable
   requestAnimationFrame(function(){ tick(); });
 })();
 
