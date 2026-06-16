@@ -182,6 +182,19 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   #panneau-bio.actif{transform:translateY(0);}
   #panneau-bio figure img{max-height:160px;max-width:50%;}
 }
+/* ── panneau overlay centré (page 6 "Qui il est.") ── */
+#panneau-overlay{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.97);
+  z-index:47;width:min(640px,70vw);max-height:min(78vh,650px);
+  transition:opacity .6s ease,transform .6s ease,visibility 0s linear .6s;
+}
+#panneau-overlay.actif{
+  transform:translate(-50%,-50%) scale(1);
+  transition:opacity .6s ease,transform .6s ease,visibility 0s;
+}
+@media (max-width:760px){ #panneau-overlay{ display:none; } }
+
 /* ── liens-images dans le texte (mobile + desktop) ── */
 .lien-img{color:var(--jaune);border-bottom:1px dashed rgba(239,213,26,.6);cursor:pointer;
   -webkit-tap-highlight-color:transparent;}
@@ -304,7 +317,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
 </section>
 
-<section class="page" aria-label="Page 2" data-folio="2" data-son="EMB:DARN" data-piste="Darn That Dream — Thelonious Monk, 1963" data-panneau-page="src-p2" data-cote="g">
+<section class="page" aria-label="Page 2" data-folio="2" data-son="EMB:RTB" data-son-cross="EMB:DARN" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938" data-panneau-page="src-p2" data-cote="g">
   <picture><source srcset="assets/images/sidney-bechet.webp" type="image/webp"><img class="fond" src="assets/images/sidney-bechet.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*8.1)"><span>LA RAGE DE VIVRE</span><span>PAGE 2</span></div><div class="credit"></div>
 </section>
@@ -319,27 +332,26 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 4</span></div><div class="credit"></div>
 </section>
 
-<section class="page" aria-label="Page 5" data-folio="5">
+<section class="page" aria-label="Page 5" data-folio="5" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner">
   <picture><source srcset="assets/images/img-2.webp" type="image/webp"><img class="fond" src="assets/images/img-2.jpg" alt=""></picture>
+  <img class="abs" src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" style="left:0;top:0;width:50%;height:100%;object-fit:cover;object-position:center;">
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div>
   <div class="cadre4 haut">
-    <!-- ════ CITATIONS — bloc supprimable ════ -->
-    <div class="citation declencheur premier" data-panneau="src-qui" data-panneau2="src-trio">
-      <p class="ex">«&nbsp;J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet.&nbsp;»</p>
-      <p class="qui">Mezz Mezzrow — La Rage de vivre, 1946</p>
+    <div class="citation declencheur premier" data-panneau2="src-trio">
+      <p class="ex">«&nbsp;Et savez-vous qui j’étais, subitement&nbsp;? J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet, en train de swinguer dans les rues du quartier noir de La Nouvelle-Orléans.&nbsp;»</p>
+      <p class="qui">Mezz Mezzrow — La Rage de vivre, p.&nbsp;423</p>
     </div>
   </div>
   <div class="cadre4 bas">
-    <div class="citation declencheur suivant" data-panneau="src-opacite" data-panneau2="src-glissant">
-      <p class="ex">«&nbsp;Nous réclamons le droit à l’opacité pour tous.&nbsp;»</p>
-      <p class="qui">Édouard Glissant — Poétique de la Relation, 1990</p>
+    <div class="citation">
+      <p class="ex">«&nbsp;Et savez-vous ce que j’avais à dire&nbsp;? Quelque chose de très simple&nbsp;: la vie est belle, il fait bon vivre&nbsp;! Qu’importe la faim, qu’importe si la lutte est dure, il fait bon vivre, vieux frère&nbsp;!&nbsp;»</p>
+      <p class="qui">Mezz Mezzrow — La Rage de vivre, p.&nbsp;424</p>
     </div>
-    <!-- ════ fin CITATIONS ════ -->
   </div>
-<div class="credit">Mark Rothko</div>
+<div class="credit">New Orleans Jazz Band</div>
 </section>
 
-<section class="page" aria-label="Page 6" data-folio="6">
+<section class="page" aria-label="Page 6" data-folio="6" data-overlay="src-qui">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" src="assets/images/img-3.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
 </section>
@@ -417,10 +429,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
-<div class="panneau-source" id="src-glissant" data-titre="Édouard Glissant" hidden>
-  <figure><img src="assets/images/img-glissant.webp" alt="Édouard Glissant" data-cap="Édouard Glissant — Martinique, 1928 · Paris, 2011"><figcaption>Édouard Glissant — Martinique, 1928 · Paris, 2011</figcaption></figure>
-</div>
-<div class="panneau-source" id="src-opacite" data-titre="Le droit à l'opacité" hidden><p>L'opacité, pour Édouard Glissant, n'est pas le mystère ni l'obscurantisme&nbsp;: c'est le droit de n'être pas transparent pour l'Autre — de ne pas avoir à se justifier, à se traduire, à se réduire pour être compris. Dans la <em>Poétique de la Relation</em>&nbsp;(1990), il soutient que reconnaître l'autre n'implique pas de le pénétrer&nbsp;: on peut consentir à ce qu'on ne comprend pas. Cette pensée renverse le rapport classique entre connaissance et relation&nbsp;: ce n'est pas parce qu'on comprend qu'on respecte — c'est parce qu'on accepte de ne pas tout comprendre qu'on peut vraiment rencontrer. Ce que Mezzrow ne comprend jamais tout à fait — la musique noire, les corps noirs, la colère noire — est peut-être la condition même de sa dévotion.</p></div>
 <div class="panneau-source" id="src-trio" data-titre="Noone · Dodds · Bechet" hidden>
   <figure><img src="assets/images/img-noone-allstar.jpg" alt="Jimmie Noone All Star Jazz Band, 1944" data-cap="Jimmie Noone &amp; All Star Jazz Band, 1944"><figcaption>Jimmie Noone &amp; All Star Jazz Band — 1944</figcaption></figure>
   <figure><picture><source srcset="assets/images/img-dodds.webp" type="image/webp"><img src="assets/images/img-dodds.jpg" alt="Johnny Dodds" data-cap="Johnny Dodds"></picture><figcaption>Johnny Dodds</figcaption></figure>
@@ -459,6 +467,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="corps"><div class="defile"></div><div class="fleche">&#9660;</div></div>
 </aside>
 
+<aside id="panneau-overlay" class="panneau" role="dialog" aria-modal="true" aria-label="Qui il est">
+  <div class="tete"><h2></h2></div>
+  <div class="corps"><div class="defile"></div><div class="fleche">&#9660;</div></div>
+</aside>
+
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image">
   <span class="lg-x" aria-hidden="true">&times;</span>
   <img src="" alt="">
@@ -469,8 +482,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 (function(){
   'use strict';
-  var RTB="assets/audio/really-the-blues-1938.mp3", DARN="assets/audio/darn-that-dream-1963.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:DARN":(typeof DARN!=='undefined'?DARN:RTB) };
+  var RTB="assets/audio/really-the-blues-1938.mp3", DARN="assets/audio/darn-that-dream-1963.mp3", NORL="assets/audio/souvenirs-nouvelle-orleans.mp3";
+  var SRC={ "EMB:RTB":RTB, "EMB:DARN":(typeof DARN!=='undefined'?DARN:RTB), "EMB:NORL":NORL };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -478,7 +491,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="";
   var VOL=0.72;
-  var VOL_PISTES={"EMB:RTB":0.72,"EMB:DARN":0.65};
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:DARN":0.65,"EMB:NORL":0.72};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -583,6 +596,34 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(idx<0) return;
     var raw=pages[idx].getAttribute('data-son');
     var lab=pages[idx].getAttribute('data-piste')||'';
+
+    /* ── Cross-fade scroll-driven : si la page courante a data-son-cross,
+       on interpole les deux volumes en fonction de la progression de scroll
+       dans cette page (0 = page centrée, 1 = page entièrement remontée).
+       La zone de fondu démarre à 55 % de progression pour une transition douce. ── */
+    var crossRaw=pages[idx].getAttribute('data-son-cross');
+    if(crossRaw && debloque){
+      var r6=pages[idx].getBoundingClientRect();
+      // scrollProg : 0 quand le haut de la page est au centre écran, 1 quand la page sort par le haut
+      var scrollProg=Math.max(0,Math.min(1, (-r6.top + window.innerHeight*0.5) / r6.height ));
+      if(scrollProg >= 0.55){
+        var t=Math.max(0,Math.min(1,(scrollProg-0.55)/0.45));
+        var srcA=SRC[raw]||raw, srcB=SRC[crossRaw]||crossRaw;
+        var ppA=assure(srcA,idx), ppB=assure(srcB,idx+1);
+        ppA.cible = actif ? (VOL_PISTES[raw]||VOL)*(1-t) : 0;
+        ppB.cible = actif ? (VOL_PISTES[crossRaw]||VOL)*t : 0;
+        fondu(ppA); fondu(ppB);
+        // assurer que la piste B joue
+        if(actif && ppB.audio && ppB.audio.paused && debloque){
+          var pr=ppB.audio.play(); if(pr&&pr.catch) pr.catch(function(){});
+        }
+        courante=idx;
+        if(t>=0.98){ setCredit(pages[idx+1]?pages[idx+1].getAttribute('data-piste')||'':''); }
+        pages.forEach(function(p,k){ p.classList.toggle('son-actif', k===idx && actif && debloque); });
+        return;
+      }
+    }
+
     if(idx!==courante){
       courante=idx;
       basculePiste(raw, idx);
@@ -829,6 +870,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     appliquer(PG, actiG, actiG?progG:0, drGscaled);
     var drDscaled = needsDScale ? Math.min(drD/0.85, 1) : drD;
     appliquer(PD, actiD, actiD?progD:0, drDscaled);
+    appliquerOverlay(H);
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
        (l'utilisateur a pris le temps de regarder l'affiche), les visages entrent. */
@@ -843,6 +885,85 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   }
   var raf=null;
   function demande(){ if(raf==null) raf=requestAnimationFrame(tick); }
+
+  /* ════════ OVERLAY PAGE 6 — "Qui il est." centré, freeze scroll ════════
+     Panneau fixe centré à l'écran, desktop uniquement. Apparaît quand
+     la page 6 a défilé > 20% de hauteur de viewport vers le haut.
+     Un GSAP pin gèle la page pendant la lecture si le texte déborde.   */
+  var PO={el:document.getElementById('panneau-overlay'),h2:null,corps:null,defile:null,_id:null};
+  if(PO.el){ PO.h2=PO.el.querySelector('h2'); PO.corps=PO.el.querySelector('.corps'); PO.defile=PO.el.querySelector('.defile'); }
+  var overlayPin=null, overlayReady=false;
+
+  function appliquerOverlay(H){
+    if(etroit()||!PO.el) return;
+    for(var i=0;i<pages.length;i++){
+      var ov=pages[i].getAttribute('data-overlay'); if(!ov) continue;
+      var r=pages[i].getBoundingClientRect();
+      var tShow=-0.20*H, tHide=-0.88*H;
+      if(r.top>tShow||r.top<=tHide){
+        if(PO.el.classList.contains('actif')) PO.el.classList.remove('actif');
+        return;
+      }
+      if(PO._id!==ov){
+        var s=srcHTML(ov); if(!s) return;
+        PO.h2.textContent=s.titre;
+        PO.defile.style.transition='none';
+        PO.defile.style.opacity='0';
+        PO.defile.innerHTML=s.html;
+        void PO.defile.offsetHeight;
+        PO.defile.style.transition='';
+        PO.defile.style.opacity='';
+        PO.defile.style.transform='';
+        PO._id=ov;
+      }
+      PO.el.classList.add('actif');
+      return;
+    }
+  }
+
+  function setupGSAPOverlay(){
+    if(etroit()||overlayReady) return;
+    if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
+    for(var i=0;i<pages.length;i++){
+      var ov=pages[i].getAttribute('data-overlay'); if(!ov) continue;
+      var s=srcHTML(ov); if(!s) return;
+      // Mesurer le débordement du texte dans le panneau overlay
+      var ruler=document.createElement('div');
+      ruler.setAttribute('aria-hidden','true');
+      ruler.style.cssText='position:fixed;visibility:hidden;pointer-events:none;left:-9999px;top:0;'+
+        'width:min(640px,70vw);max-height:min(78vh,650px);padding:2px 22px 26px;'+
+        'font-size:15px;line-height:1.58;font-weight:900;overflow:hidden;box-sizing:border-box;';
+      ruler.innerHTML=s.html;
+      document.body.appendChild(ruler);
+      var imgs=ruler.querySelectorAll('img');
+      for(var j=0;j<imgs.length;j++){ if(!imgs[j].naturalHeight) imgs[j].style.height='180px'; }
+      var overflow=Math.max(0,ruler.scrollHeight-ruler.clientHeight);
+      document.body.removeChild(ruler);
+      if(overflow<=20){ overlayReady=true; return; }
+      // Pin : gèle la page 6 pendant que le texte se déroule
+      overlayPin=ScrollTrigger.create({
+        trigger:pages[i],
+        start:'top -20%',
+        end:'+='+(overflow+300),
+        pin:true,pinSpacing:true,scrub:true,
+        invalidateOnRefresh:true,
+        onUpdate:function(self){
+          if(!PO.defile) return;
+          PO.defile.classList.add('gsap-driven');
+          var max=Math.max(0,PO.defile.scrollHeight-PO.defile.clientHeight);
+          if(max>0) PO.defile.style.transform='translate3d(0,'+(-self.progress*max)+'px,0)';
+          if(PO.corps){
+            PO.corps.classList.toggle('dehaut',self.progress>0.02);
+            PO.corps.classList.toggle('debas',self.progress<0.98);
+          }
+        },
+        onRefresh:function(){}
+      });
+      overlayReady=true;
+      break;
+    }
+  }
+
   window.addEventListener('scroll', demande, {passive:true});
   window.addEventListener('resize', function(){
     dim(); demande();
@@ -855,6 +976,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
         PG.defile.classList.remove('gsap-driven');
         PG.defile.style.transform='';
         gsap.set(PG.el,{clearProps:'all'});
+      }
+      // Recrée le pin overlay si besoin
+      if(!etroit() && overlayReady && overlayPin){
+        overlayPin.kill(); overlayPin=null; overlayReady=false;
+        setupGSAPOverlay();
       }
       ScrollTrigger.refresh();
     }
@@ -1322,6 +1448,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   dim();
   precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
   setupGSAPMobile();   // init GSAP mobile après layout stable
+  setupGSAPOverlay();  // pin overlay page 6 desktop
   requestAnimationFrame(function(){ tick(); });
 })();
 
