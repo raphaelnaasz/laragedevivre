@@ -85,8 +85,8 @@ img.abs{display:block;}
 @media (max-width:980px){ .cv-photo{display:none;} }
 
 /* ── panneaux latéraux ── */
-.panneau{position:fixed;top:50%;z-index:45;width:var(--pl-w,380px);
-  height:auto;max-height:min(74vh,620px);
+.panneau{position:fixed;top:50%;z-index:45;width:var(--pl-w,430px);
+  height:min(74vh,620px);
   background:rgba(14,14,14,.96);border:1px solid var(--jaune);
   display:flex;flex-direction:column;
   opacity:0;visibility:hidden;pointer-events:none;will-change:opacity,transform;}
@@ -101,7 +101,7 @@ img.abs{display:block;}
 .panneau .defile.scrollable{overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(239,213,26,.55) transparent;}
 .panneau .defile::-webkit-scrollbar{width:6px}
 .panneau .defile::-webkit-scrollbar-thumb{background:rgba(239,213,26,.5)}
-.panneau .defile p{color:var(--jaune);font-size:15px;line-height:1.58;letter-spacing:.01em;margin:0 0 14px;font-weight:900;}
+.panneau .defile p{color:var(--jaune);font-size:17px;line-height:1.58;letter-spacing:.01em;margin:0 0 14px;font-weight:900;}
 .panneau figure{margin:14px 0 16px;}
 .panneau figure img{display:block;width:100%;height:auto;border:1px solid rgba(239,213,26,.35);}
 .panneau figure img[data-cap]{cursor:zoom-in;}
@@ -191,13 +191,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   position:relative;z-index:2;
   margin:calc(var(--u)*55) calc(var(--u)*30) calc(var(--u)*30);
   border:1px solid var(--jaune);background:rgba(14,14,14,.85);
-  padding:calc(var(--u)*28) calc(var(--u)*32);
-  opacity:0;transition:opacity 1.1s ease;
+  padding:calc(var(--u)*24) calc(var(--u)*30);
+  max-height:80vh;overflow:hidden;
+  opacity:0;transition:opacity 1.2s ease;
 }
 .p6-qui.visible{opacity:1;}
-.p6-qui h2{color:var(--jaune);font-size:calc(var(--u)*22);letter-spacing:-0.01em;font-weight:900;margin:0 0 calc(var(--u)*18);}
-.p6-qui p{color:var(--jaune);font-size:calc(var(--u)*15);line-height:1.58;letter-spacing:.01em;margin:0 0 calc(var(--u)*14);font-weight:900;}
-.p6-qui p:last-child{margin-bottom:0;}
+.p6-qui h2{color:var(--jaune);font-size:calc(var(--u)*20);letter-spacing:-0.01em;font-weight:900;margin:0 0 calc(var(--u)*16);}
+.p6-defile p{color:var(--jaune);font-size:calc(var(--u)*13);line-height:1.58;letter-spacing:.01em;margin:0 0 calc(var(--u)*12);font-weight:900;}
+.p6-defile p:last-child{margin-bottom:0;}
 
 /* ── liens-images dans le texte (mobile + desktop) ── */
 .lien-img{color:var(--jaune);border-bottom:1px dashed rgba(239,213,26,.6);cursor:pointer;
@@ -359,10 +360,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
   <div class="p6-qui">
     <h2>Qui il est.</h2>
-    <p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d'une famille de petite bourgeoisie aussi respectable qu'un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C'est une révélation totale. Il décide que c'est là que se trouve sa vraie vie.</p>
-    <p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu'il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d'ami fidèle. Il est moins bon qu'eux. Il le sait. Il l'entend chaque soir.</p>
-    <p>En 1940, arrêté à l'entrée d'un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu'il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p>
-    <p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d'une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l'entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu'un consommateur. Un livre qui se méfie de lui-même, donc.</p>
+    <div class="p6-defile">
+      <p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d'une famille de petite bourgeoisie aussi respectable qu'un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C'est une révélation totale. Il décide que c'est là que se trouve sa vraie vie.</p>
+      <p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu'il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d'ami fidèle. Il est moins bon qu'eux. Il le sait. Il l'entend chaque soir.</p>
+      <p>En 1940, arrêté à l'entrée d'un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu'il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p>
+      <p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d'une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l'entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu'un consommateur. Un livre qui se méfie de lui-même, donc.</p>
+    </div>
   </div>
 </section>
 
@@ -879,6 +882,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     appliquer(PG, actiG, actiG?progG:0, drGscaled);
     var drDscaled = needsDScale ? Math.min(drD/0.85, 1) : drD;
     appliquer(PD, actiD, actiD?progD:0, drDscaled);
+    // Fade-in p6-qui après ~20% de progression dans la page 6
+    if(p6quiEl&&!p6quiEl.classList.contains('visible')&&p6secEl){
+      var _rp6=p6secEl.getBoundingClientRect();
+      if(-_rp6.top/Math.max(1,_rp6.height)>0.20) p6quiEl.classList.add('visible');
+    }
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
        (l'utilisateur a pris le temps de regarder l'affiche), les visages entrent. */
@@ -894,15 +902,29 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var raf=null;
   function demande(){ if(raf==null) raf=requestAnimationFrame(tick); }
 
-  // Fade-in encadré page 6 via IntersectionObserver
-  (function(){
-    var p6qui=document.querySelector('.p6-qui');
-    if(p6qui && 'IntersectionObserver' in window){
-      new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
-      },{threshold:0.12}).observe(p6qui);
-    }
-  })();
+  var p6quiEl=document.querySelector('.p6-qui'), p6secEl=document.querySelector('[data-folio="6"]');
+  var p6Pin=null, p6PinReady=false;
+
+  function setupP6Scroll(){
+    if(etroit()||p6PinReady) return;
+    if(typeof ScrollTrigger==='undefined') return;
+    if(!p6secEl||!p6quiEl) return;
+    var defile=p6quiEl.querySelector('.p6-defile'); if(!defile) return;
+    var overflow=Math.max(0,p6quiEl.scrollHeight-p6quiEl.clientHeight);
+    if(overflow<=20){p6PinReady=true;return;}
+    p6Pin=ScrollTrigger.create({
+      trigger:p6secEl,
+      start:'bottom bottom',
+      end:'+='+(overflow+80),
+      pin:true,pinSpacing:true,scrub:true,
+      invalidateOnRefresh:true,
+      onUpdate:function(self){
+        defile.style.transform='translate3d(0,'+(-self.progress*overflow)+'px,0)';
+      }
+    });
+    p6PinReady=true;
+  }
+  setupP6Scroll();
 
   window.addEventListener('scroll', demande, {passive:true});
   window.addEventListener('resize', function(){
@@ -916,6 +938,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
         PG.defile.classList.remove('gsap-driven');
         PG.defile.style.transform='';
         gsap.set(PG.el,{clearProps:'all'});
+      }
+      if(!etroit()&&p6PinReady&&p6Pin){
+        p6Pin.kill();p6Pin=null;p6PinReady=false;
+        setupP6Scroll();
       }
       ScrollTrigger.refresh();
     }
