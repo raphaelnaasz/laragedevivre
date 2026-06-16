@@ -229,6 +229,9 @@ img.abs{display:block;}
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 </head>
+<!-- GSAP + ScrollTrigger via CDN (mobile scroll engine) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <body>
 
 <button id="son" data-on="1" aria-pressed="true">SON&nbsp;ON</button>
@@ -367,10 +370,7 @@ img.abs{display:block;}
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accord, de désaccord, de réconciliation et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
 <div class="panneau-source" id="src-glissant" data-titre="Édouard Glissant" hidden>
-  <figure><picture>
-    <source srcset="assets/images/img-glissant.webp" type="image/webp">
-    <img src="assets/images/img-glissant.jpg" alt="Édouard Glissant" data-cap="Édouard Glissant — Martinique, 1928 · Paris, 2011">
-  </picture><figcaption>Édouard Glissant — Martinique, 1928 · Paris, 2011</figcaption></figure>
+  <figure><img src="assets/images/img-glissant.webp" alt="Édouard Glissant" data-cap="Édouard Glissant — Martinique, 1928 · Paris, 2011"><figcaption>Édouard Glissant — Martinique, 1928 · Paris, 2011</figcaption></figure>
 </div>
 <div class="panneau-source" id="src-opacite" data-titre="Le droit à l'opacité" hidden><p>L'opacité, pour Édouard Glissant, n'est pas le mystère ni l'obscurantisme&nbsp;: c'est le droit de n'être pas transparent pour l'Autre — de ne pas avoir à se justifier, à se traduire, à se réduire pour être compris. Dans la <em>Poétique de la Relation</em>&nbsp;(1990), il soutient que reconnaître l'autre n'implique pas de le pénétrer&nbsp;: on peut consentir à ce qu'on ne comprend pas. Cette pensée renverse le rapport classique entre connaissance et relation&nbsp;: ce n'est pas parce qu'on comprend qu'on respecte — c'est parce qu'on accepte de ne pas tout comprendre qu'on peut vraiment rencontrer. Ce que Mezzrow ne comprend jamais tout à fait — la musique noire, les corps noirs, la colère noire — est peut-être la condition même de sa dévotion.</p></div>
 <div class="panneau-source" id="src-trio" data-titre="Noone · Dodds · Bechet" hidden>
@@ -655,7 +655,7 @@ img.abs{display:block;}
   }
 
   function tick(){
-    if(etroit()){ tickMobile(); majAudio(); raf=null; return; }
+    if(etroit()){ if(!gsapMobileReady) tickMobile(); majAudio(); raf=null; return; }
     var H=window.innerHeight;
     var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0, needsGScale=false, needsDScale=false;
     for(var i=0;i<pages.length;i++){
@@ -714,7 +714,18 @@ img.abs{display:block;}
   var raf=null;
   function demande(){ if(raf==null) raf=requestAnimationFrame(tick); }
   window.addEventListener('scroll', demande, {passive:true});
-  window.addEventListener('resize', function(){ dim(); demande(); });
+  window.addEventListener('resize', function(){
+    dim(); demande();
+    if(typeof ScrollTrigger!=='undefined'){
+      if(etroit() && !gsapMobileReady){ setupGSAPMobile(); }
+      if(!etroit() && gsapMobileReady){
+        ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
+        gsapMobileReady=false;
+        gsap.set(PG.el,{clearProps:'all'});
+      }
+      ScrollTrigger.refresh();
+    }
+  });
 
   /* ════════ MOTEUR MOBILE — sheet bas piloté par le scroll ════════
      Transposition verticale du moteur desktop. Pour la page active (celle dont
@@ -832,6 +843,137 @@ img.abs{display:block;}
   //    (mécanisme retiré : il entrait en conflit avec le cycle de vie continu et
   //     rendait la réapparition des textes incertaine.) Les liens-images restent actifs.
 
+  /* ════════════════════════════════════════════════════════════════
+     MOTEUR MOBILE v2 — GSAP ScrollTrigger (remplace tickMobile)
+     ════════════════════════════════════════════════════════════════
+     • Texte court → APPEAR (scrub) + DISAPPEAR (scrub), sans freeze
+     • Texte long  → APPEAR + PIN (page gelée, texte défile) + DISAPPEAR
+     Fallback : si GSAP ne charge pas, tickMobile() reste actif.
+     Safari : ignoreMobileResize évite les recalculs liés à la barre d'adresse.
+     ════════════════════════════════════════════════════════════════ */
+  var gsapMobileReady = false;
+
+  function setupGSAPMobile(){
+    if(!etroit()) return;
+    if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
+    gsap.set(PG.el, { yPercent:100, opacity:0 });
+    PG.el.classList.remove('actif');
+
+    // Ruler DOM : mesure le débordement de texte hors du panel avant de créer les triggers
+    var panW = PG.el.offsetWidth || window.innerWidth;
+    var panH = Math.floor(window.innerHeight * 0.58);
+    var ruler = document.createElement('div');
+    ruler.setAttribute('aria-hidden','true');
+    ruler.style.cssText = [
+      'position:fixed','visibility:hidden','pointer-events:none',
+      'left:-9999px','top:0',
+      'width:'+panW+'px','max-height:'+panH+'px',
+      'padding:2px 22px 30px',
+      'font-size:12.5px','line-height:1.6','font-weight:900',
+      'overflow:hidden','box-sizing:border-box'
+    ].join(';');
+    document.body.appendChild(ruler);
+
+    var currentIdx = -1;
+
+    function showM(idx, c){
+      if(currentIdx===idx && PG._mkey===c.key){ PG.el.classList.add('actif'); return; }
+      currentIdx = idx;
+      PG.h2.textContent   = c.titre;
+      PG.defile.innerHTML = c.html;
+      PG.defile.scrollTop = 0;
+      PG._mkey = c.key;
+      PG.el.classList.add('actif');
+      PG.corps.classList.remove('dehaut','debas');
+    }
+    function hideM(idx){
+      if(currentIdx!==idx) return;
+      PG.el.classList.remove('actif');
+      PG.corps.classList.remove('dehaut','debas');
+      currentIdx = -1;
+    }
+    function majIndicateurs(){
+      var max = PG.defile.scrollHeight - PG.defile.clientHeight;
+      if(max>4){
+        PG.corps.classList.toggle('dehaut', PG.defile.scrollTop>6);
+        PG.corps.classList.toggle('debas',  PG.defile.scrollTop<max-6);
+      } else { PG.corps.classList.remove('dehaut','debas'); }
+    }
+
+    pages.forEach(function(page, i){
+      var info = infosPage[i]; if(!info) return;
+      var c = contenuMobile(info); if(!c) return;
+
+      ruler.innerHTML = c.html;
+      var overflow = Math.max(0, ruler.scrollHeight - ruler.clientHeight);
+      var isLong   = overflow > 20;
+      var pinExtra = overflow + 80;
+
+      // 1. APPEAR
+      ScrollTrigger.create({
+        trigger     : page,
+        start       : 'top 80%',
+        end         : 'top 5%',
+        scrub       : 0.5,
+        onEnter     : function(){ showM(i,c); },
+        onEnterBack : function(){ showM(i,c); },
+        onLeaveBack : function(){
+          gsap.set(PG.el, { yPercent:100, opacity:0 });
+          hideM(i);
+        },
+        onUpdate : function(self){
+          if(currentIdx!==i) return;
+          var p = easeInOutPoids(self.progress);
+          gsap.set(PG.el, { yPercent:(1-p)*100, opacity:0.1+0.9*p });
+        }
+      });
+
+      if(isLong){
+        // 2a. PIN + défilement texte (long)
+        ScrollTrigger.create({
+          trigger    : page,
+          start      : 'top top',
+          end        : '+='+pinExtra,
+          pin        : true,
+          pinSpacing : true,
+          scrub      : true,
+          onEnterBack: function(){ showM(i,c); gsap.set(PG.el, { yPercent:0, opacity:1 }); },
+          onLeave    : function(){
+            gsap.set(PG.el, { yPercent:100, opacity:0 });
+            hideM(i);
+            gsap.set(PG.el, { clearProps:'transform,opacity' });
+          },
+          onUpdate : function(self){
+            if(currentIdx!==i) return;
+            var max = PG.defile.scrollHeight - PG.defile.clientHeight;
+            if(max>4){ PG.defile.scrollTop = self.progress*max; majIndicateurs(); }
+          }
+        });
+      } else {
+        // 2b. DISAPPEAR (court)
+        ScrollTrigger.create({
+          trigger : page,
+          start   : 'bottom 60%',
+          end     : 'bottom top',
+          scrub   : 0.5,
+          onLeave : function(){ gsap.set(PG.el, { clearProps:'transform,opacity' }); hideM(i); },
+          onUpdate: function(self){
+            if(currentIdx!==i) return;
+            var p = easeInOutPoids(self.progress);
+            gsap.set(PG.el, { yPercent:p*100, opacity:Math.max(0,1-p) });
+          }
+        });
+      }
+    });
+
+    document.body.removeChild(ruler);
+    gsapMobileReady = true;
+  }
+
   /* ════════ LIGHTBOX (liens-images dans le texte) ════════ */
   var lb=document.getElementById('lightbox');
   var lbImg=lb.querySelector('img'), lbCap=lb.querySelector('.lg-cap');
@@ -864,7 +1006,7 @@ img.abs{display:block;}
 
   dim();
   precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
-  // démarrage
+  setupGSAPMobile();   // init GSAP mobile après layout stable
   requestAnimationFrame(function(){ tick(); });
 })();
 
