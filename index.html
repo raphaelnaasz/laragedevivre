@@ -158,8 +158,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 /* éléments page 1 cachés au départ, révélés par la séquence */
 .seq-cache{opacity:0;transition:opacity 2.5s ease;}
 .seq-cache.seq-ok{opacity:1;}
-/* éléments qui apparaissent AU-DESSUS de l'overlay noir (étapes 1-2) */
-.seq-fore{position:relative;z-index:89;}
 /* noms sur page 1 : apparition individuelle */
 .nom-seq{display:block;opacity:0;transition:opacity 1.6s ease;}
 .nom-seq.seq-ok{opacity:1;}
@@ -273,7 +271,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <body>
 
-<button id="son" data-on="1" aria-pressed="true">SON&nbsp;ON</button>
+<button id="son" data-on="1" aria-pressed="true">SOUND&nbsp;ON</button>
 <div id="credit-audio"><span class="slot"></span></div>
 
 <div id="intro" role="dialog" aria-label="Entrée">
@@ -291,14 +289,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="cadre-couv seq-cache"></div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
-  <div class="abs titre-en seq-cache seq-fore" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
+  <div class="abs titre-en seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
   <div class="abs byline seq-cache" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)">D’après le roman de<br><span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br>et Bernard Wolfe</div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
     <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
     <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
     <span class="nom-seq">Julia Baudet</span>
   </div>
-  <div class="cv-photo gauche seq-cache seq-fore"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
+  <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
   <div class="cv-photo droite seq-cache"><picture><source srcset="assets/images/img-bechet-cv.webp" type="image/webp"><img id="img-bechet-cv" data-cap="Sidney Bechet" src="assets/images/img-bechet-cv.jpg" alt="Sidney Bechet"></picture><div class="lg">Sidney Bechet</div></div>
 </section>
 
@@ -428,11 +426,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <!-- ════════ BIOS ════════ -->
 <div class="panneau-source" id="src-raph" data-titre="Raphaël Naasz" hidden>
   <figure><img src="assets/images/raph-naasz.jpg" alt="Raphaël Naasz" data-cap="Raphaël Naasz"><figcaption>Raphaël Naasz</figcaption></figure>
-  <p>[Bio provisoire — à remplacer. Raphaël Naasz est comédien et auteur. Diplômé du CNSAD en 2016, il travaille comme acteur au théâtre et au cinéma, et développe des projets d'écriture à la frontière du récit autobiographique et de la recherche historique.]</p>
+  <p>Raphaël Naasz se forme d'abord à la musique, au basson et au violoncelle, au conservatoire de Nice. Cette formation musicale reste au cœur de son travail d'acteur et de metteur en scène, et la relation entre théâtre et musique traverse l'ensemble de son parcours. En 2013, il entre au Conservatoire National Supérieur d'Art Dramatique (CNSAD), où il travaille auprès de Sandy Ouvrier, Nada Strancar, Mario Gonzales, Stuart Seide et Xavier Gallais.</p>
+  <p>En 2016, il co-met en scène avec Antoine Sarrasin « Blue Train », spectacle de théâtre musical d'après la Prose du Transsibérien de Blaise Cendrars, créé au Théâtre de l'Étoile du Nord à l'invitation de Sarah Tick. La même année, il fait un passage par le cinéma d'auteur avec « L'amant d'un jour » de Philippe Garrel.</p>
+  <p>Au théâtre, il joue dans « Lourdes » de Paul Toucang (Théâtre National de la Colline, 2017) et « Les Bacchantes » d'Euripide, mises en scène par Marcus Borja, dont le travail repose sur le chœur et la voix (2017). En 2019, il rejoint Margaux Eskenazi pour « Et le Cœur Fume Encore ». Il est Hippolyte dans « Phèdre » (2020) puis Treplev dans « La Mouette » (2022), deux mises en scène de Brigitte Jacques-Wajeman au Théâtre de la Ville. Il retrouve Margaux Eskenazi pour « 1983 » (2023), puis pour « Kaddish, la femme chauve en peignoir rouge », créé au Théâtre Gérard Philipe de Saint-Denis en avril 2026.</p>
+  <p>Il réalise en 2022 un premier court métrage, « Hémisphère », et se forme au montage vidéo. Il développe aujourd'hui « La Rage de Vivre », un solo de théâtre musical autour du jazz, qui prolonge le travail amorcé avec « Blue Train ».</p>
 </div>
 <div class="panneau-source" id="src-margaux" data-titre="Margaux Eskenazi" hidden>
   <figure><img src="assets/images/margaux-eskenazi.jpg" alt="Margaux Eskenazi" data-cap="Margaux Eskenazi"><figcaption>Margaux Eskenazi</figcaption></figure>
-  <p>[Bio provisoire — à remplacer. Margaux Eskenazi est metteuse en scène et pédagogue. Elle dirige la compagnie Article 11, développe un travail sur la langue et le corps, et enseigne au CNSAD. Elle collabore avec Raphaël Naasz sur ce projet depuis 2023.]</p>
+  <p>Diplômée d'un Master II recherche en Études Théâtrales à Paris III et de la section mise en scène du CNSAD en 2014, Margaux Eskenazi crée la Compagnie Nova en 2007. Avec la Compagnie, son travail est fortement implanté en Seine-Saint-Denis où elle met en place depuis 2007 de nombreuses actions sur le territoire en lien avec ses créations. Elle intervient également dans les Écoles Supérieures d'Art Dramatique pour mener des ateliers auprès des élèves&nbsp;: l'École de la Comédie de Saint-Etienne, l'Esad à Paris, l'École du Nord à Lille. Après un travail sur les textes de répertoire, elle fonde une nouvelle recherche depuis 2016 qu'elle ne cesse d'expérimenter d'un théâtre alliant l'intime, le politique et le poétique. Chaque spectacle est une exploration de plusieurs matériaux pour faire naître une théâtralité polysémique et rizomathique. Toute sa recherche est centrée sur le travail mémoriel et les récits manquants qui nous aident à penser nos identités.</p>
+  <p>Entre 2016 et 2023, elle a développé un triptyque "Écrire en pays dominé" consacré aux amnésies coloniales et aux poétiques de la décolonisation&nbsp;: <em>Nous sommes de ceux qui disent non à l'ombre, Et le cœur fume encore, 1983.</em> Au printemps 2021, Margaux Eskenazi crée <em>Gilles ou qu'est-ce qu'un samouraï</em>, à partir de la conférence de Gilles Deleuze, <em>Qu'est-ce que l'acte de création&nbsp;?</em></p>
+  <p>En janvier 2024, elle crée <em>Si Vénus avait su</em>, spectacle en lieux non-dédiés, sur une commande du théâtre de la Poudrerie (Sevran) consacré aux socio-esthéticiennes. Elle crée également le spectacle de sortie de la Belle Troupe en juin 2024 au Théâtre de Nanterre-Amandiers, <em>Kaddish-mémoires</em> autour de la littérature d'Imre Kertész. A l'été 2025, Margaux Eskenazi a créé un spectacle consacré aux jeunes filles du Bon Pasteur pour la 17<sup>e</sup> édition du festival du Nouveau Théâtre Populaire.</p>
+  <p>Pour la saison 2025-2026, Margaux Eskenazi a créé <em>Kaddish, la femme chauve en peignoir rouge</em> autour des identités juives en France aujourd'hui. Elle prépare un spectacle jeune public prévu à l'automne 2026 et adapte avec Julie Deliquet et Julie André <em>L'instruction</em> de Peter Weiss, prévu pour l'automne 2027 au Théâtre National de la Colline.</p>
 </div>
 
 <aside id="panneau-g" class="panneau" role="dialog" aria-modal="false">
@@ -616,7 +620,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   function lancerSequence(){
     var p1=document.querySelector('[data-folio="1"]');
 
-    // Overlay noir INSTANTANÉ — zéro gap avec l'intro
+    // Overlay noir INSTANTANÉ — couvre la transition intro→page (zéro gap)
     if(seq){
       seq.style.transition='none';
       seq.style.opacity='1';
@@ -627,28 +631,31 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     document.body.classList.add('seq-en-cours');
     document.body.style.overflow='hidden';
 
-    // Étape 1 — "Really the Blues" (titre-en) apparaît sur le noir
+    // L'overlay disparaît vite — le noir vient désormais du body (fond masqué par seq-cache)
+    setTimeout(function(){
+      if(seq){
+        seq.style.transition='opacity 0.5s ease';
+        seq.style.opacity='0';
+        setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 550);
+      }
+    }, 400);
+
+    // Étape 1 — "Really the Blues" apparaît à sa place sur l'affiche noire
     setTimeout(function(){
       var el=p1&&p1.querySelector('.titre-en');
       if(el) el.classList.add('seq-ok');
     }, 800);
 
-    // Étape 2 — photo + nom Mezz Mezzrow apparaît sur le noir
+    // Étape 2 — portrait + nom Mezz Mezzrow
     setTimeout(function(){
       var el=p1&&p1.querySelector('.cv-photo.gauche');
       if(el) el.classList.add('seq-ok');
     }, 3500);
 
-    // Étape 3 — fond noir se retire (3s), le reste de l'affiche se compose dessous
-    // (fond photo, "La Rage de Vivre", encadrure jaune, byline, photo Bechet)
+    // Étape 3 — fond photo + "La Rage de Vivre" + encadrure + byline + Bechet
     setTimeout(function(){
-      if(seq){
-        seq.style.transition='opacity 3s ease';
-        seq.style.opacity='0';
-        setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 3100);
-      }
       if(p1){
-        var reste=p1.querySelectorAll('.seq-cache:not(.seq-fore)');
+        var reste=p1.querySelectorAll('.seq-cache');
         for(var i=0;i<reste.length;i++) reste[i].classList.add('seq-ok');
       }
     }, 7000);
@@ -658,11 +665,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); }, 13000);
     setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); }, 15000);
 
-    // Étape 7 — SON ON + crédit musique
-    setTimeout(function(){ document.body.classList.remove('seq-en-cours'); }, 17000);
-
-    // Scroll rétabli
-    setTimeout(function(){ document.body.style.overflow=''; }, 18000);
+    // Étape 7 — SOUND ON + crédit + scroll rétabli (simultanément)
+    setTimeout(function(){
+      document.body.classList.remove('seq-en-cours');
+      document.body.style.overflow='';
+    }, 17000);
   }
 
   function entrer(){
@@ -685,7 +692,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     actif=!actif;
     bouton.dataset.on=actif?'1':'0';
     bouton.setAttribute('aria-pressed',actif?'true':'false');
-    bouton.textContent=actif?'SON\u00A0ON':'SON\u00A0OFF';
+    bouton.textContent=actif?'SOUND\u00A0ON':'SOUND\u00A0OFF';
     if(actif){ courante=-1; majAudio(); }
     else{ Object.keys(pistes).forEach(function(k){ pistes[k].cible=0; fondu(pistes[k]); });
           pages.forEach(function(p){ p.classList.remove('son-actif'); }); }
