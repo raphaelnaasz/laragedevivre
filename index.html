@@ -151,24 +151,15 @@ img.abs{display:block;}
 /* ── séquence d'intro cinématique ── */
 /* éléments UI cachés pendant la séquence */
 body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:none;}
-/* overlay noir de la séquence (s'affiche après l'intro, avant la page 1) */
-/* overlay noir séquence — position fixe, z-index max, commence caché */
+/* overlay noir pur — fond de scène pendant la composition de l'affiche */
 #seq{position:fixed;inset:0;z-index:88;background:var(--noir);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:min(5vh,3em);pointer-events:none;
-  opacity:0;visibility:hidden;}
+  pointer-events:none;opacity:0;visibility:hidden;}
 #seq.actif{opacity:1;visibility:visible;}
-#seq-rtb{color:var(--jaune);font-family:inherit;font-weight:900;
-  font-size:clamp(12px,3.5vw,17px);letter-spacing:.22em;text-transform:uppercase;
-  opacity:0;transition:opacity 1.5s ease;}
-#seq-mezz{color:var(--jaune);font-family:inherit;font-weight:900;
-  font-size:clamp(28px,7.5vw,68px);letter-spacing:-0.015em;
-  opacity:0;transition:opacity 1.5s ease;}
-#seq.rtb-ok #seq-rtb{opacity:1;}
-#seq.mezz-ok #seq-mezz{opacity:1;}
 /* éléments page 1 cachés au départ, révélés par la séquence */
-.seq-cache{opacity:0;transition:opacity 2s ease;}
+.seq-cache{opacity:0;transition:opacity 2.5s ease;}
 .seq-cache.seq-ok{opacity:1;}
+/* éléments qui apparaissent AU-DESSUS de l'overlay noir (étapes 1-2) */
+.seq-fore{position:relative;z-index:89;}
 /* noms sur page 1 : apparition individuelle */
 .nom-seq{display:block;opacity:0;transition:opacity 1.6s ease;}
 .nom-seq.seq-ok{opacity:1;}
@@ -292,10 +283,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </div>
 
 <!-- séquence cinématique (après clic intro, avant défilement) -->
-<div id="seq" role="presentation" aria-hidden="true">
-  <div id="seq-rtb">Really the Blues</div>
-  <div id="seq-mezz">Mezz Mezzrow</div>
-</div>
+<div id="seq" role="presentation" aria-hidden="true"></div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -303,14 +291,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="cadre-couv seq-cache"></div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
   <div class="abs titre seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
-  <div class="abs titre-en seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
+  <div class="abs titre-en seq-cache seq-fore" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
   <div class="abs byline seq-cache" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)">D’après le roman de<br><span class="lien-img mezz-nom" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br>et Bernard Wolfe</div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
     <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
     <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
     <span class="nom-seq">Julia Baudet</span>
   </div>
-  <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
+  <div class="cv-photo gauche seq-cache seq-fore"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
   <div class="cv-photo droite seq-cache"><picture><source srcset="assets/images/img-bechet-cv.webp" type="image/webp"><img id="img-bechet-cv" data-cap="Sidney Bechet" src="assets/images/img-bechet-cv.jpg" alt="Sidney Bechet"></picture><div class="lg">Sidney Bechet</div></div>
 </section>
 
@@ -626,35 +614,46 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var nomSeqs=[].slice.call(document.querySelectorAll('.nom-seq'));
 
   function lancerSequence(){
-    // Overlay noir INSTANTANÉ — avant que l'intro disparaisse, zéro gap
+    var p1=document.querySelector('[data-folio="1"]');
+
+    // Overlay noir INSTANTANÉ — zéro gap avec l'intro
     if(seq){
       seq.style.transition='none';
       seq.style.opacity='1';
       seq.style.visibility='visible';
       seq.classList.add('actif');
-      seq.offsetWidth; // force reflow — réactive les transitions CSS après
+      seq.offsetWidth; // force reflow
     }
     document.body.classList.add('seq-en-cours');
     document.body.style.overflow='hidden';
 
-    // Étape 1 — "Really the Blues" sur noir
-    setTimeout(function(){ if(seq) seq.classList.add('rtb-ok'); }, 800);
+    // Étape 1 — "Really the Blues" (titre-en) apparaît sur le noir
+    setTimeout(function(){
+      var el=p1&&p1.querySelector('.titre-en');
+      if(el) el.classList.add('seq-ok');
+    }, 800);
 
-    // Étape 2 — "Mezz Mezzrow" sur noir
-    setTimeout(function(){ if(seq) seq.classList.add('mezz-ok'); }, 3500);
+    // Étape 2 — photo + nom Mezz Mezzrow apparaît sur le noir
+    setTimeout(function(){
+      var el=p1&&p1.querySelector('.cv-photo.gauche');
+      if(el) el.classList.add('seq-ok');
+    }, 3500);
 
-    // Étape 3 — fond noir se retire, page 1 se compose (fond + titre + encadrure + byline)
+    // Étape 3 — fond noir se retire (3s), le reste de l'affiche se compose dessous
+    // (fond photo, "La Rage de Vivre", encadrure jaune, byline, photo Bechet)
     setTimeout(function(){
       if(seq){
         seq.style.transition='opacity 3s ease';
         seq.style.opacity='0';
-        setTimeout(function(){ if(seq){ seq.style.visibility='hidden'; } }, 3100);
+        setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 3100);
       }
-      var p1=document.querySelector('[data-folio="1"]');
-      if(p1){ var cc=p1.querySelectorAll('.seq-cache'); for(var i=0;i<cc.length;i++) cc[i].classList.add('seq-ok'); }
+      if(p1){
+        var reste=p1.querySelectorAll('.seq-cache:not(.seq-fore)');
+        for(var i=0;i<reste.length;i++) reste[i].classList.add('seq-ok');
+      }
     }, 7000);
 
-    // Étape 4-6 — noms un à un
+    // Étapes 4-6 — Raphaël, Margaux, Julia
     setTimeout(function(){ if(nomSeqs[0]) nomSeqs[0].classList.add('seq-ok'); }, 11000);
     setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); }, 13000);
     setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); }, 15000);
