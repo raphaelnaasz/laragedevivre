@@ -185,20 +185,21 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   #panneau-bio.actif{transform:translateY(0);}
   #panneau-bio figure img{max-height:160px;max-width:50%;}
 }
-/* ── encadré page 6 "Qui il est." ── */
-.page[data-folio="6"]{height:auto;min-height:calc(var(--u)*841.89);}
+/* ── encadré page 6 "Qui il est." — overlay fixe centré, piloté par GSAP ── */
 .p6-qui{
-  position:relative;z-index:2;
-  margin:calc(var(--u)*55) calc(var(--u)*30) calc(var(--u)*30);
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:46;width:min(680px,76vw);max-height:82vh;
+  display:flex;flex-direction:column;
   border:1px solid var(--jaune);background:rgba(14,14,14,.85);
-  padding:calc(var(--u)*24) calc(var(--u)*30);
-  max-height:80vh;overflow:hidden;
-  opacity:0;transition:opacity 1.2s ease;
+  padding:clamp(20px,3vh,34px) clamp(22px,3vw,40px);
+  opacity:0;visibility:hidden;pointer-events:none;will-change:opacity;
 }
-.p6-qui.visible{opacity:1;}
-.p6-qui h2{color:var(--jaune);font-size:calc(var(--u)*20);letter-spacing:-0.01em;font-weight:900;margin:0 0 calc(var(--u)*16);}
-.p6-defile p{color:var(--jaune);font-size:calc(var(--u)*13);line-height:1.58;letter-spacing:.01em;margin:0 0 calc(var(--u)*12);font-weight:900;}
+.p6-qui h2{flex:0 0 auto;color:var(--jaune);font-size:clamp(20px,2.4vw,30px);letter-spacing:-0.01em;font-weight:900;margin:0 0 16px;}
+.p6-corps{position:relative;overflow:hidden;flex:1 1 auto;min-height:0;}
+.p6-defile{will-change:transform;}
+.p6-defile p{color:var(--jaune);font-size:clamp(13px,1.15vw,16px);line-height:1.58;letter-spacing:.01em;margin:0 0 13px;font-weight:900;}
 .p6-defile p:last-child{margin-bottom:0;}
+@media (max-width:760px){ .p6-qui{display:none;} }
 
 /* ── liens-images dans le texte (mobile + desktop) ── */
 .lien-img{color:var(--jaune);border-bottom:1px dashed rgba(239,213,26,.6);cursor:pointer;
@@ -360,12 +361,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
   <div class="p6-qui">
     <h2>Qui il est.</h2>
-    <div class="p6-defile">
+    <div class="p6-corps"><div class="p6-defile">
       <p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d'une famille de petite bourgeoisie aussi respectable qu'un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C'est une révélation totale. Il décide que c'est là que se trouve sa vraie vie.</p>
       <p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu'il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d'ami fidèle. Il est moins bon qu'eux. Il le sait. Il l'entend chaque soir.</p>
       <p>En 1940, arrêté à l'entrée d'un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu'il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p>
       <p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d'une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l'entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu'un consommateur. Un livre qui se méfie de lui-même, donc.</p>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -882,11 +883,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     appliquer(PG, actiG, actiG?progG:0, drGscaled);
     var drDscaled = needsDScale ? Math.min(drD/0.85, 1) : drD;
     appliquer(PD, actiD, actiD?progD:0, drDscaled);
-    // Fade-in p6-qui après ~20% de progression dans la page 6
-    if(p6quiEl&&!p6quiEl.classList.contains('visible')&&p6secEl){
-      var _rp6=p6secEl.getBoundingClientRect();
-      if(-_rp6.top/Math.max(1,_rp6.height)>0.20) p6quiEl.classList.add('visible');
-    }
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
        (l'utilisateur a pris le temps de regarder l'affiche), les visages entrent. */
@@ -905,22 +901,36 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var p6quiEl=document.querySelector('.p6-qui'), p6secEl=document.querySelector('[data-folio="6"]');
   var p6Pin=null, p6PinReady=false;
 
+  function p6Hide(){ if(p6quiEl){ p6quiEl.style.opacity='0'; p6quiEl.style.visibility='hidden'; } }
+
   function setupP6Scroll(){
     if(etroit()||p6PinReady) return;
-    if(typeof ScrollTrigger==='undefined') return;
+    if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
     if(!p6secEl||!p6quiEl) return;
-    var defile=p6quiEl.querySelector('.p6-defile'); if(!defile) return;
-    var overflow=Math.max(0,p6quiEl.scrollHeight-p6quiEl.clientHeight);
-    if(overflow<=20){p6PinReady=true;return;}
+    gsap.registerPlugin(ScrollTrigger); // requis pour le pin sur desktop
+    var corps=p6quiEl.querySelector('.p6-corps');
+    var defile=p6quiEl.querySelector('.p6-defile');
+    if(!corps||!defile) return;
+    // L'encadré est position:fixed (opacity 0) donc déjà mis en page : mesure directe.
+    var overflow=Math.max(0, defile.scrollHeight - corps.clientHeight);
+    var fadeLead=Math.round(window.innerHeight*0.55); // distance pour le fondu d'apparition
+    var total=overflow+fadeLead;
     p6Pin=ScrollTrigger.create({
       trigger:p6secEl,
-      start:'bottom bottom',
-      end:'+='+(overflow+80),
+      start:'top top',            // gel quand le haut de la page atteint le haut de l'écran
+      end:'+='+total,
       pin:true,pinSpacing:true,scrub:true,
       invalidateOnRefresh:true,
       onUpdate:function(self){
-        defile.style.transform='translate3d(0,'+(-self.progress*overflow)+'px,0)';
-      }
+        var dist=self.progress*total;
+        var fp=Math.min(1, dist/Math.max(1,fadeLead));   // fondu 0→1 sur la phase d'apparition
+        p6quiEl.style.opacity=String(fp);
+        p6quiEl.style.visibility= fp>0.01 ? 'visible':'hidden';
+        var td=Math.max(0, Math.min(dist-fadeLead, overflow)); // déroulé du texte ensuite
+        defile.style.transform='translate3d(0,'+(-td)+'px,0)';
+      },
+      onLeave:p6Hide,        // sorti par le bas → on cache (sinon il resterait par-dessus page 7)
+      onLeaveBack:p6Hide     // remonté par le haut → on cache aussi
     });
     p6PinReady=true;
   }
