@@ -59,6 +59,9 @@ img.abs{display:block;}
 .cadre4.bas {left:calc(var(--u)*35.9);top:calc(var(--u)*599.0);width:calc(var(--u)*523.9);height:calc(var(--u)*199.4);}
 .citation .ex{color:var(--jaune);font-size:calc(var(--u)*30);line-height:1.28;letter-spacing:-0.015em;margin:0;}
 .cadre4.bas .citation .ex{font-size:calc(var(--u)*26);}
+.page[data-folio="5"] .cadre4{height:auto;}
+.page[data-folio="5"] .citation .ex{font-size:calc(var(--u)*21);}
+.page[data-folio="5"] .cadre4.bas .citation .ex{font-size:calc(var(--u)*21);}
 .citation .qui{color:var(--jaune);font-size:calc(var(--u)*10);letter-spacing:.16em;margin:calc(var(--u)*12) 0 0;text-transform:uppercase;opacity:.92;}
 .declencheur .ex span{border-bottom:1px dashed rgba(239,213,26,.5);}
 .declencheur.premier .ex span{border-bottom:2px solid rgba(239,213,26,.9);}
@@ -334,7 +337,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <section class="page" aria-label="Page 5" data-folio="5" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner">
   <picture><source srcset="assets/images/img-2.webp" type="image/webp"><img class="fond" src="assets/images/img-2.jpg" alt=""></picture>
-  <img class="abs" src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" style="left:0;top:0;width:50%;height:100%;object-fit:cover;object-position:center;">
+  <div class="abs" style="left:calc(var(--u)*14);top:calc(var(--u)*48);width:calc(var(--u)*246);border:1px solid rgba(239,213,26,.35);background:#0e0e0e;">
+    <img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" style="display:block;width:100%;height:auto;">
+  </div>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div>
   <div class="cadre4 haut">
     <div class="citation declencheur premier" data-panneau2="src-trio">
@@ -898,9 +903,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(etroit()||!PO.el) return;
     for(var i=0;i<pages.length;i++){
       var ov=pages[i].getAttribute('data-overlay'); if(!ov) continue;
-      var r=pages[i].getBoundingClientRect();
-      var tShow=-0.20*H, tHide=-0.88*H;
-      if(r.top>tShow||r.top<=tHide){
+      var shouldShow=false;
+      if(overlayPin && overlayPin.isActive){
+        shouldShow=true;
+      } else {
+        var r=pages[i].getBoundingClientRect();
+        shouldShow=(r.top<=0.40*H && r.top>-0.88*H);
+      }
+      if(!shouldShow){
         if(PO.el.classList.contains('actif')) PO.el.classList.remove('actif');
         return;
       }
@@ -943,7 +953,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       // Pin : gèle la page 6 pendant que le texte se déroule
       overlayPin=ScrollTrigger.create({
         trigger:pages[i],
-        start:'top -20%',
+        start:'top 40%',
         end:'+='+(overflow+300),
         pin:true,pinSpacing:true,scrub:true,
         invalidateOnRefresh:true,
