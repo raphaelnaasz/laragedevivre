@@ -271,9 +271,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     transition:opacity .4s;}
   #panneau-g.fige .tap-hint{opacity:0;}
   #credit-audio{max-width:60vw;}
-  /* les pages à panneau : indice visuel discret qu'un texte est disponible */
-  .page[data-panneau-page] .entete::after,
-  .page .declencheur.premier{}
   /* gsap-driven : GPU transform + blocage des transitions CSS (height/overflow déjà
      corrects sur la base mobile, on ajoute seulement le hint will-change). */
   #panneau-g .defile.gsap-driven{will-change:transform;transform:translate3d(0,0,0);transition:none;}
@@ -281,7 +278,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 /* ── diptyque panoramique pages 8-9 : côte à côte sur desktop ── */
 .diptique-pano{display:flex;flex-direction:row;width:100%;gap:0;align-items:stretch;}
 .diptique-pano .page{flex:0 0 50%;min-width:0;}
-.page[data-folio="13"] .entete{display:none;}
+.diptique-droite .entete{display:none;}
 @media(max-width:760px){
   .diptique-pano{flex-direction:column;}
   .diptique-pano .page{flex:none;width:100%;}
@@ -364,6 +361,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
+  <!-- MIROIR de #src-qui — garder synchro si le texte change -->
   <div class="p6-qui">
     <h2>Qui il est.</h2>
     <div class="p6-corps"><div class="p6-defile">
@@ -405,7 +403,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-5.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit"></div>
 </section>
-<section class="page" aria-label="Page 13" data-folio="13">
+<section class="page diptique-droite" aria-label="Page 13" data-folio="13">
   <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit"></div>
 </section>
@@ -447,6 +445,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.<br>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
+<!-- MIROIR de .p6-qui (page 6) — garder synchro si le texte change -->
 <div class="panneau-source" id="src-qui" data-titre="Qui il est." hidden><p>Milton Mezzrow, Chicago, 1899. Juif, blanc, fils d’une famille de petite bourgeoisie aussi respectable qu’un dimanche matin. Gamin délinquant, il passe par les maisons de correction — et là, il entend le jazz pour la première fois. C’est une révélation totale. Il décide que c’est là que se trouve sa vraie vie.</p><p>Il deviendra clarinettiste, saxophoniste. Techniquement insuffisant — Boris Vian, dans une chronique de 1948 parue dans Jazz Hot, note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule de temps en temps&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;» (Chroniques de jazz, La Jeune Parque, 1967, p.&nbsp;119). Il côtoie <span class="lien-img" data-img-ref="img-noone" data-cap="Jimmy Noone">Armstrong, Bechet, Ladnier</span>, les plus grands. Il organise et finance leurs sessions, leur sert de passeur, de dealer, de producteur, d’ami fidèle. Il est moins bon qu’eux. Il le sait. Il l’entend chaque soir.</p><p>En 1940, arrêté à l’entrée d’un club, il demande à être transféré dans le quartier noir de la prison. Il se déclare Negro sur ses papiers de prison. Geste absurde, impossible, et pourtant le plus honnête qu’il ait fait — pas un discours, un acte concret, dans toute son impossibilité. Il épousera une femme noire. Vivra à Harlem. Finira sa vie à Paris, où il est enterré au Père-Lachaise.</p><p>Really the Blues paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé en psychologie de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, La Rage de vivre, paraît en 1950 aux éditions Corrêa, précédée d’une préface de Henry Miller. Le livre porte en lui-même une déconstruction&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», dans lequel il soutient que l’entertainer.euse noir.e «&nbsp;authentique&nbsp;», fétichisé.e pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, selon Wolfe, pour partie une image fabriquée par le regard blanc lui-même — et Mezz en est un producteur autant qu’un consommateur. Un livre qui se méfie de lui-même, donc.</p></div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
@@ -501,7 +500,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 (function(){
   'use strict';
   var RTB="assets/audio/really-the-blues-1938.mp3", DARN="assets/audio/darn-that-dream-1963.mp3", NORL="assets/audio/souvenirs-nouvelle-orleans.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:DARN":(typeof DARN!=='undefined'?DARN:RTB), "EMB:NORL":NORL };
+  var SRC={ "EMB:RTB":RTB, "EMB:DARN":DARN, "EMB:NORL":NORL };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -799,7 +798,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     PD.el.style.setProperty('--pl-w', w+'px');
   }
 
-  var montrG=null, montrD=null;  // {id} actuellement monté dans chaque panneau
   function monter(P, id){
     if(!id){ return; }
     var s=srcHTML(id); if(!s) return;
@@ -849,7 +847,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   }
 
   function tick(){
-    if(etroit()){ if(!gsapMobileReady) tickMobile(); majAudio(); raf=null; return; }
+    if(etroit()){ majAudio(); raf=null; return; }
     var H=window.innerHeight;
     var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0, needsGScale=false, needsDScale=false;
     for(var i=0;i<pages.length;i++){
@@ -958,8 +956,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   window.addEventListener('resize', function(){
     dim(); demande();
     if(typeof ScrollTrigger!=='undefined'){
-      if(etroit() && !gsapMobileReady){ setupGSAPMobile(); }
-      if(!etroit() && gsapMobileReady){
+      var mobile=etroit();
+      if(mobile && !gsapMobileReady){ setupGSAPMobile(); }
+      if(!mobile && gsapMobileReady){
         ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
         gsapMobileReady=false;
         mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
@@ -967,7 +966,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
         PG.defile.style.transform='';
         gsap.set(PG.el,{clearProps:'all'});
       }
-      if(!etroit()&&p6PinReady&&p6Pin){
+      if(!mobile&&p6PinReady&&p6Pin){
         p6Pin.kill();p6Pin=null;p6PinReady=false;
         setupP6Scroll();
       }
@@ -975,16 +974,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     }
   });
 
-  /* ════════ MOTEUR MOBILE — sheet bas piloté par le scroll ════════
-     Transposition verticale du moteur desktop. Pour la page active (celle dont
-     la progression p est la plus haute), le sheet monte (phase apparition) puis
-     son texte se déroule (phase déroulé), exactement selon p ∈ [0,1].
-     TAP sur le sheet → fige : le texte devient scrollable à la main, le scroll de
-     page n'agit plus sur lui. Tout geste de scroll de page le relibère.          */
-  var figeId=null;          // id du contenu figé (null = piloté par scroll)
-  var dernierY=window.scrollY;
-  var fermeManuel=false;    // true = l'utilisateur a tiré le sheet vers le bas pour le fermer
-  var pageActiveIdx=-1;     // index de la page actuellement active (pour détecter un changement)
   function contenuMobile(info){
     // concatène g+d en une seule source (sur mobile il n'y a qu'un panneau)
     var s1=info.g?srcHTML(info.g):null, s2=info.d?srcHTML(info.d):null, s3=info.g2?srcHTML(info.g2):null;
@@ -1015,107 +1004,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     }:null;
     return {c1:c1,c2:c2};
   }
-  function tickMobile(){
-    var H=window.innerHeight;
-    // libère le figeage si on a recommencé à scroller la page
-    if(figeId!==null && Math.abs(window.scrollY-dernierY)>4){
-      figeId=null; PG.el.classList.remove('fige');
-      PG.defile.classList.remove('scrollable');
-    }
-    dernierY=window.scrollY;
-    if(figeId!==null){ return; }     // figé : le moteur ne touche plus au sheet
-    if(fermeManuel){ return; }       // fermé à la main : on ne le rouvre pas tant qu'on ne change pas de page
-
-    var acti=null, best=-1, actiIdx=-1, bestPres=0, bestDr=0;
-    for(var i=0;i<pages.length;i++){
-      var info=infosPage[i]; if(!info) continue;
-      var r=pages[i].getBoundingClientRect();
-      var top=r.top, h=r.height, H2=H;
-      /* CYCLE DE VIE en cloche, fondé sur la position de la page dans l'écran.
-         On veut : voir l'image presque entière → le texte MONTE par-dessus →
-         le texte se déroule pendant que la page est centrée → le texte REDESCEND
-         (sortie symétrique de l'entrée) → place à l'image suivante.
-
-         Repères (top = position du HAUT de la page) :
-           top = 0.62*H  : page entre, image seule              → présence 0
-           top = 0.14*H  : seuil ENTRÉE — le sheet commence à monter
-           top = -0.06*H : sheet pleinement monté (début lecture)
-           top = -0.44*H : fin lecture, début de la SORTIE
-           top = -0.72*H : sheet redescendu, présence 0, image suivante visible
-         Entre 0.14H et -0.06H : MONTÉE (présence 0→1).
-         Entre -0.06H et -0.44H : LECTURE (présence 1, déroulé 0→1).
-         Entre -0.44H et -0.72H : SORTIE (présence 1→0, symétrique de la montée). */
-      var tIn0= 0.30*H2, tIn1=-0.02*H2;     // fenêtre de montée
-      // Lecture ancrée sur la hauteur réelle de la page : le texte finit de défiler
-      // quand la page est presque sortie de l'écran (pas après, pour éviter de lire
-      // du texte sans image visible derrière).
-      var tRd1=-(h*0.85);                    // fin de lecture ≈ page presque hors écran
-      var tOut=-(h*1.15);                    // fin de sortie  ≈ page complètement partie
-      var pres=0, dr=0;
-      if(top<=tIn0 && top>tIn1){              // MONTÉE
-        pres=(tIn0-top)/(tIn0-tIn1); dr=0;
-      } else if(top<=tIn1 && top>tRd1){       // LECTURE (déroulé)
-        pres=1; dr=(tIn1-top)/(tIn1-tRd1);
-      } else if(top<=tRd1 && top>tOut){       // SORTIE
-        pres=(top-tOut)/(tRd1-tOut); dr=1;    // présence redescend 1→0, texte resté en bas
-      } else { pres=0; }
-      pres=Math.max(0,Math.min(1,pres)); dr=Math.max(0,Math.min(1,dr));
-      // la page « active » est celle dont la présence est la plus forte
-      if(pres>bestPres){ bestPres=pres; bestDr=dr; acti=info; actiIdx=i; }
-    }
-    // changement de page → on annule la fermeture manuelle (nouvelle image, nouveau texte)
-    if(actiIdx!==pageActiveIdx){ pageActiveIdx=actiIdx; fermeManuel=false; }
-    appliquerMobile(acti, bestPres, bestDr);
-  }
-  function appliquerMobile(info, pres, dr){
-    if(!info || pres<=0.001){
-      if(PG.el.classList.contains('actif')){
-        PG.el.classList.remove('actif'); PG.el.style.transform=''; PG.el.style.opacity='';
-        PG._mkey=null;
-      }
-      return;
-    }
-    var c=contenuMobile(info);
-    if(!c){ return; }
-    if(PG._mkey!==c.key){
-      PG.h2.textContent=c.titre;
-      PG.defile.innerHTML=c.html;
-      PG.defile.scrollTop=0;
-      PG._mkey=c.key;
-    }
-    PG.el.classList.add('actif');
-    /* PRÉSENCE (pres ∈ 0→1→0, en cloche) pilote l'ENTRÉE *et* la SORTIE du sheet,
-       avec le MÊME easing pesant dans les deux sens : l'apparition et la disparition
-       sont donc symétriques (plus de coupure sèche). Le sheet monte par le bas,
-       reste en place pendant la lecture (pres=1), puis redescend par le bas.
-       DÉROULÉ (dr) pilote le scroll du texte, indépendamment, pendant la lecture. */
-    var ap=easeInOutPoids(Math.max(0,Math.min(1,pres)));
-    // opacité : tenue basse au début/à la fin pour que l'image reste perceptible
-    PG.el.style.opacity=String(0.10+0.90*ap);
-    PG.el.style.transform='translateY('+((1-ap)*100)+'%)';
-    var max=PG.defile.scrollHeight - PG.defile.clientHeight;
-    if(max>4){
-      PG.defile.scrollTop = Math.max(0,Math.min(1,dr))*max;
-      PG.corps.classList.toggle('dehaut', PG.defile.scrollTop>6);
-      PG.corps.classList.toggle('debas', PG.defile.scrollTop < max-6);
-    } else {
-      PG.corps.classList.remove('dehaut'); PG.corps.classList.remove('debas');
-    }
-  }
   /* easing qui donne du "poids" : départ lent (inertie), milieu franc, fin amortie */
   function easeInOutPoids(t){
     return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
   }
-  // ── Le scroll est le SEUL moteur : plus de tap-pour-figer ni de glisser-pour-fermer.
-  //    (mécanisme retiré : il entrait en conflit avec le cycle de vie continu et
-  //     rendait la réapparition des textes incertaine.) Les liens-images restent actifs.
 
   /* ════════════════════════════════════════════════════════════════
-     MOTEUR MOBILE v2 — GSAP ScrollTrigger (remplace tickMobile)
+     MOTEUR MOBILE — GSAP ScrollTrigger
      ════════════════════════════════════════════════════════════════
      • Texte court → APPEAR (scrub) + DISAPPEAR (scrub), sans freeze
      • Texte long  → APPEAR + PIN (page gelée, texte défile) + DISAPPEAR
-     Fallback : si GSAP ne charge pas, tickMobile() reste actif.
      Safari : ignoreMobileResize évite les recalculs liés à la barre d'adresse.
      ════════════════════════════════════════════════════════════════ */
   var gsapMobileReady = false;
@@ -1172,7 +1070,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
      « pin » servent UNIQUEMENT à geler la page et à faire défiler le texte
      (transform) pendant le gel. Fini les conflits d'ownership entre triggers
      voisins (l'APPEAR d'une page n'écrase plus le PIN de la précédente).
-     Fallback : si GSAP absent, tickMobile() reste actif.
      ════════════════════════════════════════════════════════════════ */
   function tickPanelMobile(){
     var H = window.innerHeight;
