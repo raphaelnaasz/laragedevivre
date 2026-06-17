@@ -40,7 +40,7 @@
 */
 :root{ --jaune:#EFD51A; --noir:#0e0e0e; --pw:min(75vw,608px); }
 *{box-sizing:border-box}
-html{scroll-behavior:auto}
+html{scroll-behavior:auto;overflow-y:scroll}  /* scrollbar toujours présente : évite le décalage horizontal quand le pin p6 change la hauteur du document */
 html,body{margin:0;background:var(--noir)}
 body{overflow-x:hidden;font-family:'Helvetica Now Text','Archivo Black','Arial Black',Arial,sans-serif;font-weight:900;}
 #flux{display:flex;flex-direction:column;align-items:center;gap:18px;padding:30px 0 100px;}
@@ -240,7 +240,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   /* ── SHEET BAS piloté par le scroll (transposition verticale du moteur desktop) ── */
   #panneau-g{
     left:0;right:0;bottom:0;top:auto;width:100%;
-    height:auto;max-height:65vh;
+    height:auto;max-height:48vh;            /* sheet compact : on voit plus l'image */
     border:0;border-top:1px solid var(--jaune);
     border-radius:18px 18px 0 0;
     background:rgba(14,14,14,.97);
@@ -931,6 +931,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       start:'top top',            // gel quand le haut de la page atteint le haut de l'écran
       end:'+='+pinTotal,
       pin:true,pinSpacing:true,scrub:true,
+      anticipatePin:1,            // lisse l'à-coup au moment où le gel s'enclenche
       invalidateOnRefresh:true,
       onUpdate:function(self){
         var td=Math.min(self.progress*pinTotal, overflow);
@@ -1027,11 +1028,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       var mp=mCache[i]; if(!mp) continue;
       var r=pages[i].getBoundingClientRect();
       var top=r.top, h=r.height;
-      // Cycle « en cloche » : montée → lecture (texte défile) → descente.
-      var tIn0, tIn1;
-      if(mp.isCit){ tIn0=-(0.30*h); tIn1=-(0.55*h); }   // page citation (p5) : sheet retardé (lire les 2 citations d'abord)
-      else        { tIn0=0.60*H;    tIn1=0.10*H; }
-      var tRd1=-(h*0.82), tOut=-(h*1.04);
+      // Cycle « en cloche » CORRÉLÉ À LA PAGE comme le desktop : apparition/lecture en
+      // fractions d'ÉCRAN (H), et disparition calée sur la PAGE (tOut=-h ⇒ l'encadré
+      // s'efface exactement quand la page sort par le haut → jamais de débordement sur
+      // la page suivante).
+      var tIn0, tIn1, tRd1, tOut;
+      if(mp.isCit){                                     // page citation (p5) : retardé, pour lire les 2 citations d'abord
+        tIn0=-0.05*H; tIn1=-0.30*H; tRd1=-0.50*H; tOut=-h;
+      } else {
+        tIn0=0.50*H;  tIn1=0.05*H;  tRd1=-0.38*H; tOut=-h;
+      }
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
       else if(top<=tIn1 && top>tRd1){ pres=1; dr=(tIn1-top)/(tIn1-tRd1); }
