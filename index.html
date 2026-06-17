@@ -849,7 +849,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   }
 
   function tick(){
-    if(etroit()){ majAudio(); raf=null; return; }
+    if(etroit()){ mobilePanel(); majAudio(); raf=null; return; }
     var H=window.innerHeight;
     var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0, needsGScale=false, needsDScale=false;
     for(var i=0;i<pages.length;i++){
@@ -956,28 +956,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
   window.addEventListener('scroll', demande, {passive:true});
   window.addEventListener('resize', function(){
-    dim(); demande();
-    if(typeof ScrollTrigger!=='undefined'){
-      var mobile=etroit();
-      if(mobile){
-        // entrer en mobile : retirer le pin p6 DESKTOP éventuel (sinon doublon folio 6),
-        // puis activer le moteur mobile une seule fois.
-        if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false;
-          if(p6quiEl){ p6quiEl.style.opacity='0'; p6quiEl.style.visibility='hidden'; } }
-        if(!gsapMobileReady) setupGSAPMobile();
-      } else {
-        // entrer en desktop : tuer le moteur mobile, puis (re)créer le pin p6 desktop.
-        if(gsapMobileReady){
-          ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
-          gsapMobileReady=false;
-          mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
-          PG.defile.classList.remove('gsap-driven');
-          PG.defile.style.transform='';
-          gsap.set(PG.el,{clearProps:'all'});
-        }
-        if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false; }
-        setupP6Scroll();
-      }
+    dim(); demande();   // le sheet mobile se met à jour seul via tick()→mobilePanel()
+    // Gestion du SEUL pin GSAP restant : l'overlay « Qui il est. » page 6 sur DESKTOP.
+    if(typeof ScrollTrigger==='undefined') return;
+    if(etroit()){
+      // mobile : pas de pin desktop p6 (sinon il s'affiche par-dessus le sheet)
+      if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false;
+        if(p6quiEl){ p6quiEl.style.opacity='0'; p6quiEl.style.visibility='hidden'; } }
+    } else {
+      if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false; }
+      setupP6Scroll();
       ScrollTrigger.refresh();
     }
   });
@@ -993,331 +981,78 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       key:(info.g||'')+'|'+(info.d||'')+'|'+(info.g2||'')
     };
   }
-  // Pour les pages à DEUX panneaux distincts (ex. page 5) : retourne {c1, c2} séparés.
-  // c1 = panneau principal (g+d), c2 = panneau secondaire (g2+d2).
-  function contenuMobileDeux(info){
-    var sq=info.g?srcHTML(info.g):null, st=info.d?srcHTML(info.d):null;
-    var so=info.g2?srcHTML(info.g2):null, sg=info.d2?srcHTML(info.d2):null;
-    var parts1=[sq,st].filter(function(s){return s&&s.html;});
-    var parts2=[so,sg].filter(function(s){return s&&s.html;});
-    var c1=parts1.length?{
-      titre:(sq&&sq.titre)||(st&&st.titre)||'',
-      html:parts1.map(function(s){return s.html;}).join('<hr class="separ">'),
-      key:(info.g||'')+'|'+(info.d||'')
-    }:null;
-    var c2=parts2.length?{
-      titre:'Sur Glissant',
-      html:parts2.map(function(s){return s.html;}).join('<hr class="separ">'),
-      key:(info.g2||'')+'|'+(info.d2||'')
-    }:null;
-    return {c1:c1,c2:c2};
-  }
   /* easing qui donne du "poids" : départ lent (inertie), milieu franc, fin amortie */
   function easeInOutPoids(t){
     return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
   }
 
   /* ════════════════════════════════════════════════════════════════
-     MOTEUR MOBILE — GSAP ScrollTrigger
+     MOTEUR MOBILE — géométrique (sans pin GSAP, calqué sur le desktop)
      ════════════════════════════════════════════════════════════════
-     • Texte court → APPEAR (scrub) + DISAPPEAR (scrub), sans freeze
-     • Texte long  → APPEAR + PIN (page gelée, texte défile) + DISAPPEAR
-     Safari : ignoreMobileResize évite les recalculs liés à la barre d'adresse.
+     Le bottom-sheet (#panneau-g) est position:fixed ; son texte défile selon la
+     POSITION de la page dans le viewport (comme le panneau latéral desktop). La page
+     défile normalement DERRIÈRE le sheet → aucun spacer GSAP, aucun écart noir, et la
+     fin du texte est toujours atteignable (le déroulé dr atteint 1 à tRd1).
      ════════════════════════════════════════════════════════════════ */
-  var gsapMobileReady = false;
-  var mActiveIdx    = -1;     // page qui possède le panneau (décidée par la géométrie)
-  var mRealOverflow = 0;      // débordement (px) du texte courant hors de la fenêtre .corps
-  var mPages        = [];     // par page : { c, isLong, pin } | null
-
-  // ── déplacement du texte par transform GPU (scrollTop inopérant en flex mobile) ──
-  function mSetTexteY(y){ PG.defile.style.transform = 'translate3d(0,'+(-y)+'px,0)'; }
-  // mesure live : hauteur du contenu (.defile) − hauteur de la fenêtre (.corps)
-  function mMesureOverflow(){ return Math.max(0, PG.defile.scrollHeight - PG.corps.clientHeight); }
-  // Recalcule les distances de pin (end fonctionnels) une fois le débordement réel connu.
-  // JAMAIS pendant la séquence cinématique (body overflow:hidden) : un refresh y fausserait
-  // les positions (document non scrollable) et corromprait les pins. Important iOS/Safari :
-  // ScrollTrigger.refresh() est aussi déclenché par les sauts de barre d'adresse — on le
-  // neutralise via ignoreMobileResize (cf. setupGSAPMobile).
-  function safeRefresh(){
-    if(!gsapMobileReady || typeof ScrollTrigger==='undefined') return;
-    if(document.body.classList.contains('seq-en-cours')){ setTimeout(safeRefresh,400); return; }
-    ScrollTrigger.refresh();
+  var mCache = [];          // par page : { c, isCit } | null  (contenu, indépendant de la taille)
+  function buildMobileContent(){
+    mCache = pages.map(function(p,i){
+      var info=infosPage[i]; if(!info) return null;
+      var c=contenuMobile(info); if(!c) return null;
+      return { c:c, isCit: info.type==='cit' };
+    });
   }
-  var mRefreshTimer=null;
-  function mScheduleRefresh(){   // débounce : coalesce plusieurs demandes rapprochées
-    if(mRefreshTimer) clearTimeout(mRefreshTimer);
-    mRefreshTimer=setTimeout(function(){ mRefreshTimer=null; safeRefresh(); }, 160);
-  }
-  // Reconstruit le moteur mobile après chargement complet (layout/police/images définitifs).
-  // Corrige un setup initial fait sur un viewport encore instable — iOS/Safari : 1er paint et
-  // barre d'adresse peuvent donner des dimensions transitoires ; idem aperçus en iframe.
-  // Mobile uniquement, jamais pendant la cinématique.
-  function rebuildMobile(){
-    if(typeof ScrollTrigger==='undefined'||typeof gsap==='undefined'||!etroit()) return;
-    if(document.body.classList.contains('seq-en-cours')){ setTimeout(rebuildMobile,400); return; }
-    if(gsapMobileReady){
-      ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
-      gsapMobileReady=false; mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
-      PG.defile.classList.remove('gsap-driven'); PG.defile.style.transform='';
-      gsap.set(PG.el,{clearProps:'all'});
-    }
-    setupGSAPMobile();
-  }
-  function mShow(idx, c, isLong){
-    if(mActiveIdx===idx && PG._mkey===c.key){
-      if(isLong && mRealOverflow<=0) mRealOverflow = mMesureOverflow();
-      return;
-    }
-    mActiveIdx = idx;
+  // débordement réel du texte hors de la fenêtre .corps (mesure live)
+  function mPanelOverflow(){ return Math.max(0, PG.defile.scrollHeight - PG.corps.clientHeight); }
+  function mMount(c){
+    if(PG._mkey===c.key) return;
     PG.h2.textContent   = c.titre;
     PG.defile.innerHTML = c.html;
+    PG.defile.classList.add('gsap-driven');        // will-change:transform + transition:none
+    PG.defile.style.transform='translate3d(0,0,0)';
     PG._mkey = c.key;
-    PG.el.classList.add('actif');
-    PG.corps.classList.remove('dehaut','debas');
-    if(isLong){
-      PG.defile.classList.add('gsap-driven');
-      mSetTexteY(0);
-      mRealOverflow = mMesureOverflow();     // mesuré APRÈS injection + layout
-      if(mPages[idx]){
-        var before=mPages[idx].ov||0;
-        mPages[idx].ov=mRealOverflow;            // débordement réel (images chargées à ce stade)
-        if(Math.abs(mRealOverflow-before)>40) mScheduleRefresh();   // recale la distance du pin (hors cinématique)
-      }
-    } else {
-      PG.defile.classList.remove('gsap-driven');
-      PG.defile.style.transform = '';
-      mRealOverflow = 0;
-    }
   }
-  function mHide(){
-    if(mActiveIdx===-1) return;
+  function mHideSheet(){
+    if(!PG.el.classList.contains('actif')) return;
     PG.el.classList.remove('actif');
-    PG.defile.classList.remove('gsap-driven');
-    PG.defile.style.transform = '';
+    PG.el.style.opacity=''; PG.el.style.transform='';
     PG.corps.classList.remove('dehaut','debas');
-    gsap.set(PG.el, { yPercent:100, opacity:0 });
-    mRealOverflow = 0; mActiveIdx = -1; PG._mkey = null;
+    PG._mkey = null;
   }
-  function mIndic(prog){
-    if(mRealOverflow>4){
-      PG.corps.classList.toggle('dehaut', prog>0.02);
-      PG.corps.classList.toggle('debas',  prog<0.98);
-    } else { PG.corps.classList.remove('dehaut','debas'); }
-  }
-
-  /* ════════════════════════════════════════════════════════════════
-     MOTEUR MOBILE v3 — décision géométrique unique + pin GSAP
-     ════════════════════════════════════════════════════════════════
-     UNE seule décision par frame (la géométrie) choisit la page active →
-     contenu du panneau + position (apparition/disparition). Les ScrollTrigger
-     « pin » servent UNIQUEMENT à geler la page et à faire défiler le texte
-     (transform) pendant le gel. Fini les conflits d'ownership entre triggers
-     voisins (l'APPEAR d'une page n'écrase plus le PIN de la précédente).
-     ════════════════════════════════════════════════════════════════ */
-  function tickPanelMobile(){
-    var H = window.innerHeight;
-    var best=-1, bestPres=0, bestC=null, bestLong=false;
+  // Pilote le bottom-sheet à chaque frame (appelé depuis tick() quand etroit()).
+  function mobilePanel(){
+    var H=window.innerHeight;
+    var best=-1, bestPres=0, bestDr=0, bestC=null;
     for(var i=0;i<pages.length;i++){
-      var mp = mPages[i]; if(!mp) continue;
-      var r = pages[i].getBoundingClientRect();
-      var top = r.top, h = r.height;
-      var tIn0=0.30*H, tIn1=-0.02*H, tRd1=-(h*0.85), tOut=-(h*1.15);
-      var pres=0;
-
-      if(mp.twoPanel){
-        // Page à deux panneaux : priorité aux pins actifs, sinon géométrie ou gap caché
-        if(mp.pin1 && mp.pin1.isActive){
-          if(1>bestPres){bestPres=1;best=i;bestC=mp.c1;bestLong=mp.isLong1;}
-          continue;
-        }
-        if(mp.pin2 && mp.pin2.isActive){
-          if(1>bestPres){bestPres=1;best=i;bestC=mp.c2;bestLong=mp.isLong2;}
-          continue;
-        }
-        // Gap entre les deux pins : panneau caché, citation Glissant lisible
-        var sy=window.scrollY||window.pageYOffset;
-        if(mp.pin1&&mp.pin2&&sy>mp.pin1.end&&sy<mp.pin2.start){continue;}
-        // Transitions géométriques (approche du pin1 ou sortie après pin2)
-        if(top<=tIn0&&top>tIn1) pres=(tIn0-top)/(tIn0-tIn1);
-        else if(top<=tIn1&&top>tRd1) pres=1;
-        else if(top<=tRd1&&top>tOut) pres=(top-tOut)/(tRd1-tOut);
-        pres=Math.max(0,Math.min(1,pres));
-        if(pres>bestPres){
-          var useC2=mp.pin2&&sy>(mp.pin2.end||Infinity);
-          bestPres=pres;best=i;bestC=useC2?mp.c2:mp.c1;bestLong=useC2?mp.isLong2:mp.isLong1;
-        }
-        continue;
-      }
-
-      // Page à panneau unique
-      var syU = window.scrollY||window.pageYOffset;
-      // D. Après le pin : décroissance courte → l'encadré se referme avant la page suivante
-      //    (remplace la longue traîne géométrique qui le faisait survivre jusqu'à la page d'après).
-      if(mp.pin && !mp.pin.isActive && syU > mp.pin.end){
-        pres = 1 - (syU - mp.pin.end)/(0.25*H);
-        pres = Math.max(0,Math.min(1,pres));
-        if(pres>bestPres){ bestPres=pres; best=i; bestC=mp.c; bestLong=mp.isLong; }
-        continue;
-      }
-      // E. Pages citation (page 5) : apparition retardée, alignée sur le pin (start top+=55%),
-      //    pour laisser lire les 2 citations avant que l'encadré photos ne monte.
-      var pinStartTop = -(0.55*h);
-      var aIn0 = mp.isCit ? pinStartTop + 0.45*H : tIn0;
-      var aIn1 = mp.isCit ? pinStartTop          : tIn1;
-      if(top<=aIn0 && top>aIn1)       pres=(aIn0-top)/(aIn0-aIn1);
-      else if(top<=aIn1 && top>tRd1)  pres=1;
-      else if(top<=tRd1 && top>tOut)  pres=(top-tOut)/(tRd1-tOut);
-      pres=Math.max(0,Math.min(1,pres));
-      if(mp.pin && mp.pin.isActive) pres=1;
-      if(pres>bestPres){ bestPres=pres; best=i; bestC=mp.c; bestLong=mp.isLong; }
+      var mp=mCache[i]; if(!mp) continue;
+      var r=pages[i].getBoundingClientRect();
+      var top=r.top, h=r.height;
+      // Cycle « en cloche » : montée → lecture (texte défile) → descente.
+      var tIn0, tIn1;
+      if(mp.isCit){ tIn0=-(0.30*h); tIn1=-(0.55*h); }   // page citation (p5) : sheet retardé (lire les 2 citations d'abord)
+      else        { tIn0=0.60*H;    tIn1=0.10*H; }
+      var tRd1=-(h*0.82), tOut=-(h*1.04);
+      var pres=0, dr=0;
+      if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
+      else if(top<=tIn1 && top>tRd1){ pres=1; dr=(tIn1-top)/(tIn1-tRd1); }
+      else if(top<=tRd1 && top>tOut){ pres=(top-tOut)/(tRd1-tOut); dr=1; }
+      pres=Math.max(0,Math.min(1,pres)); dr=Math.max(0,Math.min(1,dr));
+      if(pres>bestPres){ bestPres=pres; bestDr=dr; best=i; bestC=mp.c; }
     }
-    if(best<0 || bestPres<=0.001){ mHide(); return; }
-    mShow(best, bestC, bestLong);
-    var ap = easeInOutPoids(bestPres);
-    gsap.set(PG.el, { yPercent:(1-ap)*100, opacity:0.10+0.90*ap });
-    if(bestLong){
-      var bmp=mPages[best];
-      var activePin=bmp.twoPanel
-        ?(bmp.pin1&&bmp.pin1.isActive?bmp.pin1:bmp.pin2&&bmp.pin2.isActive?bmp.pin2:null)
-        :bmp.pin;
-      if(!(activePin&&activePin.isActive)&&pages[best].getBoundingClientRect().top>1) mSetTexteY(0);
-    }
-  }
-
-  function setupGSAPMobile(){
-    if(!etroit()) return;
-    if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.config({ ignoreMobileResize: true });
-
-    gsap.set(PG.el, { yPercent:100, opacity:0 });
-    PG.el.classList.remove('actif');
-    mActiveIdx=-1; PG._mkey=null; mRealOverflow=0;
-
-    // Ruler : estime le débordement (→ court/long + distance de pin). La quantité
-    // exacte de défilement est remesurée en live (mMesureOverflow) dans mShow.
-    var panW = PG.el.offsetWidth || window.innerWidth;
-    var teteH = PG.el.querySelector('.tete').offsetHeight || 52;
-    // panH = hauteur de la zone de texte (.corps) au nouveau max 65vh.
-    // On soustrait 30px supplémentaires pour détecter le contenu limite comme "long"
-    // et éviter de rater un pin sur les petits contenus (vaut mieux un pin de trop
-    // qu'un texte tronqué sans scroll). La mesure live corrige ensuite la distance réelle.
-    var panH = Math.max(60, Math.floor(window.innerHeight * 0.65) - teteH - 30);
-    var ruler = document.createElement('div');
-    ruler.setAttribute('aria-hidden','true');
-    ruler.style.cssText = [
-      'position:fixed','visibility:hidden','pointer-events:none',
-      'left:-9999px','top:0',
-      'width:'+panW+'px','max-height:'+panH+'px',
-      'padding:2px 22px 30px',
-      'font-size:12.5px','line-height:1.6','font-weight:900',
-      'overflow:hidden','box-sizing:border-box'
-    ].join(';');
-    document.body.appendChild(ruler);
-
-    function rulerMesure(html){
-      ruler.innerHTML = html;
-      var imgs=ruler.querySelectorAll('img'), iw=Math.max(40,panW-44);
-      for(var j=0;j<imgs.length;j++){
-        imgs[j].style.width=iw+'px';            // comme .panneau figure img (width:100% - padding)
-        imgs[j].style.height='auto';
-        if(!imgs[j].naturalHeight) imgs[j].style.height=Math.round(iw*0.8)+'px'; // estimation si pas encore chargée
-      }
-      return Math.max(0, ruler.scrollHeight - ruler.clientHeight);
-    }
-
-    mPages = pages.map(function(page, i){
-      var info = infosPage[i]; if(!info) return null;
-
-      // ── Page à DEUX panneaux distincts (ex. page 5 : "Qui il est" / "Sur Glissant") ──
-      if(info.g2 || info.d2){
-        var deux = contenuMobileDeux(info);
-        var c1=deux.c1, c2=deux.c2;
-        if(!c1&&!c2) return null;
-        var ov1=c1?rulerMesure(c1.html):0;
-        var ov2=c2?rulerMesure(c2.html):0;
-        var entry={twoPanel:true,c1:c1,isLong1:ov1>20,pin1:null,c2:c2,isLong2:ov2>20,pin2:null};
-        var gap=Math.min(250,Math.round(window.innerHeight*0.35));
-        if(c1){
-          entry.pin1=ScrollTrigger.create({
-            trigger:page, start:'top top',
-            end:'+='+(Math.max(ov1+80,500)),
-            pin:true,pinSpacing:true,scrub:true,invalidateOnRefresh:true,
-            onUpdate:function(self){
-              if(PG._mkey!==c1.key) return;
-              if(mRealOverflow<=0) mRealOverflow=mMesureOverflow();
-              mSetTexteY(self.progress*mRealOverflow);
-              mIndic(self.progress);
-            },
-            onRefresh:function(){if(PG._mkey===c1.key) mRealOverflow=mMesureOverflow();}
-          });
-        }
-        if(c2){
-          entry.pin2=ScrollTrigger.create({
-            trigger:page,
-            // démarre après la fin du pin1 + un gap de lecture naturel
-            start:function(){return (entry.pin1?entry.pin1.end:0)+gap;},
-            end:function(){return (entry.pin1?entry.pin1.end:0)+gap+Math.max(ov2+80,300);},
-            pin:true,pinSpacing:true,scrub:true,invalidateOnRefresh:true,
-            onUpdate:function(self){
-              if(PG._mkey!==c2.key) return;
-              if(mRealOverflow<=0) mRealOverflow=mMesureOverflow();
-              mSetTexteY(self.progress*mRealOverflow);
-              mIndic(self.progress);
-            },
-            onRefresh:function(){if(PG._mkey===c2.key) mRealOverflow=mMesureOverflow();}
-          });
-        }
-        return entry;
-      }
-
-      // ── Page à panneau unique ──
-      var c = contenuMobile(info); if(!c) return null;
-      var est = rulerMesure(c.html);           // estimation (corrigée en live par mRealOverflow)
-      var isLong = est > 8;                     // seuil bas : tout texte un peu long se fige et défile
-      var cit = (info.type==='cit');            // page citation (ex. page 5) : encadré photos retardé
-      var entry = { c:c, isLong:isLong, pin:null, isCit:cit, ov:est };
-
-      if(isLong){
-        entry.pin = ScrollTrigger.create({
-          trigger    : page,
-          // pages citation : on ne fige qu'en fin de page (après lecture des 2 citations sur le fond)
-          start      : cit ? 'top+=55% top' : 'top top',
-          // Distance généreuse : le texte est déplacé 1:1 avec le scroll PUIS plafonné au
-          // débordement réel (mRealOverflow). Tout surplus de distance devient une station
-          // de lecture (texte tenu en bas), jamais du scroll mort.
-          end        : function(){ return '+='+Math.round((entry.ov||est)*1.35 + window.innerHeight*0.20); },
-          pin        : true,
-          pinSpacing : true,
-          scrub      : true,
-          invalidateOnRefresh: true,
-          onUpdate : function(self){
-            if(mActiveIdx!==i) return;
-            mRealOverflow = mMesureOverflow();   // mesure live (images/police chargées)
-            entry.ov = mRealOverflow;            // mémorise → end se recale au prochain refresh
-            var dist = self.end - self.start;
-            var y = Math.min(self.progress*dist, mRealOverflow);   // déplacement 1:1 plafonné
-            mSetTexteY(y);
-            mIndic(mRealOverflow>0 ? y/mRealOverflow : 0);
-          },
-          onRefresh: function(){ if(mActiveIdx===i){ mRealOverflow = mMesureOverflow(); entry.ov = mRealOverflow; } }
-        });
-      }
-      return entry;
-    });
-
-    document.body.removeChild(ruler);
-
-    // ticker global synchronisé sur ScrollTrigger : pilote contenu + position du panneau
-    ScrollTrigger.create({ onUpdate: tickPanelMobile, onRefresh: tickPanelMobile });
-    tickPanelMobile();
-    // Une fois les images/polices chargées, recalcule les distances de pin (end fonctionnels).
-    if(!setupGSAPMobile._loadHooked){
-      setupGSAPMobile._loadHooked=true;
-      window.addEventListener('load', rebuildMobile);
-    }
-    gsapMobileReady = true;
+    if(best<0 || bestPres<=0.001){ mHideSheet(); return; }
+    mMount(bestC);
+    PG.el.classList.add('actif');
+    var ap=easeInOutPoids(bestPres);
+    PG.el.style.opacity=String(0.10+0.90*ap);            // tenu bas au début/fin → l'image reste perceptible
+    PG.el.style.transform='translateY('+((1-ap)*100)+'%)';
+    // déroulé du texte par transform (scrollTop inopérant dans le flex mobile)
+    var ov=mPanelOverflow();
+    var y=bestDr*ov;
+    PG.defile.style.transform='translate3d(0,'+(-y)+'px,0)';
+    if(ov>4){
+      PG.corps.classList.toggle('dehaut', y>6);
+      PG.corps.classList.toggle('debas', y < ov-6);
+    } else { PG.corps.classList.remove('dehaut','debas'); }
   }
 
   /* ════════ LIGHTBOX (liens-images dans le texte) ════════ */
@@ -1406,9 +1141,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   })();
 
   dim();
-  precreer();          // crée les <audio> tout de suite (play() fiable au 1er geste)
-  setupGSAPMobile();   // init GSAP mobile après layout stable
-  setupP6Scroll();     // pin + station de lecture page 6 (desktop), après layout stable
+  precreer();            // crée les <audio> tout de suite (play() fiable au 1er geste)
+  buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
+  setupP6Scroll();       // pin + station de lecture page 6 (desktop uniquement)
   requestAnimationFrame(function(){ tick(); });
 })();
 
