@@ -1034,9 +1034,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       // la page suivante).
       var tIn0, tIn1, tRd1, tOut;
       if(mp.isCit){                                     // page citation (p5) : retardé, pour lire les 2 citations d'abord
-        tIn0=-0.05*H; tIn1=-0.30*H; tRd1=-0.50*H; tOut=-h;
+        tIn0=-0.02*H; tIn1=-0.20*H; tRd1=-0.38*H; tOut=-0.52*H;
       } else {
-        tIn0=0.50*H;  tIn1=0.05*H;  tRd1=-0.38*H; tOut=-h;
+        tIn0=0.50*H;  tIn1=0.05*H;  tRd1=-0.23*H; tOut=-0.38*H;
       }
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
