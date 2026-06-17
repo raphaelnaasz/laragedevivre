@@ -192,7 +192,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 #panneau-bio figure img{max-height:252px;width:auto;max-width:64%;display:block;}
 @media (max-width:760px){
   #panneau-bio{left:0;right:0;bottom:0;top:auto;width:100%;
-    height:auto;max-height:85vh;border:0;border-top:1px solid var(--jaune);
+    height:min(85vh,640px);border:0;border-top:1px solid var(--jaune);
     border-radius:18px 18px 0 0;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,.8,.2,1);}
   #panneau-bio.actif{transform:translateY(0);}
   #panneau-bio figure img{max-height:160px;max-width:50%;}
@@ -358,7 +358,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="credit">New Orleans Jazz Band</div>
 </section>
 
-<section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner">
+<section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:NORL" data-piste="Souvenirs de la Nouvelle-Orléans — Sidney Bechet &amp; Teddy Buckner" data-panneau-mobile="src-qui">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
   <!-- MIROIR de #src-qui — garder synchro si le texte change -->
@@ -778,8 +778,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   // associe à chaque page l'info panneau
   var infosPage = pages.map(function(p){
     var pp=p.getAttribute('data-panneau-page'); var cote=p.getAttribute('data-cote')||'g';
+    var pm=p.getAttribute('data-panneau-mobile');   // panneau MOBILE seul (ex. page 6 : overlay .p6-qui sur desktop)
     var dcl=p.querySelector('.declencheur:not(.suivant)');
     var dcl2=p.querySelector('.declencheur.suivant');
+    if(pm) return {type:'page', g:pm, d:null, mobileOnly:true};
     if(pp) return {type:'page', g: cote==='g'?pp:null, d: cote==='d'?pp:null};
     if(dcl||dcl2) return {type:'cit', g:dcl?dcl.getAttribute('data-panneau'):null, d:dcl?dcl.getAttribute('data-panneau2'):null, g2:dcl2?dcl2.getAttribute('data-panneau'):null, d2:dcl2?dcl2.getAttribute('data-panneau2'):null};
     return null;
@@ -851,7 +853,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     var H=window.innerHeight;
     var actiG=null, actiD=null, progG=0, progD=0, drG=0, drD=0, needsGScale=false, needsDScale=false;
     for(var i=0;i<pages.length;i++){
-      var info=infosPage[i]; if(!info) continue;
+      var info=infosPage[i]; if(!info || info.mobileOnly) continue;  // mobileOnly (ex. page 6) : géré par le moteur mobile, ignoré ici
       var r=pages[i].getBoundingClientRect();
       // progression : 0 quand la page entre (haut au centre bas), 1 quand elle sort par le haut
       // on veut : image découverte d'abord (page bien visible), puis déroulé
@@ -957,17 +959,23 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     dim(); demande();
     if(typeof ScrollTrigger!=='undefined'){
       var mobile=etroit();
-      if(mobile && !gsapMobileReady){ setupGSAPMobile(); }
-      if(!mobile && gsapMobileReady){
-        ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
-        gsapMobileReady=false;
-        mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
-        PG.defile.classList.remove('gsap-driven');
-        PG.defile.style.transform='';
-        gsap.set(PG.el,{clearProps:'all'});
-      }
-      if(!mobile&&p6PinReady&&p6Pin){
-        p6Pin.kill();p6Pin=null;p6PinReady=false;
+      if(mobile){
+        // entrer en mobile : retirer le pin p6 DESKTOP éventuel (sinon doublon folio 6),
+        // puis activer le moteur mobile une seule fois.
+        if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false;
+          if(p6quiEl){ p6quiEl.style.opacity='0'; p6quiEl.style.visibility='hidden'; } }
+        if(!gsapMobileReady) setupGSAPMobile();
+      } else {
+        // entrer en desktop : tuer le moteur mobile, puis (re)créer le pin p6 desktop.
+        if(gsapMobileReady){
+          ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
+          gsapMobileReady=false;
+          mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
+          PG.defile.classList.remove('gsap-driven');
+          PG.defile.style.transform='';
+          gsap.set(PG.el,{clearProps:'all'});
+        }
+        if(p6PinReady&&p6Pin){ p6Pin.kill(); p6Pin=null; p6PinReady=false; }
         setupP6Scroll();
       }
       ScrollTrigger.refresh();
@@ -1025,6 +1033,36 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   function mSetTexteY(y){ PG.defile.style.transform = 'translate3d(0,'+(-y)+'px,0)'; }
   // mesure live : hauteur du contenu (.defile) − hauteur de la fenêtre (.corps)
   function mMesureOverflow(){ return Math.max(0, PG.defile.scrollHeight - PG.corps.clientHeight); }
+  // Recalcule les distances de pin (end fonctionnels) une fois le débordement réel connu.
+  // JAMAIS pendant la séquence cinématique (body overflow:hidden) : un refresh y fausserait
+  // les positions (document non scrollable) et corromprait les pins. Important iOS/Safari :
+  // ScrollTrigger.refresh() est aussi déclenché par les sauts de barre d'adresse — on le
+  // neutralise via ignoreMobileResize (cf. setupGSAPMobile).
+  function safeRefresh(){
+    if(!gsapMobileReady || typeof ScrollTrigger==='undefined') return;
+    if(document.body.classList.contains('seq-en-cours')){ setTimeout(safeRefresh,400); return; }
+    ScrollTrigger.refresh();
+  }
+  var mRefreshTimer=null;
+  function mScheduleRefresh(){   // débounce : coalesce plusieurs demandes rapprochées
+    if(mRefreshTimer) clearTimeout(mRefreshTimer);
+    mRefreshTimer=setTimeout(function(){ mRefreshTimer=null; safeRefresh(); }, 160);
+  }
+  // Reconstruit le moteur mobile après chargement complet (layout/police/images définitifs).
+  // Corrige un setup initial fait sur un viewport encore instable — iOS/Safari : 1er paint et
+  // barre d'adresse peuvent donner des dimensions transitoires ; idem aperçus en iframe.
+  // Mobile uniquement, jamais pendant la cinématique.
+  function rebuildMobile(){
+    if(typeof ScrollTrigger==='undefined'||typeof gsap==='undefined'||!etroit()) return;
+    if(document.body.classList.contains('seq-en-cours')){ setTimeout(rebuildMobile,400); return; }
+    if(gsapMobileReady){
+      ScrollTrigger.getAll().forEach(function(t){ t.kill(); });
+      gsapMobileReady=false; mActiveIdx=-1; mPages=[]; mRealOverflow=0; PG._mkey=null;
+      PG.defile.classList.remove('gsap-driven'); PG.defile.style.transform='';
+      gsap.set(PG.el,{clearProps:'all'});
+    }
+    setupGSAPMobile();
+  }
   function mShow(idx, c, isLong){
     if(mActiveIdx===idx && PG._mkey===c.key){
       if(isLong && mRealOverflow<=0) mRealOverflow = mMesureOverflow();
@@ -1040,6 +1078,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       PG.defile.classList.add('gsap-driven');
       mSetTexteY(0);
       mRealOverflow = mMesureOverflow();     // mesuré APRÈS injection + layout
+      if(mPages[idx]){
+        var before=mPages[idx].ov||0;
+        mPages[idx].ov=mRealOverflow;            // débordement réel (images chargées à ce stade)
+        if(Math.abs(mRealOverflow-before)>40) mScheduleRefresh();   // recale la distance du pin (hors cinématique)
+      }
     } else {
       PG.defile.classList.remove('gsap-driven');
       PG.defile.style.transform = '';
@@ -1106,9 +1149,23 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
         continue;
       }
 
-      // Page à panneau unique (logique d'origine)
-      if(top<=tIn0 && top>tIn1)       pres=(tIn0-top)/(tIn0-tIn1);
-      else if(top<=tIn1 && top>tRd1)  pres=1;
+      // Page à panneau unique
+      var syU = window.scrollY||window.pageYOffset;
+      // D. Après le pin : décroissance courte → l'encadré se referme avant la page suivante
+      //    (remplace la longue traîne géométrique qui le faisait survivre jusqu'à la page d'après).
+      if(mp.pin && !mp.pin.isActive && syU > mp.pin.end){
+        pres = 1 - (syU - mp.pin.end)/(0.25*H);
+        pres = Math.max(0,Math.min(1,pres));
+        if(pres>bestPres){ bestPres=pres; best=i; bestC=mp.c; bestLong=mp.isLong; }
+        continue;
+      }
+      // E. Pages citation (page 5) : apparition retardée, alignée sur le pin (start top+=55%),
+      //    pour laisser lire les 2 citations avant que l'encadré photos ne monte.
+      var pinStartTop = -(0.55*h);
+      var aIn0 = mp.isCit ? pinStartTop + 0.45*H : tIn0;
+      var aIn1 = mp.isCit ? pinStartTop          : tIn1;
+      if(top<=aIn0 && top>aIn1)       pres=(aIn0-top)/(aIn0-aIn1);
+      else if(top<=aIn1 && top>tRd1)  pres=1;
       else if(top<=tRd1 && top>tOut)  pres=(top-tOut)/(tRd1-tOut);
       pres=Math.max(0,Math.min(1,pres));
       if(mp.pin && mp.pin.isActive) pres=1;
@@ -1161,9 +1218,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
     function rulerMesure(html){
       ruler.innerHTML = html;
-      var imgs=ruler.querySelectorAll('img');
+      var imgs=ruler.querySelectorAll('img'), iw=Math.max(40,panW-44);
       for(var j=0;j<imgs.length;j++){
-        if(!imgs[j].naturalHeight) imgs[j].style.height=Math.round(panW*1.35)+'px';
+        imgs[j].style.width=iw+'px';            // comme .panneau figure img (width:100% - padding)
+        imgs[j].style.height='auto';
+        if(!imgs[j].naturalHeight) imgs[j].style.height=Math.round(iw*0.8)+'px'; // estimation si pas encore chargée
       }
       return Math.max(0, ruler.scrollHeight - ruler.clientHeight);
     }
@@ -1215,29 +1274,34 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
       // ── Page à panneau unique ──
       var c = contenuMobile(info); if(!c) return null;
-      var overflow = rulerMesure(c.html);
-      var isLong   = overflow > 20;
-      var entry = { c:c, isLong:isLong, pin:null };
+      var est = rulerMesure(c.html);           // estimation (corrigée en live par mRealOverflow)
+      var isLong = est > 8;                     // seuil bas : tout texte un peu long se fige et défile
+      var cit = (info.type==='cit');            // page citation (ex. page 5) : encadré photos retardé
+      var entry = { c:c, isLong:isLong, pin:null, isCit:cit, ov:est };
 
       if(isLong){
-        // Distance de pin = max(overflow+80, 500) → lecture confortable même si le
-        // ruler sous-estime (images non chargées). La mesure live corrige la distance
-        // réelle de défilement via mRealOverflow dans onUpdate.
         entry.pin = ScrollTrigger.create({
           trigger    : page,
-          start      : 'top top',
-          end        : '+='+(Math.max(overflow+80, 500)),
+          // pages citation : on ne fige qu'en fin de page (après lecture des 2 citations sur le fond)
+          start      : cit ? 'top+=55% top' : 'top top',
+          // Distance généreuse : le texte est déplacé 1:1 avec le scroll PUIS plafonné au
+          // débordement réel (mRealOverflow). Tout surplus de distance devient une station
+          // de lecture (texte tenu en bas), jamais du scroll mort.
+          end        : function(){ return '+='+Math.round((entry.ov||est)*1.35 + window.innerHeight*0.20); },
           pin        : true,
           pinSpacing : true,
           scrub      : true,
           invalidateOnRefresh: true,
           onUpdate : function(self){
             if(mActiveIdx!==i) return;
-            if(mRealOverflow<=0) mRealOverflow = mMesureOverflow();
-            mSetTexteY(self.progress * mRealOverflow);
-            mIndic(self.progress);
+            mRealOverflow = mMesureOverflow();   // mesure live (images/police chargées)
+            entry.ov = mRealOverflow;            // mémorise → end se recale au prochain refresh
+            var dist = self.end - self.start;
+            var y = Math.min(self.progress*dist, mRealOverflow);   // déplacement 1:1 plafonné
+            mSetTexteY(y);
+            mIndic(mRealOverflow>0 ? y/mRealOverflow : 0);
           },
-          onRefresh: function(){ if(mActiveIdx===i) mRealOverflow = mMesureOverflow(); }
+          onRefresh: function(){ if(mActiveIdx===i){ mRealOverflow = mMesureOverflow(); entry.ov = mRealOverflow; } }
         });
       }
       return entry;
@@ -1248,6 +1312,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     // ticker global synchronisé sur ScrollTrigger : pilote contenu + position du panneau
     ScrollTrigger.create({ onUpdate: tickPanelMobile, onRefresh: tickPanelMobile });
     tickPanelMobile();
+    // Une fois les images/polices chargées, recalcule les distances de pin (end fonctionnels).
+    if(!setupGSAPMobile._loadHooked){
+      setupGSAPMobile._loadHooked=true;
+      window.addEventListener('load', rebuildMobile);
+    }
     gsapMobileReady = true;
   }
 
