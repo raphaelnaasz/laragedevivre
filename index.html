@@ -40,7 +40,7 @@
 */
 :root{ --jaune:#EFD51A; --noir:#0e0e0e; --pw:min(75vw,608px); }
 *{box-sizing:border-box}
-html{scroll-behavior:auto;overflow-y:scroll}  /* scrollbar toujours présente : évite le décalage horizontal quand le pin p6 change la hauteur du document */
+html{scroll-behavior:auto;scrollbar-gutter:stable}  /* réserve la gouttière scrollbar — évite le décalage horizontal au pin p6 sans casser body{overflow:hidden} */
 html,body{margin:0;background:var(--noir)}
 body{overflow-x:hidden;font-family:'Helvetica Now Text','Archivo Black','Arial Black',Arial,sans-serif;font-weight:900;}
 #flux{display:flex;flex-direction:column;align-items:center;gap:18px;padding:30px 0 100px;}
