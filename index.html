@@ -883,15 +883,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       // on encode présence+déroulé dans un seul réel : entier=phase, décimale=détail.
       // plus simple : on choisit la page la plus « présente » et on passe (pres,dr).
       if(pres>0){
-        if(info.g||info.g2){ if(pres>progG){progG=pres;drG=dr;var sw=info.g2&&dr>=0.85;actiG=sw?info.g2:info.g;needsGScale=info.g2&&!sw;} }
-        if(info.d||info.d2){ if(pres>progD){progD=pres;drD=dr;var swD=info.d2&&dr>=0.85;actiD=swD?info.d2:info.d;needsDScale=info.d2&&!swD;} }
+        if(info.g||info.g2){ if(pres>progG){progG=pres;drG=dr;var sw=info.g2&&dr>=0.55;actiG=sw?info.g2:info.g;needsGScale=info.g2&&!sw;} }
+        if(info.d||info.d2){ if(pres>progD){progD=pres;drD=dr;var swD=info.d2&&dr>=0.55;actiD=swD?info.d2:info.d;needsDScale=info.d2&&!swD;} }
       }
     }
     // Si on est sur le premier panneau d'une page g2, on compresse le défilement
-    // sur la fenêtre 0→0.85 pour que le texte soit intégralement visible avant le switch.
-    var drGscaled = needsGScale ? Math.min(drG/0.85, 1) : drG;
+    // sur la fenêtre 0→0.55 pour que le texte soit intégralement visible avant le switch.
+    var drGscaled = needsGScale ? Math.min(drG/0.55, 1) : drG;
     appliquer(PG, actiG, actiG?progG:0, drGscaled);
-    var drDscaled = needsDScale ? Math.min(drD/0.85, 1) : drD;
+    var drDscaled = needsDScale ? Math.min(drD/0.55, 1) : drD;
     appliquer(PD, actiD, actiD?progD:0, drDscaled);
     /* photos de couverture : apparition TARDIVE sur la page 1.
        On mesure combien la page 1 a défilé vers le haut ; au-delà d'un seuil
