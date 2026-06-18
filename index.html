@@ -873,7 +873,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       // afin que l'utilisateur voit ~85 % du texte du premier panneau avant le switch.
       var tRd1 = info.g2 ? -0.75*H2 : -0.40*H2;
       var tOut = info.g2 ? -1.05*H2 : -0.66*H2;
-      var tIn0=0.46*H2, tIn1=0.02*H2;
+      var tIn0=0.58*H2, tIn1=0.08*H2;
       var pres=0, dr=0;
       if(top<=tIn0 && top>tIn1){ pres=(tIn0-top)/(tIn0-tIn1); dr=0; }
       else if(top<=tIn1 && top>tRd1){ pres=1; dr=(tIn1-top)/(tIn1-tRd1); }
