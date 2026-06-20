@@ -81,8 +81,8 @@ img.abs{display:block;}
   font-size:calc(var(--u)*6.5);letter-spacing:.07em;text-transform:uppercase;opacity:.9;text-shadow:0 0 1px rgba(0,0,0,.5);}
 .credit.couv{right:calc(var(--u)*20);bottom:calc(var(--u)*18);}
 
-/* switch A/B audio (page 9 — Revival / Bebop) : discret, bas-centre de la page */
-.ab-switch{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--u)*9);z-index:30;
+/* switch A/B audio (Revival/Bebop, Modal/Hard bop) : discret, centré sur la page */
+.ab-switch{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);z-index:30;
   display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.6);
   color:var(--jaune);text-align:center;text-shadow:0 0 2px rgba(0,0,0,.6);pointer-events:auto;}
 .ab-toggle{position:relative;display:inline-flex;align-items:center;gap:calc(var(--u)*3);
@@ -98,6 +98,23 @@ img.abs{display:block;}
 .ab-switch[data-face="B"] .ab-knob{transform:translateX(calc(var(--u)*1.4));}
 .ab-meta{font-size:calc(var(--u)*5.4);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
 .ab-legende{font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.62;font-style:italic;}
+
+/* page 16 — cercle élégant autour du visage du Pierrot → déclenche la pochette + le son */
+.p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*92);height:calc(var(--u)*92);
+  transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:32;
+  border:calc(var(--u)*1) solid rgba(239,213,26,.78);box-shadow:0 0 calc(var(--u)*7) rgba(239,213,26,.28);
+  animation:p16pulse 2.8s ease-in-out infinite;transition:opacity .4s;padding:0;}
+.p16-cercle:hover{border-color:var(--jaune);box-shadow:0 0 calc(var(--u)*12) rgba(239,213,26,.5);}
+.p16-cercle.joue{animation:none;opacity:0;pointer-events:none;}
+@keyframes p16pulse{0%,100%{box-shadow:0 0 calc(var(--u)*6) rgba(239,213,26,.2);transform:translate(-50%,-50%) scale(1);}
+  50%{box-shadow:0 0 calc(var(--u)*13) rgba(239,213,26,.45);transform:translate(-50%,-50%) scale(1.05);}}
+/* pochette « The Clown » révélée en marge, sous le crédit audio (haut-droite) */
+.p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*70);z-index:46;margin:0;width:min(180px,14vw);
+  opacity:0;transform:translateY(calc(var(--u)*6));transition:opacity .7s ease,transform .7s ease;pointer-events:none;}
+.p16-pochette.montre{opacity:1;transform:translateY(0);}
+.p16-pochette img{width:100%;display:block;border:calc(var(--u)*0.8) solid rgba(239,213,26,.5);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.5);}
+.p16-pochette figcaption{margin-top:calc(var(--u)*3);color:var(--jaune);text-align:right;display:flex;flex-direction:column;gap:calc(var(--u)*1);
+  font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.9;text-shadow:0 0 2px rgba(0,0,0,.6);}
 
 /* photos de couverture (apparition au démarrage du son) */
 .cv-photo{position:fixed;top:50%;z-index:44;width:min(240px, 17vw);
@@ -397,17 +414,18 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="ab-switch" id="ab-p9" hidden></div>
 </section>
 
-<section class="page" aria-label="Page 10" data-folio="10" data-son="EMB:BOO" data-piste="Boogie Stop Shuffle — Charles Mingus, 1959" data-panneau-page="src-p10" data-cote="g">
+<section class="page" aria-label="Page 10" data-folio="10" data-son="EMB:ALLB" data-piste="All Blues — Miles Davis, 1959" data-panneau-page="src-p10" data-cote="g">
   <picture><source srcset="assets/images/img-8.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-8.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="ab-switch" id="ab-p10" hidden></div>
 </section>
 
-<section class="page" aria-label="Page 11" data-folio="11" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis, Paris 1960" data-panneau-page="src-p11" data-cote="d">
+<section class="page" aria-label="Page 11" data-folio="11" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis &amp; John Coltrane · Olympia, Paris, 1960" data-panneau-page="src-p11" data-cote="d">
   <picture><source srcset="assets/images/img-10.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-10.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 12" data-folio="12" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis, Paris 1960" data-panneau-page="src-p12" data-cote="g">
+<section class="page" aria-label="Page 12" data-folio="12" data-son="EMB:DRM" data-piste="Darn That Dream — Thelonious Monk" data-panneau-page="src-p12" data-cote="g">
   <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-7.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
@@ -428,9 +446,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 </section>
 
-<section class="page" aria-label="Page 16" data-folio="16">
+<section class="page" aria-label="Page 16" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957">
   <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-12.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
+<button type="button" class="p16-cercle" id="p16-cercle" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
+<figure class="p16-pochette" id="p16-pochette" hidden>
+  <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
+  <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
+</figure>
 </section>
 
 <section class="page" aria-label="Page 17" data-folio="17">
@@ -492,8 +515,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Puis le free jazz.</p>
 <p>Ornette Coleman ouvre la brèche — un jazz sans grille fixe, sans accord imposé, où la mélodie va où elle veut&nbsp;; Coltrane s’y engage à son tour, bientôt Albert Ayler, Archie Shepp. Ils rompent avec la tonalité, le tempo, la grille, et renouent avec le blues des origines mais affranchis de toute règle. Chez Coltrane, le saxophone devient une transe&nbsp;: des phrases déchirées qui se bousculent et se superposent à une vitesse inouïe, des nappes de notes — ce que la critique appellera des <em>sheets of sound</em> —, une chute vertigineuse dans le grave suivie aussitôt d’une montée hallucinante dans le suraigu. Une rage, une violence sombre et tragique, inséparable de l’Amérique de ces années-là. Shepp en fait une arme explicite&nbsp;; Coltrane, lui, pousse la quête jusqu’au mysticisme. Ce n’est plus une école, c’est une échappée offerte à tous&nbsp;: le jazz quitte une fois de plus tout ce à quoi on pouvait l’assigner.</p>
 </div>
-<div class="panneau-source" id="src-p12" data-titre="1970" hidden>
-<p>En une vie d’homme, le jazz est passé de la fanfare de rue à l’abstraction, à la lutte politique. Mezz meurt à Paris en 1972, fidèle jusqu’au bout à la musique qu’il aimait, enterré au Père-Lachaise, gardien d’une musique que le jazz avait quittée trente ans plus tôt. C’est le récit d’un homme qui a voulu <em>devenir</em> ce qu’il aimait — et ce que son regard, à son tour, fabriquait.</p>
+<div class="panneau-source" id="src-p12" data-titre="" hidden>
+<p>Le temps d’une vie, le jazz est passé de la fanfare de rue à l’abstraction, à la lutte politique. Mezz meurt à Paris en 1972, fidèle jusqu’au bout à la musique qu’il aimait, enterré au Père-Lachaise, gardien d’une musique que le jazz avait quittée trente ans plus tôt. C’est le récit d’un homme qui a voulu <em>devenir</em> ce qu’il aimait — et ce que son regard, à son tour, fabriquait.</p>
 </div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
@@ -551,16 +574,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       MOOD="assets/audio/mood-indigo-1959.mp3", STL="assets/audio/east-st-louis-toodle-oo-1926.mp3",
       DAY="assets/audio/daybreak-express-1933.mp3", WHAT="assets/audio/what-is-this-thing-called-love-1941.mp3",
       HOT="assets/audio/hot-house-1948.mp3", BOO="assets/audio/boogie-stop-shuffle-1959.mp3",
-      BBB="assets/audio/bye-bye-blackbird-1960.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB };
+      BBB="assets/audio/bye-bye-blackbird-1960.mp3", ALLB="assets/audio/all-blues-1959.mp3",
+      DRM="assets/audio/darn-that-dream-monk.mp3", REINC="assets/audio/reincarnation-of-a-lovebird-1957.mp3";
+  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
   var slotA=creditAudio.querySelector('.slot');
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
-  var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="";
+  var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="", gesteActif=false;
   var VOL=0.72;
-  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.78,"EMB:WHAT":0.72,"EMB:HOT":0.74,"EMB:BOO":0.6,"EMB:BBB":0.62};
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.78,"EMB:WHAT":0.56,"EMB:HOT":0.74,"EMB:BOO":0.6,"EMB:BBB":0.82,"EMB:ALLB":0.66,"EMB:DRM":0.7,"EMB:REINC":0.7};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -644,10 +668,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     }, 460);
   }
 
-  /* seuils de transition (progression de scroll de la page courante) :
-     <SON_FADE0 : piste pleine · SON_FADE0→SON_GAP0 : fondu sortant ·
-     SON_GAP0→SON_GAP1 : SILENCE atteignable · SON_GAP1→1 : fondu entrant de la suivante. */
-  var SON_FADE0=0.78, SON_GAP0=0.90, SON_GAP1=0.94;
+  /* seuils de transition exprimés sur l'APPROCHE de la page sonore suivante :
+     q = (haut_page_suivante − centre) / (demi-écran), q≈1 (loin) → 0 (au centre).
+     q≥SON_QF : piste pleine · SON_Q1→SON_QF : fondu sortant ·
+     SON_Q0→SON_Q1 : SILENCE atteignable · 0→SON_Q0 : fondu entrant.
+     (Modèle robuste quand des pages non-sonores séparent deux morceaux.) */
+  var SON_QF=0.62, SON_Q1=0.40, SON_Q0=0.22;
 
   function prochaineSonore(idx){
     for(var j=idx+1;j<pages.length;j++){ if(pages[j].getAttribute('data-son')) return j; }
@@ -684,29 +710,41 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     var lab=pages[idx].getAttribute('data-piste')||'';
     var volCur=VOL_PISTES[raw]||VOL;
 
+    /* page « geste » courante non encore déclenchée → SILENCE total (cf. page 16) */
+    if(pages[idx].getAttribute('data-son-geste') && !gesteActif){
+      muterAutres(null,null);
+      courante=idx; setCredit('');
+      pages.forEach(function(p,k){ p.classList.remove('son-actif'); });
+      return;
+    }
+
     /* prochaine page sonore + sa piste */
     var nx=prochaineSonore(idx);
     var rawN = nx>=0 ? pages[nx].getAttribute('data-son') : null;
     var labN = nx>=0 ? (pages[nx].getAttribute('data-piste')||'') : '';
+    var nextGeste = nx>=0 && pages[nx].getAttribute('data-son-geste') && !gesteActif;
 
     /* préchargement juste-à-temps : piste courante + suivante (création = preload auto) */
     assure(SRC[raw]||raw, idx);
     if(rawN) assure(SRC[rawN]||rawN, nx);
 
-    /* transition silencieuse pilotée par le scroll, seulement si la piste suivante DIFFÈRE.
-       Si identique (p.2–5, p.11–12) ou absente → enchaînement continu, aucun gap. */
+    /* transition pilotée par l'approche de la page suivante, si la piste DIFFÈRE.
+       Si identique (p.2–5) ou absente → enchaînement continu, aucun gap.
+       Si la page suivante est une page « geste » non déclenchée → on descend vers le
+       silence sans faire entrer sa piste (elle n'arrive qu'au clic). */
     if(rawN && rawN!==raw && debloque){
-      var rc=pages[idx].getBoundingClientRect();
-      var prog=Math.max(0,Math.min(1, (-rc.top + window.innerHeight*0.5) / rc.height ));
+      var rN=pages[nx].getBoundingClientRect();
+      var q=(rN.top - window.innerHeight*0.5) / (window.innerHeight*0.5);
       var vCur, vNext, credit;
-      if(prog < SON_FADE0){ vCur=volCur; vNext=0; credit=lab; }
-      else if(prog < SON_GAP0){ var t=(prog-SON_FADE0)/(SON_GAP0-SON_FADE0); vCur=volCur*(1-t); vNext=0; credit=lab; }
-      else if(prog < SON_GAP1){ vCur=0; vNext=0; credit=''; }                 /* silence */
-      else { var u=(prog-SON_GAP1)/(1-SON_GAP1); vCur=0; vNext=(VOL_PISTES[rawN]||VOL)*u; credit=labN; }
-      muterAutres(raw, rawN);
+      if(q>=SON_QF){ vCur=volCur; vNext=0; credit=lab; }
+      else if(q>=SON_Q1){ var t=(SON_QF-q)/(SON_QF-SON_Q1); vCur=volCur*(1-t); vNext=0; credit=lab; }
+      else if(q>=SON_Q0){ vCur=0; vNext=0; credit=''; }                       /* silence */
+      else { var u=Math.max(0,Math.min(1,(SON_Q0-q)/SON_Q0)); vCur=0; vNext=(VOL_PISTES[rawN]||VOL)*u; credit=labN; }
+      if(nextGeste){ vNext=0; credit=(q<SON_Q1)?'':credit; }                   /* la piste geste n'entre pas */
+      muterAutres(raw, nextGeste?null:rawN);
       viser(raw, vCur, idx);
-      viser(rawN, vNext, nx);
-      courante = (prog>=SON_GAP1) ? nx : idx;
+      if(!nextGeste) viser(rawN, vNext, nx);
+      courante = (q<SON_Q0 && !nextGeste) ? nx : idx;
       setCredit(credit);
       pages.forEach(function(p,k){ p.classList.toggle('son-actif', k===idx && actif && debloque); });
       return;
@@ -1286,6 +1324,33 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       faceA:{key:'EMB:WHAT', lib:'Revival', titre:'What Is This Thing Called Love', artiste:'Sidney Bechet', annee:1941},
       faceB:{key:'EMB:HOT',  lib:'Bebop',   titre:'Hot House', artiste:'Gillespie & Parker', annee:1948}
     });
+  })();
+  (function(){            // switch Modal/Hard bop sur la page 10 (1950) — démarre sur le modal
+    var p10=document.querySelector('[data-folio="10"]'), m10=document.getElementById('ab-p10');
+    if(p10&&m10) creerSwitchAB({
+      page:p10, mount:m10, legende:'Deux sorties du bebop', defaut:'A',
+      faceA:{key:'EMB:ALLB', lib:'Modal',    titre:'All Blues', artiste:'Miles Davis', annee:1959},
+      faceB:{key:'EMB:BOO',  lib:'Hard bop', titre:'Boogie Stop Shuffle', artiste:'Charles Mingus', annee:1959}
+    });
+  })();
+  (function(){            // page 16 : cercle sur le visage → pochette + Reincarnation (silence avant le geste)
+    var p16=document.querySelector('[data-folio="16"]');
+    var cercle=document.getElementById('p16-cercle'), poch=document.getElementById('p16-pochette');
+    if(!p16||!cercle) return;
+    function montrerPochette(on){ if(!poch) return; if(on){ poch.hidden=false; requestAnimationFrame(function(){ poch.classList.add('montre'); }); } else { poch.classList.remove('montre'); } }
+    cercle.addEventListener('click',function(){
+      gesteActif=true;
+      cercle.classList.add('joue');
+      assure(SRC['EMB:REINC']||'EMB:REINC');
+      montrerPochette(true);
+      courante=-1; majAudio();           /* lance Reincarnation */
+    });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ montrerPochette(e.isIntersecting && gesteActif); });
+      },{threshold:0.35});
+      io.observe(p16);
+    }
   })();
   buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
   setupP6Scroll();       // pin + station de lecture page 6 (desktop uniquement)
