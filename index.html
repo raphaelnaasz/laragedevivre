@@ -81,6 +81,24 @@ img.abs{display:block;}
   font-size:calc(var(--u)*6.5);letter-spacing:.07em;text-transform:uppercase;opacity:.9;text-shadow:0 0 1px rgba(0,0,0,.5);}
 .credit.couv{right:calc(var(--u)*20);bottom:calc(var(--u)*18);}
 
+/* switch A/B audio (page 9 — Revival / Bebop) : discret, bas-centre de la page */
+.ab-switch{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--u)*9);z-index:30;
+  display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.6);
+  color:var(--jaune);text-align:center;text-shadow:0 0 2px rgba(0,0,0,.6);pointer-events:auto;}
+.ab-toggle{position:relative;display:inline-flex;align-items:center;gap:calc(var(--u)*3);
+  border:calc(var(--u)*0.8) solid var(--jaune);border-radius:999px;
+  padding:calc(var(--u)*2.4) calc(var(--u)*5);background:rgba(0,0,0,.38);}
+.ab-pos{background:none;border:none;cursor:pointer;color:var(--jaune);opacity:.45;font:inherit;
+  font-size:calc(var(--u)*7);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*1.5);
+  transition:opacity .25s;}
+.ab-pos.actif{opacity:1;}
+.ab-knob{flex:none;width:calc(var(--u)*6);height:calc(var(--u)*6);border-radius:50%;
+  background:var(--jaune);transition:transform .28s ease;}
+.ab-switch[data-face="A"] .ab-knob{transform:translateX(calc(var(--u)*-1.4));}
+.ab-switch[data-face="B"] .ab-knob{transform:translateX(calc(var(--u)*1.4));}
+.ab-meta{font-size:calc(var(--u)*5.4);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
+.ab-legende{font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.62;font-style:italic;}
+
 /* photos de couverture (apparition au démarrage du son) */
 .cv-photo{position:fixed;top:50%;z-index:44;width:min(240px, 17vw);
   opacity:0;visibility:hidden;pointer-events:none;
@@ -358,17 +376,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="credit">New Orleans Jazz Band</div>
 </section>
 
-<section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p6" data-cote="g">
+<section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:MOOD" data-piste="Mood Indigo — Charles Mingus, 1959" data-panneau-page="src-p6" data-cote="g">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
 </section>
 
-<section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p7" data-cote="d">
+<section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:STL" data-piste="East St. Louis Toodle-Oo — Duke Ellington, 1926" data-panneau-page="src-p7" data-cote="d">
   <picture><source srcset="assets/images/img-4.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-4.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit"></div>
 </section>
 
-<section class="page" aria-label="Page 8" data-folio="8" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p8" data-cote="g">
+<section class="page" aria-label="Page 8" data-folio="8" data-son="EMB:DAY" data-piste="Daybreak Express — Duke Ellington, 1933" data-panneau-page="src-p8" data-cote="g">
   <picture><source srcset="assets/images/img-18.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-18.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
@@ -376,19 +394,20 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 9" data-folio="9" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p9" data-cote="d">
   <picture><source srcset="assets/images/img-9.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-9.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="ab-switch" id="ab-p9" hidden></div>
 </section>
 
-<section class="page" aria-label="Page 10" data-folio="10" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p10" data-cote="g">
+<section class="page" aria-label="Page 10" data-folio="10" data-son="EMB:BOO" data-piste="Boogie Stop Shuffle — Charles Mingus, 1959" data-panneau-page="src-p10" data-cote="g">
   <picture><source srcset="assets/images/img-8.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-8.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 11" data-folio="11" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p11" data-cote="d">
+<section class="page" aria-label="Page 11" data-folio="11" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis, Paris 1960" data-panneau-page="src-p11" data-cote="d">
   <picture><source srcset="assets/images/img-10.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-10.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 12" data-folio="12" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p12" data-cote="g">
+<section class="page" aria-label="Page 12" data-folio="12" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis, Paris 1960" data-panneau-page="src-p12" data-cote="g">
   <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-7.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
@@ -528,9 +547,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 (function(){
   'use strict';
-  var RTB="assets/audio/really-the-blues-1938.mp3", DARN="assets/audio/darn-that-dream-1963.mp3", NORL="assets/audio/souvenirs-nouvelle-orleans.mp3";
-  var FRIS="assets/audio/in-my-dreams-2025.mp3", WHAT="assets/audio/what-is-this-thing-called-love-1941.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:DARN":DARN, "EMB:NORL":NORL, "EMB:FRIS":FRIS, "EMB:WHAT":WHAT };
+  var RTB="assets/audio/really-the-blues-1938.mp3", FRIS="assets/audio/in-my-dreams-2025.mp3",
+      MOOD="assets/audio/mood-indigo-1959.mp3", STL="assets/audio/east-st-louis-toodle-oo-1926.mp3",
+      DAY="assets/audio/daybreak-express-1933.mp3", WHAT="assets/audio/what-is-this-thing-called-love-1941.mp3",
+      HOT="assets/audio/hot-house-1948.mp3", BOO="assets/audio/boogie-stop-shuffle-1959.mp3",
+      BBB="assets/audio/bye-bye-blackbird-1960.mp3";
+  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -538,7 +560,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="";
   var VOL=0.72;
-  var VOL_PISTES={"EMB:RTB":0.72,"EMB:DARN":0.65,"EMB:NORL":0.72,"EMB:FRIS":0.65,"EMB:WHAT":0.65};
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.78,"EMB:WHAT":0.72,"EMB:HOT":0.74,"EMB:BOO":0.6,"EMB:BBB":0.62};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -547,7 +569,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
      élément déjà existant — d'où cette amorce, indispensable pour que la musique
      démarre vraiment au premier toucher. */
   function precreer(){
-    Object.keys(SRC).forEach(function(k){ assure(SRC[k]); });
+    /* allègement : on n'amorce QUE la 1re piste sonore (indispensable au déblocage iOS,
+       cf. debloquer()). Les autres pistes sont créées juste-à-temps par majAudio()
+       quand le scroll s'en approche → 1 seul téléchargement au démarrage. */
+    for(var k=0;k<pages.length;k++){ var r=pages[k].getAttribute('data-son'); if(r){ assure(SRC[r]||r); break; } }
   }
   function piste(src){
     if(!pistes[src]) pistes[src]={audio:null,ok:null,noise:null,gain:null,cible:0,raf:null};
@@ -607,15 +632,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       if(!fini) pp.raf=requestAnimationFrame(pas);
     })();
   }
-  function basculePiste(rawSrc,seed){
-    var src = SRC[rawSrc]||rawSrc;
-    Object.keys(pistes).forEach(function(k){
-      var pp=pistes[k];
-      if(k===src){ /* gardée */ } else { pp.cible=0; fondu(pp); }
-    });
-    var pp=assure(src,seed); pp.cible= actif?(VOL_PISTES[rawSrc]||VOL):0; fondu(pp,seed);
-  }
-
   /* crédit audio sous le bouton, cross-fade liquide */
   function setCredit(label){
     if(!debloque){ return; }              /* rien avant le 1er geste : l'aide occupe seule la place */
@@ -628,14 +644,37 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     }, 460);
   }
 
+  /* seuils de transition (progression de scroll de la page courante) :
+     <SON_FADE0 : piste pleine · SON_FADE0→SON_GAP0 : fondu sortant ·
+     SON_GAP0→SON_GAP1 : SILENCE atteignable · SON_GAP1→1 : fondu entrant de la suivante. */
+  var SON_FADE0=0.78, SON_GAP0=0.90, SON_GAP1=0.94;
+
+  function prochaineSonore(idx){
+    for(var j=idx+1;j<pages.length;j++){ if(pages[j].getAttribute('data-son')) return j; }
+    return -1;
+  }
+  /* règle le volume cible d'une piste (clé EMB:) + fondu + lecture si besoin */
+  function viser(rawKey, vol, seed){
+    if(!rawKey) return;
+    var src=SRC[rawKey]||rawKey, pp=assure(src,seed);
+    pp.cible = (actif && debloque) ? vol : 0;
+    fondu(pp,seed);
+    if(pp.cible>0 && pp.audio && pp.audio.paused && debloque){ var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+  }
+  /* coupe toutes les pistes sauf celles passées en argument (clés EMB:) */
+  function muterAutres(keepA, keepB){
+    var sA=keepA?(SRC[keepA]||keepA):null, sB=keepB?(SRC[keepB]||keepB):null;
+    Object.keys(pistes).forEach(function(s){
+      if(s!==sA && s!==sB){ var pp=pistes[s]; if(pp.cible!==0){ pp.cible=0; fondu(pp); } }
+    });
+  }
+
   /* page sonore courante = la dernière page <= centre qui porte un data-son */
   function majAudio(){
     var c=window.innerHeight/2, idx=-1;
     pages.forEach(function(p,i){
       var r=p.getBoundingClientRect();
-      if(r.top <= c+1) {
-        if(p.getAttribute('data-son')) idx=i;
-      }
+      if(r.top <= c+1){ if(p.getAttribute('data-son')) idx=i; }
     });
     if(idx<0){ // avant la 1re page sonore : prendre la 1re sonore
       for(var k=0;k<pages.length;k++){ if(pages[k].getAttribute('data-son')){ idx=k; break; } }
@@ -643,40 +682,102 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(idx<0) return;
     var raw=pages[idx].getAttribute('data-son');
     var lab=pages[idx].getAttribute('data-piste')||'';
+    var volCur=VOL_PISTES[raw]||VOL;
 
-    /* ── Cross-fade scroll-driven : si la page courante a data-son-cross,
-       on interpole les deux volumes en fonction de la progression de scroll
-       dans cette page (0 = page centrée, 1 = page entièrement remontée).
-       La zone de fondu démarre à 55 % de progression pour une transition douce. ── */
-    var crossRaw=pages[idx].getAttribute('data-son-cross');
-    if(crossRaw && debloque){
-      var r6=pages[idx].getBoundingClientRect();
-      // scrollProg : 0 quand le haut de la page est au centre écran, 1 quand la page sort par le haut
-      var scrollProg=Math.max(0,Math.min(1, (-r6.top + window.innerHeight*0.5) / r6.height ));
-      if(scrollProg >= 0.55){
-        var t=Math.max(0,Math.min(1,(scrollProg-0.55)/0.45));
-        var srcA=SRC[raw]||raw, srcB=SRC[crossRaw]||crossRaw;
-        var ppA=assure(srcA,idx), ppB=assure(srcB,idx+1);
-        ppA.cible = actif ? (VOL_PISTES[raw]||VOL)*(1-t) : 0;
-        ppB.cible = actif ? (VOL_PISTES[crossRaw]||VOL)*t : 0;
-        fondu(ppA); fondu(ppB);
-        // assurer que la piste B joue
-        if(actif && ppB.audio && ppB.audio.paused && debloque){
-          var pr=ppB.audio.play(); if(pr&&pr.catch) pr.catch(function(){});
-        }
-        courante=idx;
-        if(t>=0.98){ setCredit(pages[idx+1]?pages[idx+1].getAttribute('data-piste')||'':''); }
-        pages.forEach(function(p,k){ p.classList.toggle('son-actif', k===idx && actif && debloque); });
-        return;
-      }
+    /* prochaine page sonore + sa piste */
+    var nx=prochaineSonore(idx);
+    var rawN = nx>=0 ? pages[nx].getAttribute('data-son') : null;
+    var labN = nx>=0 ? (pages[nx].getAttribute('data-piste')||'') : '';
+
+    /* préchargement juste-à-temps : piste courante + suivante (création = preload auto) */
+    assure(SRC[raw]||raw, idx);
+    if(rawN) assure(SRC[rawN]||rawN, nx);
+
+    /* transition silencieuse pilotée par le scroll, seulement si la piste suivante DIFFÈRE.
+       Si identique (p.2–5, p.11–12) ou absente → enchaînement continu, aucun gap. */
+    if(rawN && rawN!==raw && debloque){
+      var rc=pages[idx].getBoundingClientRect();
+      var prog=Math.max(0,Math.min(1, (-rc.top + window.innerHeight*0.5) / rc.height ));
+      var vCur, vNext, credit;
+      if(prog < SON_FADE0){ vCur=volCur; vNext=0; credit=lab; }
+      else if(prog < SON_GAP0){ var t=(prog-SON_FADE0)/(SON_GAP0-SON_FADE0); vCur=volCur*(1-t); vNext=0; credit=lab; }
+      else if(prog < SON_GAP1){ vCur=0; vNext=0; credit=''; }                 /* silence */
+      else { var u=(prog-SON_GAP1)/(1-SON_GAP1); vCur=0; vNext=(VOL_PISTES[rawN]||VOL)*u; credit=labN; }
+      muterAutres(raw, rawN);
+      viser(raw, vCur, idx);
+      viser(rawN, vNext, nx);
+      courante = (prog>=SON_GAP1) ? nx : idx;
+      setCredit(credit);
+      pages.forEach(function(p,k){ p.classList.toggle('son-actif', k===idx && actif && debloque); });
+      return;
     }
 
+    /* zone stable / piste continue */
     if(idx!==courante){
       courante=idx;
-      basculePiste(raw, idx);
+      muterAutres(raw, null);
+      viser(raw, volCur, idx);
       setCredit(lab);
+    } else {
+      viser(raw, volCur, idx);
     }
     pages.forEach(function(p,k){ p.classList.toggle('son-actif', k===idx && actif && debloque); });
+  }
+
+  /* ════════ Switch A/B audio — composant réutilisable ════════
+     opts = { page:<section>, mount:<div>, legende, defaut:'A'|'B',
+              faceA:{key:'EMB:…', lib, titre, artiste, annee}, faceB:{…} }
+     Une seule piste à la fois ; la bascule réécrit data-son/data-piste de la page
+     puis laisse le moteur de scroll (majAudio) gérer le fondu. */
+  function creerSwitchAB(opts){
+    var page=opts.page, mount=opts.mount;
+    if(!page||!mount) return;
+    var faces={A:opts.faceA, B:opts.faceB};
+    var courF=(opts.defaut==='B')?'B':'A';
+    function piste(f){ return f.titre+' — '+f.artiste+', '+f.annee; }
+    mount.innerHTML=
+      '<div class="ab-toggle" role="group" aria-label="Choix de version">'+
+        '<button type="button" class="ab-pos" data-face="A">'+faces.A.lib+'</button>'+
+        '<span class="ab-knob" aria-hidden="true"></span>'+
+        '<button type="button" class="ab-pos" data-face="B">'+faces.B.lib+'</button>'+
+      '</div>'+
+      '<div class="ab-meta"></div>'+
+      (opts.legende?('<div class="ab-legende">'+opts.legende+'</div>'):'');
+    mount.removeAttribute('hidden');
+    var meta=mount.querySelector('.ab-meta');
+    var boutons=[].slice.call(mount.querySelectorAll('.ab-pos'));
+    function rendre(){
+      mount.setAttribute('data-face',courF);
+      meta.textContent=piste(faces[courF]);
+      boutons.forEach(function(b){ var on=b.getAttribute('data-face')===courF; b.classList.toggle('actif',on); b.setAttribute('aria-pressed',on?'true':'false'); });
+    }
+    function appliquer(nf, jouer){
+      if(nf!=='A'&&nf!=='B') return;
+      if(nf===courF) return;          /* déjà sur cette face */
+      var autre=faces[courF==='A'?'B':'A'];
+      courF=nf; var f=faces[nf];
+      /* coupe immédiate de l'autre piste → jamais de superposition */
+      var ancSrc=SRC[autre.key]||autre.key, pp=pistes[ancSrc];
+      if(pp){ pp.cible=0; if(pp.audio && !pp.audio.paused){ try{pp.audio.pause();}catch(e){} } }
+      page.setAttribute('data-son', f.key);
+      page.setAttribute('data-piste', piste(f));
+      assure(SRC[f.key]||f.key);
+      rendre();
+      if(jouer){ courante=-1; majAudio(); }
+    }
+    boutons.forEach(function(b){ b.addEventListener('click',function(){ appliquer(b.getAttribute('data-face'), true); }); });
+    /* état par défaut (sans relancer le son : la page n'est pas forcément à l'écran) */
+    page.setAttribute('data-son', faces[courF].key);
+    page.setAttribute('data-piste', piste(faces[courF]));
+    rendre();
+    /* préchargement discret de la face B à l'approche de la page */
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ if(e.isIntersecting){ assure(SRC[faces.B.key]||faces.B.key); io.disconnect(); } });
+      },{rootMargin:'300px'});
+      io.observe(page);
+    }
+    return { appliquer:appliquer };
   }
 
   function debloquer(){
@@ -1177,7 +1278,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   })();
 
   dim();
-  precreer();            // crée les <audio> tout de suite (play() fiable au 1er geste)
+  precreer();            // crée le 1er <audio> tout de suite (play() fiable au 1er geste)
+  (function(){            // switch Revival/Bebop sur la page 9 (1940)
+    var p9=document.querySelector('[data-folio="9"]'), m9=document.getElementById('ab-p9');
+    if(p9&&m9) creerSwitchAB({
+      page:p9, mount:m9, legende:'Même grille d’accords, deux époques', defaut:'A',
+      faceA:{key:'EMB:WHAT', lib:'Revival', titre:'What Is This Thing Called Love', artiste:'Sidney Bechet', annee:1941},
+      faceB:{key:'EMB:HOT',  lib:'Bebop',   titre:'Hot House', artiste:'Gillespie & Parker', annee:1948}
+    });
+  })();
   buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
   setupP6Scroll();       // pin + station de lecture page 6 (desktop uniquement)
   requestAnimationFrame(function(){ tick(); });
