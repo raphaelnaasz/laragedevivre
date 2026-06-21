@@ -89,7 +89,7 @@ img.abs{display:block;}
   border:calc(var(--u)*0.9) solid var(--jaune);border-radius:999px;
   padding:calc(var(--u)*3.2) calc(var(--u)*6.5);background:rgba(0,0,0,.4);}
 .ab-pos{background:none;border:none;cursor:pointer;color:var(--jaune);opacity:.45;font:inherit;
-  font-size:calc(var(--u)*8.4);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*2);
+  font-size:calc(var(--u)*9.6);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*2);
   transition:opacity .25s;}
 .ab-pos.actif{opacity:1;}
 /* knob = pastille entre les deux libellés, glisse vers la face active */
@@ -97,10 +97,21 @@ img.abs{display:block;}
   background:var(--jaune);transition:transform .28s ease;}
 .ab-switch[data-face="A"] .ab-knob{transform:translateX(calc(var(--u)*-1.4));}
 .ab-switch[data-face="B"] .ab-knob{transform:translateX(calc(var(--u)*1.4));}
+/* variante 3 positions (Modal / Hard bop / Mezz) : pas de curseur, face active soulignée */
+.ab-switch--trio .ab-toggle{gap:calc(var(--u)*7);}
+.ab-switch--trio .ab-pos{position:relative;}
+.ab-switch--trio .ab-pos.actif::after{content:"";position:absolute;left:0;right:0;bottom:calc(var(--u)*-2.2);
+  height:calc(var(--u)*1.1);background:var(--jaune);border-radius:999px;}
 /* page 9 : switch aligné sur la ligne de fracture verticale de l'image (~53 %) */
 #ab-p9{left:53%;}
-.ab-meta{font-size:calc(var(--u)*5.4);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
-.ab-legende{font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.62;font-style:italic;}
+.ab-meta{font-size:calc(var(--u)*7.2);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
+.ab-legende{font-size:calc(var(--u)*6);letter-spacing:.04em;opacity:.62;font-style:italic;}
+/* phrase de l'encadré reliée au switch (page 9 / 1940) */
+.lien-switch{color:var(--jaune);background:rgba(239,213,26,.12);
+  box-shadow:0 0 0 calc(var(--u)*0.6) rgba(239,213,26,.28);border-radius:calc(var(--u)*1.2);
+  padding:0 calc(var(--u)*0.8);}
+.lien-switch-note{display:inline-block;margin-left:calc(var(--u)*1.4);color:var(--jaune);
+  opacity:.72;font-style:italic;font-size:.86em;white-space:nowrap;}
 
 /* page 16 — cercle élégant autour du visage du Pierrot → déclenche la pochette + le son */
 .p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*80);height:calc(var(--u)*106);
@@ -121,14 +132,14 @@ img.abs{display:block;}
 
 /* ── double page 13-14 : révélation du texte de Hart's Island (typo du dossier) ── */
 #dip-1314{position:relative;}
-/* cercle blanc pulsant sur le visage du jeune homme (page 14) — rond */
-.hi-cercle{position:absolute;left:69%;top:48%;width:calc(var(--u)*52);height:calc(var(--u)*52);
+/* cercle jaune pulsant qui auréole le visage du jeune homme (page 14) — rond, taille doublée */
+.hi-cercle{position:absolute;left:69%;top:48%;width:calc(var(--u)*104);height:calc(var(--u)*104);
   transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:35;padding:0;
-  border:calc(var(--u)*1) solid rgba(255,255,255,.7);box-shadow:0 0 0 0 rgba(255,255,255,.4);
+  border:calc(var(--u)*1.4) solid rgba(239,213,26,.78);box-shadow:0 0 0 0 rgba(239,213,26,.4);
   animation:hipulse 2.5s cubic-bezier(.4,0,.6,1) infinite;transition:opacity .6s;}
-.hi-cercle:hover{border-color:#fff;}
-@keyframes hipulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5);}
-  70%{box-shadow:0 0 0 calc(var(--u)*14) rgba(255,255,255,0);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
+.hi-cercle:hover{border-color:var(--jaune);}
+@keyframes hipulse{0%{box-shadow:0 0 0 0 rgba(239,213,26,.5);}
+  70%{box-shadow:0 0 0 calc(var(--u)*18) rgba(239,213,26,0);}100%{box-shadow:0 0 0 0 rgba(239,213,26,0);}}
 #dip-1314.revele .hi-cercle{opacity:0;pointer-events:none;animation:none;}
 /* les DEUX photos reculent lentement et ensemble (le texte émerge de l'intérieur) */
 #dip-1314 img.fond{transition:filter 1.9s cubic-bezier(.4,0,.2,1), transform 1.9s cubic-bezier(.4,0,.2,1);}
@@ -436,9 +447,32 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 4</span></div><div class="credit"></div>
 </section>
 
-<section class="page" aria-label="Page 5" data-folio="5" data-son="EMB:FRIS" data-piste="In My Dreams — Bill Frisell, 2025">
+<div class="diptique-pano" id="dip-1314">
+<section class="page" aria-label="Page 5" data-folio="13">
+  <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-5.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div><div class="credit"></div>
+</section>
+<section class="page diptique-droite" aria-label="Page 5 (suite)" data-folio="14">
+  <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
+<button type="button" class="hi-cercle" id="hi-cercle" aria-label="Révéler le texte de Hart’s Island"></button>
+</section>
+<div class="hi-revele" id="hi-revele" aria-hidden="true">
+  <div class="hi-corps">
+      <p>Et brusquement, par un bel après-midi, ce fut l’explosion. Sur le papier, ça n’aura peut-être pas l’air de grand-chose, d’ailleurs. Nous marchions tous ensemble en jouant ce vieil air pompier&nbsp;: Notre directeur et le professeur s’était arrêté pour parler au gardien tandis que nous poursuivions notre marche à travers l’île. Nous passons devant la centrale électrique, où travaillait la 9<sup>e</sup> Division, entièrement composée de Noirs, et tous accourent comme d’habitude, pour nous écouter.</p>
+      <p>À la seule idée qu’on paradait tout l’après-midi pendant que ces gars-là se crevaient le cul, je me faisais l’effet d’un minable, d’un fils à papa, d’une lavette, et il fallait que je me justifie d’une manière ou d’une autre, alors je m’appliquais à mettre dans mes mouvements le plus possible de rythme et de souplesse, sans avoir l’air maniéré ni prétentieux.</p>
+      <p>Nous défilons donc, et voilà qu’au tempo frénétique de la marche, je me sens devenir léger, aérien, et quand nous arrivons près de la centrale, en vue de tous les copains, je me dis, tant pis, je brise mes chaînes et je me lance à fond. J’étais tendu, surexcité, comme si que je m’apprêtais à cambrioler une banque. J’oublie complètement la partition du professeur et je me mets à improviser. Et alors, bon Dieu, me voilà parti comme en rêve, dans une espèce d’état second, où il me semblait que mon corps libéré évoluait tout seul, où mes doigts volaient sur les touches sans le moindre effort de ma part, comme si quelqu’un avait pris ma place et commandé à tous mes muscles et que je n’aie eu qu’à suivre et me laisser aller, certain que tout était pour le mieux. J’éprouvais cette sorte d’exaltation sereine, insensée, dont parlent les croyants et qui les fait prendre pour des cinglés. Et c’était exactement, à un iota près, la même exaltation sereine que celle que j’éprouvais enfant, en entendant la musique de La Nouvelle-Orléans, cette musique qui m’a hanté toute ma vie et que j’avais, jusque-là, cherché en vain à trouver.</p>
+      <p>C’est que, voyez-vous, pour la toute première fois de ma vie, j’étais complètement dans le bain, je jouais le vrai jazz authentique, et c’était ça, pas Chicago, ni Dixieland, pas le swing ni le jump, pas Debussy ni Ravel, mais le jazz, primitif, simple, direct, trépidant et envoûtant. Toute ma vie, j’avais ardemment désiré jouer ainsi et toute ma vie j’avais tellement eu peur de ne pas y arriver (même lors des enregistrements Panassié), que je m’étais dérobé, que j’avais toujours pris des chemins détournés afin de ne pas avoir à affronter l’obstacle et risquer de manquer mon coup, et tous mes malheurs, mes complexes, mes ratages et mes écarts, étaient venus de cette crainte et de ces dérobades. Maintenant, je n’avais plus peur. Toutes mes aventures passées prenaient subitement un sens, s’inscriraient à leur place dans le tableau&nbsp;: la prison, l’éternel refrain du claque-dents, la plongée dans le néant de l’opium, les nerfs malades, les évasions à la marihuana, la vie des bas-fonds. C’est tout cela qui avait constitué mon éducation, ma formation, jusqu’à ce que je sois suffisamment meurtri, maté, groggy, pour être à même de reconnaître et d’assimiler le langage de La Nouvelle-Orléans grâce auquel je pouvais m’exprimer. Ces vingt années de lutte et de coups durs m’avaient modelé les doigts au point que je pouvais maintenant chatouiller ma clarinette et en tirer le seul langage de l’univers qui me permettrait de dire ce que j’avais à dire.</p>
+      <p>Et savez-vous ce que j’avais à dire&nbsp;? Quelque chose de très simple&nbsp;: la vie est belle, il fait bon vivre&nbsp;! Qu’importent la faim, les coups de pied au cul et les coups de matraque sur la tête, qu’importe si la lutte est dure, il fait bon vivre, vieux frère&nbsp;! Il avait fallu que j’en rote, et vachement, avant de comprendre. Les Noirs, eux, tout frais dégagés de trois cents ans d’esclavage – toujours les parias méprisés de la nation en dépit de leur soi-disante émancipation – avaient compris depuis belle lurette, et quarante ou cinquante ans auparavant, ils avaient créé une musique révolutionnaire pour clamer ce message au monde. Voilà ce que le style Nouvelle-Orléans célébrait en réalité&nbsp;: le triomphe de tout ce qui vit, respire, joue des biceps, cligne de l’œil et se lèche les babines en dépit des saloperies du monde. C’était un défi aux pompes funèbres, un refus de se laisser abattre, une réaction obstinée, un cri de louange à l’appareil circulatoire, un hosanna aux glandes sudoripares, un hymne aux entrailles qui braillent quand elles sont vides. Alleluia&nbsp;! Le soleil luit&nbsp;! Gloire au pouls tout-puissant&nbsp;! On se laissera pas supprimer&nbsp;! On est là et on tient bon – on ne reconnaît pas vos arrêtés d’expulsion de cette bonne vieille terre. L’esprit est toujours en nous, et y a pas, faut que ça barde&nbsp;! On va expliquer tout ça avec notre belle musique… Je savais maintenant ce que j’avais à dire sur mon biniou&nbsp;; je possédais à fond mon vocabulaire Nouvelle-Orléans et la manière de m’en servir. Jimmy Noone, Johnny Dodds et Sidney Bechet l’avaient en eux depuis toujours, et à présent ils étaient dans ma peau et actionnaient mes doigts, pour que je sorte ce que j’avais à sortir.</p>
+      <p>Oui, c’est à cette seconde-là que j’ai sauté de la galère où je me débattais moralement pour trouver ma vraie voie et voir enfin fondre mon fardeau de misère.</p>
+      <p class="hi-credit">— Milton Mezzrow &amp; Bernard Wolfe, <em>La Rage de Vivre</em> (<em>Really the Blues</em>, 1946) · chap. «&nbsp;Hors de la galère&nbsp;», p.&nbsp;422–424</p>
+    </div>
+</div>
+</div>
+
+<section class="page" aria-label="Page 6" data-folio="5" data-son="EMB:FRIS" data-piste="In My Dreams — Bill Frisell, 2025">
   <picture><source srcset="assets/images/img-2.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-2.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div>
   <div class="cadre4 haut">
     <div class="citation declencheur premier" data-panneau="src-new-orleans" data-panneau2="src-trio">
       <p class="ex">«&nbsp;Et savez-vous qui j’étais, subitement&nbsp;? J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet, en train de swinguer dans les rues du quartier noir de La Nouvelle-Orléans.&nbsp;»</p>
@@ -456,72 +490,49 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:MOOD" data-piste="Mood Indigo — Charles Mingus, 1959" data-panneau-page="src-p6" data-cote="g">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
 </section>
 
 <section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:STL" data-piste="East St. Louis Toodle-Oo — Duke Ellington, 1926" data-panneau-page="src-p7" data-cote="d">
   <picture><source srcset="assets/images/img-4.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-4.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit"></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit"></div>
 </section>
 
 <section class="page" aria-label="Page 8" data-folio="8" data-son="EMB:DAY" data-piste="Daybreak Express — Duke Ellington, 1933" data-panneau-page="src-p8" data-cote="g">
   <picture><source srcset="assets/images/img-18.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-18.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 9" data-folio="9" data-son="EMB:WHAT" data-piste="What Is This Thing Called Love — Sidney Bechet, 1941" data-panneau-page="src-p9" data-cote="d">
   <picture><source srcset="assets/images/img-9.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-9.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div><div class="credit">photo · Saul Leiter</div>
 <div class="ab-switch" id="ab-p9" hidden></div>
 </section>
 
 <section class="page" aria-label="Page 10" data-folio="10" data-son="EMB:ALLB" data-piste="All Blues — Miles Davis, 1959" data-panneau-page="src-p10" data-cote="g">
   <picture><source srcset="assets/images/img-8.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-8.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div><div class="credit">photo · Saul Leiter</div>
 <div class="ab-switch" id="ab-p10" hidden></div>
 </section>
 
 <section class="page" aria-label="Page 11" data-folio="11" data-son="EMB:BBB" data-piste="Bye Bye Blackbird — Miles Davis &amp; John Coltrane · Olympia, Paris, 1960" data-panneau-page="src-p11" data-cote="d">
   <picture><source srcset="assets/images/img-10.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-10.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
 <section class="page" aria-label="Page 12" data-folio="12" data-son="EMB:DRM" data-piste="Darn That Dream — Thelonious Monk" data-panneau-page="src-p12" data-cote="g">
   <picture><source srcset="assets/images/img-7.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-7.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
-
-<div class="diptique-pano" id="dip-1314">
-<section class="page" aria-label="Page 13" data-folio="13">
-  <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-5.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit"></div>
-</section>
-<section class="page diptique-droite" aria-label="Page 14" data-folio="14">
-  <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit"></div>
-<button type="button" class="hi-cercle" id="hi-cercle" aria-label="Révéler le texte de Hart’s Island"></button>
-</section>
-<div class="hi-revele" id="hi-revele" aria-hidden="true">
-  <div class="hi-corps">
-      <p>Et brusquement, par un bel après-midi, ce fut l’explosion. Sur le papier, ça n’aura peut-être pas l’air de grand-chose, d’ailleurs. Nous marchions tous ensemble en jouant ce vieil air pompier&nbsp;: Notre directeur et le professeur s’était arrêté pour parler au gardien tandis que nous poursuivions notre marche à travers l’île. Nous passons devant la centrale électrique, où travaillait la 9<sup>e</sup> Division, entièrement composée de Noirs, et tous accourent comme d’habitude, pour nous écouter.</p>
-      <p>À la seule idée qu’on paradait tout l’après-midi pendant que ces gars-là se crevaient le cul, je me faisais l’effet d’un minable, d’un fils à papa, d’une lavette, et il fallait que je me justifie d’une manière ou d’une autre, alors je m’appliquais à mettre dans mes mouvements le plus possible de rythme et de souplesse, sans avoir l’air maniéré ni prétentieux.</p>
-      <p>Nous défilons donc, et voilà qu’au tempo frénétique de la marche, je me sens devenir léger, aérien, et quand nous arrivons près de la centrale, en vue de tous les copains, je me dis, tant pis, je brise mes chaînes et je me lance à fond. J’étais tendu, surexcité, comme si que je m’apprêtais à cambrioler une banque. J’oublie complètement la partition du professeur et je me mets à improviser. Et alors, bon Dieu, me voilà parti comme en rêve, dans une espèce d’état second, où il me semblait que mon corps libéré évoluait tout seul, où mes doigts volaient sur les touches sans le moindre effort de ma part, comme si quelqu’un avait pris ma place et commandé à tous mes muscles et que je n’aie eu qu’à suivre et me laisser aller, certain que tout était pour le mieux. J’éprouvais cette sorte d’exaltation sereine, insensée, dont parlent les croyants et qui les fait prendre pour des cinglés. Et c’était exactement, à un iota près, la même exaltation sereine que celle que j’éprouvais enfant, en entendant la musique de La Nouvelle-Orléans, cette musique qui m’a hanté toute ma vie et que j’avais, jusque-là, cherché en vain à trouver.</p>
-      <p>C’est que, voyez-vous, pour la toute première fois de ma vie, j’étais complètement dans le bain, je jouais le vrai jazz authentique, et c’était ça, pas Chicago, ni Dixieland, pas le swing ni le jump, pas Debussy ni Ravel, mais le jazz, primitif, simple, direct, trépidant et envoûtant. Toute ma vie, j’avais ardemment désiré jouer ainsi et toute ma vie j’avais tellement eu peur de ne pas y arriver (même lors des enregistrements Panassié), que je m’étais dérobé, que j’avais toujours pris des chemins détournés afin de ne pas avoir à affronter l’obstacle et risquer de manquer mon coup, et tous mes malheurs, mes complexes, mes ratages et mes écarts, étaient venus de cette crainte et de ces dérobades. Maintenant, je n’avais plus peur. Toutes mes aventures passées prenaient subitement un sens, s’inscriraient à leur place dans le tableau&nbsp;: la prison, l’éternel refrain du claque-dents, la plongée dans le néant de l’opium, les nerfs malades, les évasions à la marihuana, la vie des bas-fonds. C’est tout cela qui avait constitué mon éducation, ma formation, jusqu’à ce que je sois suffisamment meurtri, maté, groggy, pour être à même de reconnaître et d’assimiler le langage de La Nouvelle-Orléans grâce auquel je pouvais m’exprimer. Ces vingt années de lutte et de coups durs m’avaient modelé les doigts au point que je pouvais maintenant chatouiller ma clarinette et en tirer le seul langage de l’univers qui me permettrait de dire ce que j’avais à dire.</p>
-      <p>Et savez-vous ce que j’avais à dire&nbsp;? Quelque chose de très simple&nbsp;: la vie est belle, il fait bon vivre&nbsp;! Qu’importent la faim, les coups de pied au cul et les coups de matraque sur la tête, qu’importe si la lutte est dure, il fait bon vivre, vieux frère&nbsp;! Il avait fallu que j’en rote, et vachement, avant de comprendre. Les Noirs, eux, tout frais dégagés de trois cents ans d’esclavage – toujours les parias méprisés de la nation en dépit de leur soi-disante émancipation – avaient compris depuis belle lurette, et quarante ou cinquante ans auparavant, ils avaient créé une musique révolutionnaire pour clamer ce message au monde. Voilà ce que le style Nouvelle-Orléans célébrait en réalité&nbsp;: le triomphe de tout ce qui vit, respire, joue des biceps, cligne de l’œil et se lèche les babines en dépit des saloperies du monde. C’était un défi aux pompes funèbres, un refus de se laisser abattre, une réaction obstinée, un cri de louange à l’appareil circulatoire, un hosanna aux glandes sudoripares, un hymne aux entrailles qui braillent quand elles sont vides. Alleluia&nbsp;! Le soleil luit&nbsp;! Gloire au pouls tout-puissant&nbsp;! On se laissera pas supprimer&nbsp;! On est là et on tient bon – on ne reconnaît pas vos arrêtés d’expulsion de cette bonne vieille terre. L’esprit est toujours en nous, et y a pas, faut que ça barde&nbsp;! On va expliquer tout ça avec notre belle musique… Je savais maintenant ce que j’avais à dire sur mon biniou&nbsp;; je possédais à fond mon vocabulaire Nouvelle-Orléans et la manière de m’en servir. Jimmy Noone, Johnny Dodds et Sidney Bechet l’avaient en eux depuis toujours, et à présent ils étaient dans ma peau et actionnaient mes doigts, pour que je sorte ce que j’avais à sortir.</p>
-      <p>Oui, c’est à cette seconde-là que j’ai sauté de la galère où je me débattais moralement pour trouver ma vraie voie et voir enfin fondre mon fardeau de misère.</p>
-      <p class="hi-credit">— Milton Mezzrow &amp; Bernard Wolfe, <em>La Rage de Vivre</em> (<em>Really the Blues</em>, 1946) · chap. «&nbsp;Hors de la galère&nbsp;», p.&nbsp;422–424</p>
-    </div>
-</div>
-</div>
 
 <section class="page" aria-label="Page 15" data-folio="15" data-panneau-page="src-p15" data-cote="d">
   <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 </section>
 
 <section class="page" aria-label="Page 16" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957">
   <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-12.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
 <button type="button" class="p16-cercle" id="p16-cercle" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
 <figure class="p16-pochette" id="p16-pochette" hidden>
   <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
@@ -532,7 +543,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="diptique-pano" id="dip-absence">
 <section class="page" aria-label="Page 17" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
   <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit"></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit"></div>
 </section>
 <section class="page diptique-droite" aria-label="Page 17 (suite)" data-folio="17b">
   <picture><source srcset="assets/images/absence-r.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-r.jpg" alt=""></picture>
@@ -561,17 +572,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 18" data-folio="18">
   <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
   <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit"></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit"></div>
 </section>
 
 <section class="page" aria-label="Page 19" data-folio="19">
   <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Roy DeCarava</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Roy DeCarava</div>
 </section>
 
 <section class="page" aria-label="Page 20" data-folio="20">
   <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit">Roy DeCarava</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Roy DeCarava</div>
 </section>
 </main>
 
@@ -601,11 +612,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="panneau-source" id="src-p9" data-titre="1940" hidden>
 <p>En 1940, il est arrêté à l’entrée d’un club avec une soixantaine de joints sur lui. En prison, il exige d’être traité comme un Noir et obtient son transfert dans la section noire — c’est de là que sortira la scène centrale du livre, celle de la parade.</p>
 <p>Il a épousé Johnnie Mae, une femme noire&nbsp;; il vit à Harlem&nbsp;; il s’est déclaré «&nbsp;voluntary negro&nbsp;» sur sa carte de conscription. Il ne joue pas à être noir&nbsp;: il est convaincu d’avoir «&nbsp;traversé la ligne&nbsp;» pour de bon.</p>
-<p>Et au moment précis où il s’enfonce ainsi dans le passé du jazz, à quelques rues de là, sans lui, le jazz invente déjà son avenir. Dans les jam sessions du Minton’s Playhouse, Dizzy Gillespie, Charlie Parker, Thelonious Monk élaborent le bebop&nbsp;: tempos infernaux, grilles d’accords retournées, harmonie saturée au point qu’un intrus ne peut plus suivre. Une virtuosité conçue comme un mur — substitutions tritoniques, II-V-I démultipliés, changements de ton imprévisibles. Le but est explicite&nbsp;: décourager ceux qui viennent s’asseoir et récupérer le jazz sans en payer le prix. On ne fait plus danser, on revendique. La complexité devient une arme, une frontière, une manière de dire le coût, l’origine, l’adresse précise de la musique, une lutte contre l’appropriation des producteurs blancs. Le jazz est-il encore une musique de danse&nbsp;?</p>
+<p>Et au moment précis où il s’enfonce ainsi dans le passé du jazz, à quelques rues de là, sans lui, le jazz invente déjà son avenir. Dans les jam sessions du Minton’s Playhouse, <span class="lien-switch">Dizzy Gillespie, Charlie Parker, Thelonious Monk élaborent le bebop</span><span class="lien-switch-note">♪ le bouton sur l’image bascule entre les deux versions</span>&nbsp;: tempos infernaux, grilles d’accords retournées, harmonie saturée au point qu’un intrus ne peut plus suivre. Une virtuosité conçue comme un mur — substitutions tritoniques, II-V-I démultipliés, changements de ton imprévisibles. Le but est explicite&nbsp;: décourager ceux qui viennent s’asseoir et récupérer le jazz sans en payer le prix. On ne fait plus danser, on revendique. La complexité devient une arme, une frontière, une manière de dire le coût, l’origine, l’adresse précise de la musique, une lutte contre l’appropriation des producteurs blancs. Le jazz est-il encore une musique de danse&nbsp;?</p>
 <p><em>Really the Blues</em> paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, <em>La Rage de vivre</em>, paraît en 1950 aux éditions Corrêa, préfacée par Henry Miller. Le livre tombe à la charnière exacte&nbsp;: Mezz écrit le monument du jazz des origines au moment même où cette musique-là est déjà dépassée, où le bebop a tout renversé. Et le livre se méfie de lui-même&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», où il soutient que l’entertainer noir «&nbsp;authentique&nbsp;», fétichisé pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, pour partie, une image fabriquée par le regard blanc — et Mezz en est producteur autant que consommateur.</p>
 </div>
 <div class="panneau-source" id="src-p10" data-titre="1950" hidden>
-<p>À partir de là, deux tempos se séparent. Celui de Mezz s’arrête&nbsp;: après-guerre, il se fige en gardien d’un jazz «&nbsp;pur&nbsp;», celui de la Nouvelle-Orléans et de Chicago, et combat le bebop qu’il juge décadent. Il joue au festival de Nice en 1948, s’installe en France, monte des orchestres avec des musiciens français comme Claude Luter, enregistre à Paris. L’autre tempo, celui de la musique, continue sans lui&nbsp;: le modal ouvre les grilles et troque la course harmonique contre des nappes (Miles, <em>Kind of Blue</em>), le hard bop durcit le bebop d’un retour au blues et au gospel (Mingus) — et, par l’improvisation collective, retrouve par l’autre bout la polyphonie de la Nouvelle-Orléans, mais codifiée à l’extrême. Et cette avancée n’est pas que formelle&nbsp;: elle est politique.</p>
+<p>À partir de là, deux tempos se séparent. Celui de Mezz s’arrête&nbsp;: après-guerre, il se fige en gardien d’un jazz «&nbsp;pur&nbsp;», celui de la Nouvelle-Orléans et de Chicago, et combat le bebop qu’il juge décadent. Il joue au festival de Nice en 1948, s’installe en France&nbsp;; Paris devient sa résidence permanente pour ses vingt dernières années. Il monte des orchestres avec des musiciens français comme Claude Luter, enregistre à Paris. L’autre tempo, celui de la musique, continue sans lui&nbsp;: le modal ouvre les grilles et troque la course harmonique contre des nappes (Miles, <em>Kind of Blue</em>), le hard bop durcit le bebop d’un retour au blues et au gospel (Mingus) — et, par l’improvisation collective, retrouve par l’autre bout la polyphonie de la Nouvelle-Orléans, mais codifiée à l’extrême. Et cette avancée n’est pas que formelle&nbsp;: elle est politique.</p>
 <p>Dans l’Amérique des années 1950 et 1960 — les marches, les bus boycottés, les droits civiques — la musique se fait revendication&nbsp;: fierté noire, colère, affirmation d’une appartenance que personne d’autre n’a le droit de signer (Mingus, Max Roach, le Coltrane d’<em>Alabama</em>, Coleman). En 1957, Baldwin écrivait <em>Sonny’s Blues</em>.</p>
 </div>
 <div class="panneau-source" id="src-p11" data-titre="1960" hidden>
@@ -679,8 +690,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       HOT="assets/audio/hot-house-1948.mp3", BOO="assets/audio/boogie-stop-shuffle-1959.mp3",
       BBB="assets/audio/bye-bye-blackbird-1960.mp3", ALLB="assets/audio/all-blues-1959.mp3",
       DRM="assets/audio/darn-that-dream-monk.mp3", REINC="assets/audio/reincarnation-of-a-lovebird-1957.mp3",
-      BBBSOLO="assets/audio/bye-bye-blackbird-coltrane-1960.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO };
+      BBBSOLO="assets/audio/bye-bye-blackbird-coltrane-1960.mp3",
+      MEZZ="assets/audio/mezz-mineur-avec-un-pont.mp3";
+  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO, "EMB:MEZZ":MEZZ };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -688,7 +700,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="", gesteActif=false;
   var VOL=0.72;
-  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.84,"EMB:WHAT":0.56,"EMB:HOT":0.82,"EMB:BOO":0.6,"EMB:BBB":0.82,"EMB:ALLB":0.78,"EMB:DRM":0.7,"EMB:REINC":0.7,"EMB:BBBSOLO":0.82};
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.84,"EMB:WHAT":0.56,"EMB:HOT":0.82,"EMB:BOO":0.6,"EMB:BBB":0.82,"EMB:ALLB":0.78,"EMB:DRM":0.7,"EMB:REINC":0.7,"EMB:BBBSOLO":0.82,"EMB:MEZZ":0.8};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -874,17 +886,19 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   function creerSwitchAB(opts){
     var page=opts.page, mount=opts.mount;
     if(!page||!mount) return;
-    var faces={A:opts.faceA, B:opts.faceB};
-    var courF=(opts.defaut==='B')?'B':'A';
-    function piste(f){ return f.titre+' — '+f.artiste+', '+f.annee; }
-    mount.innerHTML=
-      '<div class="ab-toggle" role="group" aria-label="Choix de version">'+
-        '<button type="button" class="ab-pos" data-face="A">'+faces.A.lib+'</button>'+
-        '<span class="ab-knob" aria-hidden="true"></span>'+
-        '<button type="button" class="ab-pos" data-face="B">'+faces.B.lib+'</button>'+
-      '</div>'+
-      '<div class="ab-meta"></div>'+
-      (opts.legende?('<div class="ab-legende">'+opts.legende+'</div>'):'');
+    var faces={A:opts.faceA, B:opts.faceB}; if(opts.faceC) faces.C=opts.faceC;
+    var ordre=Object.keys(faces);          /* ['A','B'] ou ['A','B','C'] */
+    var trio=ordre.length>=3;
+    var courF=(opts.defaut && faces[opts.defaut])?opts.defaut:'A';
+    function piste(f){ return f.titre+' — '+f.artiste+(f.annee?(', '+f.annee):''); }
+    mount.classList.toggle('ab-switch--trio', trio);
+    var html='<div class="ab-toggle" role="group" aria-label="Choix de version">';
+    ordre.forEach(function(k,i){
+      html+='<button type="button" class="ab-pos" data-face="'+k+'">'+faces[k].lib+'</button>';
+      if(!trio && i===0) html+='<span class="ab-knob" aria-hidden="true"></span>'; /* curseur : mode 2 faces seulement */
+    });
+    html+='</div><div class="ab-meta"></div>'+(opts.legende?('<div class="ab-legende">'+opts.legende+'</div>'):'');
+    mount.innerHTML=html;
     mount.removeAttribute('hidden');
     var meta=mount.querySelector('.ab-meta');
     var boutons=[].slice.call(mount.querySelectorAll('.ab-pos'));
@@ -894,13 +908,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       boutons.forEach(function(b){ var on=b.getAttribute('data-face')===courF; b.classList.toggle('actif',on); b.setAttribute('aria-pressed',on?'true':'false'); });
     }
     function appliquer(nf, jouer){
-      if(nf!=='A'&&nf!=='B') return;
-      if(nf===courF) return;          /* déjà sur cette face */
-      var autre=faces[courF==='A'?'B':'A'];
+      if(!faces[nf] || nf===courF) return;
       courF=nf; var f=faces[nf];
-      /* coupe immédiate de l'autre piste → jamais de superposition */
-      var ancSrc=SRC[autre.key]||autre.key, pp=pistes[ancSrc];
-      if(pp){ pp.cible=0; if(pp.audio && !pp.audio.paused){ try{pp.audio.pause();}catch(e){} } }
+      /* coupe immédiate de TOUTES les autres faces → jamais de superposition */
+      ordre.forEach(function(k){
+        if(k===nf) return;
+        var s=SRC[faces[k].key]||faces[k].key, pp=pistes[s];
+        if(pp){ pp.cible=0; if(pp.audio && !pp.audio.paused){ try{pp.audio.pause();}catch(e){} } }
+      });
       page.setAttribute('data-son', f.key);
       page.setAttribute('data-piste', piste(f));
       assure(SRC[f.key]||f.key);
@@ -912,10 +927,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     page.setAttribute('data-son', faces[courF].key);
     page.setAttribute('data-piste', piste(faces[courF]));
     rendre();
-    /* préchargement discret de la face B à l'approche de la page */
+    /* préchargement discret des autres faces à l'approche de la page */
     if('IntersectionObserver' in window){
       var io=new IntersectionObserver(function(ents){
-        ents.forEach(function(e){ if(e.isIntersecting){ assure(SRC[faces.B.key]||faces.B.key); io.disconnect(); } });
+        ents.forEach(function(e){ if(e.isIntersecting){ ordre.forEach(function(k){ if(k!==courF) assure(SRC[faces[k].key]||faces[k].key); }); io.disconnect(); } });
       },{rootMargin:'300px'});
       io.observe(page);
     }
@@ -1432,9 +1447,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   (function(){            // switch Modal/Hard bop sur la page 10 (1950) — démarre sur le modal
     var p10=document.querySelector('[data-folio="10"]'), m10=document.getElementById('ab-p10');
     if(p10&&m10) creerSwitchAB({
-      page:p10, mount:m10, legende:'Deux sorties du bebop', defaut:'A',
+      page:p10, mount:m10, legende:'Deux sorties du bebop — et Mezz, resté en arrière', defaut:'A',
       faceA:{key:'EMB:ALLB', lib:'Modal',    titre:'All Blues', artiste:'Miles Davis', annee:1959},
-      faceB:{key:'EMB:BOO',  lib:'Hard bop', titre:'Boogie Stop Shuffle', artiste:'Charles Mingus', annee:1959}
+      faceB:{key:'EMB:BOO',  lib:'Hard bop', titre:'Boogie Stop Shuffle', artiste:'Charles Mingus', annee:1959},
+      faceC:{key:'EMB:MEZZ', lib:'Mezz',     titre:'Mineur Avec Un Pont', artiste:'Mezz Mezzrow'}
     });
   })();
   (function(){            // page 16 : cercle sur le visage → pochette + Reincarnation (silence avant le geste)
