@@ -119,33 +119,38 @@ img.abs{display:block;}
 .p16-pochette figcaption{margin-top:calc(var(--u)*3);color:var(--jaune);text-align:right;display:flex;flex-direction:column;gap:calc(var(--u)*1);
   font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.9;text-shadow:0 0 2px rgba(0,0,0,.6);}
 
-/* ── double page 13-14 : révélation argentique du texte (Hart's Island) ── */
-/* cercle blanc pulsant sur le visage du jeune homme (page 14) — rond, pas ovale */
+/* ── double page 13-14 : révélation du texte de Hart's Island (typo du dossier) ── */
+#dip-1314{position:relative;}
+/* cercle blanc pulsant sur le visage du jeune homme (page 14) — rond */
 .hi-cercle{position:absolute;left:69%;top:48%;width:calc(var(--u)*52);height:calc(var(--u)*52);
-  transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:33;padding:0;
+  transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:35;padding:0;
   border:calc(var(--u)*1) solid rgba(255,255,255,.7);box-shadow:0 0 0 0 rgba(255,255,255,.4);
-  animation:hipulse 2.5s cubic-bezier(.4,0,.6,1) infinite;transition:opacity .5s;}
+  animation:hipulse 2.5s cubic-bezier(.4,0,.6,1) infinite;transition:opacity .6s;}
 .hi-cercle:hover{border-color:#fff;}
 @keyframes hipulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5);}
   70%{box-shadow:0 0 0 calc(var(--u)*14) rgba(255,255,255,0);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
-.diptique-droite.revele .hi-cercle{opacity:0;pointer-events:none;animation:none;}
-/* la photo vire au négatif chaud pendant la révélation */
-.diptique-droite img.fond{transition:filter .25s ease;}
-.diptique-droite.revele img.fond{filter:grayscale(1) brightness(1.4);}
-/* calque texte = l'image révélée, balayage haut→bas (tirage argentique) */
-.hi-revele{position:absolute;inset:0;z-index:34;opacity:0;pointer-events:none;transition:opacity .3s;}
-.diptique-droite.revele .hi-revele{opacity:1;pointer-events:auto;cursor:pointer;}
-.hi-papier{position:absolute;inset:0;overflow:auto;background-color:#f5f0e6;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  clip-path:inset(0 0 100% 0);transition:clip-path 1s cubic-bezier(.25,.1,.1,1);}
-.diptique-droite.revele .hi-papier{clip-path:inset(0 0 0 0);}
-.hi-corps{padding:calc(var(--u)*24) calc(var(--u)*22) calc(var(--u)*30);color:#1a1a1a;
-  font-family:Georgia,'Times New Roman',serif;font-size:calc(var(--u)*4.3);line-height:1.65;text-align:justify;hyphens:auto;}
-.hi-corps p{margin:0 0 calc(var(--u)*5.5);}
-.hi-corps p:first-child::first-letter{font-size:calc(var(--u)*16);float:left;line-height:.82;padding:calc(var(--u)*1.5) calc(var(--u)*2) 0 0;font-weight:600;}
-.hi-credit{font-style:italic;font-size:calc(var(--u)*3.7);text-align:right;opacity:0;margin-top:calc(var(--u)*7);
-  transition:opacity .6s ease .4s;}
-.diptique-droite.revele .hi-credit{opacity:.72;}
+#dip-1314.revele .hi-cercle{opacity:0;pointer-events:none;animation:none;}
+/* les DEUX photos reculent lentement et ensemble (le texte émerge de l'intérieur) */
+#dip-1314 img.fond{transition:filter 1.9s cubic-bezier(.4,0,.2,1), transform 1.9s cubic-bezier(.4,0,.2,1);}
+#dip-1314.revele img.fond{filter:brightness(.24) grayscale(.5) contrast(1.04);transform:scale(1.055);}
+/* calque texte sur toute la double page, voile sombre dans l'esprit du dossier */
+.hi-revele{--u:calc(var(--pw)/595.276);position:absolute;inset:0;z-index:34;
+  background:radial-gradient(120% 120% at 50% 50%, rgba(8,8,8,.55), rgba(8,8,8,.78));
+  opacity:0;pointer-events:none;transition:opacity 1.9s ease;}
+#dip-1314.revele .hi-revele{opacity:1;pointer-events:auto;cursor:pointer;}
+/* corps : typo du dossier (Helvetica Black, jaune), mise en page paysage en colonnes */
+.hi-corps{box-sizing:border-box;height:100%;overflow:hidden;
+  padding:calc(var(--u)*30) calc(var(--u)*40);color:var(--jaune);font-family:inherit;font-weight:900;
+  font-size:calc(var(--u)*4.05);line-height:1.5;letter-spacing:.005em;text-align:justify;
+  column-count:3;column-gap:calc(var(--u)*30);column-fill:balance;
+  text-shadow:0 0 calc(var(--u)*3) rgba(0,0,0,.55);
+  opacity:0;filter:blur(calc(var(--u)*3.4));transform:scale(1.035);
+  transition:opacity 1.9s ease, filter 1.9s ease, transform 1.9s cubic-bezier(.2,.6,.2,1);}
+#dip-1314.revele .hi-corps{opacity:1;filter:blur(0);transform:scale(1);}
+.hi-corps p{margin:0 0 calc(var(--u)*5);break-inside:avoid-column;}
+.hi-credit{column-span:all;margin-top:calc(var(--u)*6);text-align:right;
+  font-size:calc(var(--u)*3.1);font-weight:900;letter-spacing:.05em;opacity:.7;}
+@media(max-width:760px){ .hi-corps{column-count:1;font-size:calc(var(--u)*4.6);overflow:auto;} }
 
 /* photos de couverture (apparition au démarrage du son) */
 .cv-photo{position:fixed;top:50%;z-index:44;width:min(240px, 17vw);
@@ -461,7 +466,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<div class="diptique-pano">
+<div class="diptique-pano" id="dip-1314">
 <section class="page" aria-label="Page 13" data-folio="13">
   <picture><source srcset="assets/images/img-5.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-5.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit"></div>
@@ -470,9 +475,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit"></div>
 <button type="button" class="hi-cercle" id="hi-cercle" aria-label="Révéler le texte de Hart’s Island"></button>
+</section>
 <div class="hi-revele" id="hi-revele" aria-hidden="true">
-  <div class="hi-papier">
-    <div class="hi-corps">
+  <div class="hi-corps">
       <p>Et brusquement, par un bel après-midi, ce fut l’explosion. Sur le papier, ça n’aura peut-être pas l’air de grand-chose, d’ailleurs. Nous marchions tous ensemble en jouant ce vieil air pompier&nbsp;: Notre directeur et le professeur s’était arrêté pour parler au gardien tandis que nous poursuivions notre marche à travers l’île. Nous passons devant la centrale électrique, où travaillait la 9<sup>e</sup> Division, entièrement composée de Noirs, et tous accourent comme d’habitude, pour nous écouter.</p>
       <p>À la seule idée qu’on paradait tout l’après-midi pendant que ces gars-là se crevaient le cul, je me faisais l’effet d’un minable, d’un fils à papa, d’une lavette, et il fallait que je me justifie d’une manière ou d’une autre, alors je m’appliquais à mettre dans mes mouvements le plus possible de rythme et de souplesse, sans avoir l’air maniéré ni prétentieux.</p>
       <p>Nous défilons donc, et voilà qu’au tempo frénétique de la marche, je me sens devenir léger, aérien, et quand nous arrivons près de la centrale, en vue de tous les copains, je me dis, tant pis, je brise mes chaînes et je me lance à fond. J’étais tendu, surexcité, comme si que je m’apprêtais à cambrioler une banque. J’oublie complètement la partition du professeur et je me mets à improviser. Et alors, bon Dieu, me voilà parti comme en rêve, dans une espèce d’état second, où il me semblait que mon corps libéré évoluait tout seul, où mes doigts volaient sur les touches sans le moindre effort de ma part, comme si quelqu’un avait pris ma place et commandé à tous mes muscles et que je n’aie eu qu’à suivre et me laisser aller, certain que tout était pour le mieux. J’éprouvais cette sorte d’exaltation sereine, insensée, dont parlent les croyants et qui les fait prendre pour des cinglés. Et c’était exactement, à un iota près, la même exaltation sereine que celle que j’éprouvais enfant, en entendant la musique de La Nouvelle-Orléans, cette musique qui m’a hanté toute ma vie et que j’avais, jusque-là, cherché en vain à trouver.</p>
@@ -481,9 +486,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       <p>Oui, c’est à cette seconde-là que j’ai sauté de la galère où je me débattais moralement pour trouver ma vraie voie et voir enfin fondre mon fardeau de misère.</p>
       <p class="hi-credit">— Milton Mezzrow &amp; Bernard Wolfe, <em>La Rage de Vivre</em> (<em>Really the Blues</em>, 1946) · chap. «&nbsp;Hors de la galère&nbsp;», p.&nbsp;422–424</p>
     </div>
-  </div>
 </div>
-</section>
 </div>
 
 <section class="page" aria-label="Page 15" data-folio="15">
@@ -1397,17 +1400,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       io.observe(p16);
     }
   })();
-  (function(){            // page 14 : révélation argentique du texte (Hart's Island) — pas de son
-    var p14=document.querySelector('[data-folio="14"]');
+  (function(){            // double page 13-14 : révélation du texte (Hart's Island) sur tout le diptyque — pas de son
+    var dip=document.getElementById('dip-1314');
     var cercle=document.getElementById('hi-cercle'), texte=document.getElementById('hi-revele');
-    if(!p14||!cercle||!texte) return;
+    if(!dip||!cercle||!texte) return;
     cercle.addEventListener('click',function(e){
       e.stopPropagation();
-      p14.classList.add('revele'); texte.setAttribute('aria-hidden','false');
-      var papier=texte.querySelector('.hi-papier'); if(papier) papier.scrollTop=0;
+      dip.classList.add('revele'); texte.setAttribute('aria-hidden','false');
+      var corps=texte.querySelector('.hi-corps'); if(corps) corps.scrollTop=0;
     });
     texte.addEventListener('click',function(){
-      p14.classList.remove('revele'); texte.setAttribute('aria-hidden','true');
+      dip.classList.remove('revele'); texte.setAttribute('aria-hidden','true');
     });
   })();
   buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
