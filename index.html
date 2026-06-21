@@ -139,18 +139,18 @@ img.abs{display:block;}
   background:radial-gradient(130% 130% at 50% 50%, rgba(6,6,6,.6), rgba(6,6,6,.88));
   opacity:0;pointer-events:none;transition:opacity 1.9s ease;}
 #dip-1314.revele .hi-revele{opacity:1;pointer-events:auto;cursor:pointer;}
-/* corps : typo du dossier (Helvetica Black, jaune), 3 colonnes sur toute la double page */
-.hi-corps{--u2:calc(var(--pw)/420);box-sizing:border-box;width:91%;max-height:90%;overflow:hidden;
-  padding:calc(var(--u2)*9) calc(var(--u2)*14);color:var(--jaune);font-family:inherit;font-weight:900;
-  font-size:calc(var(--u2)*4.4);line-height:1.46;letter-spacing:.005em;text-align:justify;
-  column-count:3;column-gap:calc(var(--u2)*20);column-fill:balance;
+/* corps : typo du dossier (Helvetica Black, jaune), 2 colonnes remplissant la double page */
+.hi-corps{--u2:calc(var(--pw)/420);box-sizing:border-box;width:92%;max-height:92%;overflow:hidden;
+  padding:calc(var(--u2)*10) calc(var(--u2)*16);color:var(--jaune);font-family:inherit;font-weight:900;
+  font-size:calc(var(--u2)*8.4);line-height:1.8;letter-spacing:.004em;text-align:justify;
+  column-count:2;column-gap:calc(var(--u2)*30);column-fill:balance;
   text-shadow:0 0 calc(var(--u2)*3) rgba(0,0,0,.6);
   opacity:0;filter:blur(calc(var(--u2)*3.2));transform:scale(1.032);
   transition:opacity 1.9s ease, filter 1.9s ease, transform 1.9s cubic-bezier(.2,.6,.2,1);}
 #dip-1314.revele .hi-corps{opacity:1;filter:blur(0);transform:scale(1);}
-.hi-corps p{margin:0 0 calc(var(--u2)*3.5);}
-.hi-credit{column-span:all;margin-top:calc(var(--u2)*5);text-align:right;
-  font-size:calc(var(--u2)*2.9);font-weight:900;letter-spacing:.05em;opacity:.65;}
+.hi-corps p{margin:0 0 calc(var(--u2)*5.5);}
+.hi-credit{column-span:all;margin-top:calc(var(--u2)*6);text-align:right;
+  font-size:calc(var(--u2)*4.4);font-weight:900;letter-spacing:.05em;opacity:.65;}
 @media(max-width:760px){ .hi-corps{column-count:1;font-size:calc(var(--u)*5);overflow:auto;width:92%;} }
 
 /* photos de couverture (apparition au démarrage du son) */
