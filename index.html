@@ -85,22 +85,24 @@ img.abs{display:block;}
 .ab-switch{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);z-index:30;
   display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.6);
   color:var(--jaune);text-align:center;text-shadow:0 0 2px rgba(0,0,0,.6);pointer-events:auto;}
-.ab-toggle{position:relative;display:inline-flex;align-items:center;gap:calc(var(--u)*3);
-  border:calc(var(--u)*0.8) solid var(--jaune);border-radius:999px;
-  padding:calc(var(--u)*2.4) calc(var(--u)*5);background:rgba(0,0,0,.38);}
+.ab-toggle{position:relative;display:inline-flex;align-items:center;gap:calc(var(--u)*4);
+  border:calc(var(--u)*0.9) solid var(--jaune);border-radius:999px;
+  padding:calc(var(--u)*3.2) calc(var(--u)*6.5);background:rgba(0,0,0,.4);margin-top:calc(var(--u)*9);}
 .ab-pos{background:none;border:none;cursor:pointer;color:var(--jaune);opacity:.45;font:inherit;
-  font-size:calc(var(--u)*7);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*1.5);
+  font-size:calc(var(--u)*8.4);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*2);
   transition:opacity .25s;}
 .ab-pos.actif{opacity:1;}
-.ab-knob{flex:none;width:calc(var(--u)*6);height:calc(var(--u)*6);border-radius:50%;
-  background:var(--jaune);transition:transform .28s ease;}
-.ab-switch[data-face="A"] .ab-knob{transform:translateX(calc(var(--u)*-1.4));}
-.ab-switch[data-face="B"] .ab-knob{transform:translateX(calc(var(--u)*1.4));}
+/* knob = pastille placée AU-DESSUS de la bascule, glisse vers la face active */
+.ab-knob{position:absolute;left:50%;top:calc(var(--u)*-8);flex:none;
+  width:calc(var(--u)*6.5);height:calc(var(--u)*6.5);border-radius:50%;background:var(--jaune);
+  box-shadow:0 0 calc(var(--u)*5) rgba(239,213,26,.6);transition:transform .28s ease;}
+.ab-switch[data-face="A"] .ab-knob{transform:translateX(calc(-50% - var(--u)*17));}
+.ab-switch[data-face="B"] .ab-knob{transform:translateX(calc(-50% + var(--u)*17));}
 .ab-meta{font-size:calc(var(--u)*5.4);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
 .ab-legende{font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.62;font-style:italic;}
 
 /* page 16 — cercle élégant autour du visage du Pierrot → déclenche la pochette + le son */
-.p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*92);height:calc(var(--u)*92);
+.p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*80);height:calc(var(--u)*106);
   transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:32;
   border:calc(var(--u)*1) solid rgba(239,213,26,.78);box-shadow:0 0 calc(var(--u)*7) rgba(239,213,26,.28);
   animation:p16pulse 2.8s ease-in-out infinite;transition:opacity .4s;padding:0;}
@@ -109,7 +111,7 @@ img.abs{display:block;}
 @keyframes p16pulse{0%,100%{box-shadow:0 0 calc(var(--u)*6) rgba(239,213,26,.2);transform:translate(-50%,-50%) scale(1);}
   50%{box-shadow:0 0 calc(var(--u)*13) rgba(239,213,26,.45);transform:translate(-50%,-50%) scale(1.05);}}
 /* pochette « The Clown » révélée en marge, sous le crédit audio (haut-droite) */
-.p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*70);z-index:46;margin:0;width:min(180px,14vw);
+.p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*100);z-index:46;margin:0;width:min(240px,18vw);
   opacity:0;transform:translateY(calc(var(--u)*6));transition:opacity .7s ease,transform .7s ease;pointer-events:none;}
 .p16-pochette.montre{opacity:1;transform:translateY(0);}
 .p16-pochette img{width:100%;display:block;border:calc(var(--u)*0.8) solid rgba(239,213,26,.5);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.5);}
@@ -584,7 +586,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="", gesteActif=false;
   var VOL=0.72;
-  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.78,"EMB:WHAT":0.56,"EMB:HOT":0.74,"EMB:BOO":0.6,"EMB:BBB":0.82,"EMB:ALLB":0.66,"EMB:DRM":0.7,"EMB:REINC":0.7};
+  var VOL_PISTES={"EMB:RTB":0.72,"EMB:FRIS":0.65,"EMB:MOOD":0.62,"EMB:STL":0.78,"EMB:DAY":0.84,"EMB:WHAT":0.56,"EMB:HOT":0.82,"EMB:BOO":0.6,"EMB:BBB":0.82,"EMB:ALLB":0.78,"EMB:DRM":0.7,"EMB:REINC":0.7};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
