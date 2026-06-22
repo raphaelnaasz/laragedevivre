@@ -59,6 +59,7 @@ img.abs{display:block;}
   border-bottom:1px dashed rgba(239,213,26,.6);line-height:calc(var(--u)*27);}
 .byline .lien-img.mezz-nom::after{content:"\2197";font-size:.62em;vertical-align:.45em;margin-left:.12em;opacity:.8;}
 .noms{font-size:calc(var(--u)*24);line-height:calc(var(--u)*36);letter-spacing:-0.022em;white-space:nowrap;}
+.credits-roles{font-size:calc(var(--u)*6.6);line-height:calc(var(--u)*10.4);letter-spacing:.02em;color:var(--jaune);opacity:.78;}
 .entete{position:absolute;left:calc(var(--u)*74.4);width:calc(var(--u)*446);height:calc(var(--u)*33.6);
   border:calc(var(--u)*2) solid var(--jaune);display:flex;align-items:center;justify-content:space-between;
   padding:0 calc(var(--u)*14);color:var(--jaune);font-size:calc(var(--u)*11);letter-spacing:.02em;text-shadow:0 0 1px rgba(0,0,0,.45);}
@@ -117,12 +118,9 @@ img.abs{display:block;}
   background:rgba(14,14,14,.42);color:var(--jaune);font:inherit;font-weight:900;cursor:pointer;
   border:calc(var(--u)*0.9) solid var(--jaune);border-radius:999px;
   padding:calc(var(--u)*4) calc(var(--u)*9);font-size:calc(var(--u)*6.4);letter-spacing:.05em;
-  text-transform:uppercase;backdrop-filter:blur(2px);box-shadow:0 0 0 0 rgba(239,213,26,.5);
-  animation:armpulse 2.6s cubic-bezier(.4,0,.6,1) infinite;transition:opacity .5s,transform .5s;}
+  text-transform:uppercase;backdrop-filter:blur(2px);transition:background .35s ease,color .35s ease;}
 .armstrong-btn:hover{background:rgba(14,14,14,.62);}
-@keyframes armpulse{0%{box-shadow:0 0 0 0 rgba(239,213,26,.45);}
-  70%{box-shadow:0 0 0 calc(var(--u)*16) rgba(239,213,26,0);}100%{box-shadow:0 0 0 0 rgba(239,213,26,0);}}
-.armstrong-btn.joue{opacity:0;pointer-events:none;animation:none;transform:translate(-50%,-50%) scale(.9);}
+.armstrong-btn.joue{background:var(--jaune);color:var(--noir);}
 
 /* page 16 — cercle élégant autour du visage du Pierrot → déclenche la pochette + le son */
 .p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*80);height:calc(var(--u)*106);
@@ -446,8 +444,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
     <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
     <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
-    <span class="nom-seq">Julia Baudet</span>
+    <span class="nom-seq nom-lien" data-bio="src-julia">Julia Baudet</span>
   </div>
+  <div class="abs credits-roles seq-cache" style="left:calc(var(--u)*78.5);top:calc(var(--u)*702);right:calc(var(--u)*30)">Raphaël Naasz — auteur, interprète, musicien<br>Margaux Eskenazi — mise en scène<br>Julia Baudet — assistante à la mise en scène</div>
   <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
 </section>
 
@@ -669,6 +668,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <p>En 2016, il co-met en scène avec Antoine Sarrasin « Blue Train », spectacle de théâtre musical d'après la Prose du Transsibérien de Blaise Cendrars, créé au Théâtre de l'Étoile du Nord à l'invitation de Sarah Tick. La même année, il fait un passage par le cinéma d'auteur avec « L'amant d'un jour » de Philippe Garrel.</p>
   <p>Au théâtre, il joue dans « Lourdes » de Paul Toucang (Théâtre National de la Colline, 2017) et « Les Bacchantes » d'Euripide, mises en scène par Marcus Borja, dont le travail repose sur le chœur et la voix (2017). En 2019, il rejoint Margaux Eskenazi pour « Et le Cœur Fume Encore ». Il est Hippolyte dans « Phèdre » (2020) puis Treplev dans « La Mouette » (2022), deux mises en scène de Brigitte Jacques-Wajeman au Théâtre de la Ville. Il retrouve Margaux Eskenazi pour « 1983 » (2023), puis pour « Kaddish, la femme chauve en peignoir rouge », créé au Théâtre Gérard Philipe de Saint-Denis en avril 2026.</p>
   <p>Il réalise en 2022 un premier court métrage, « Hémisphère », et se forme au montage vidéo. Il développe aujourd'hui « La Rage de Vivre », un solo de théâtre musical autour du jazz, qui prolonge le travail amorcé avec « Blue Train ».</p>
+  <p>Raphaël Naasz est interprète dans <em>Kaddish, la femme chauve en peignoir rouge</em> (Cie Nova, création 2026). <em>La Rage de Vivre</em> espère prolonger, en solo, certaines questions de ce cycle — mémoire, judéité, légitimité — déplacées vers le jazz.</p>
 </div>
 <div class="panneau-source" id="src-margaux" data-titre="Margaux Eskenazi" hidden>
   <figure><img src="assets/images/margaux-eskenazi.jpg" alt="Margaux Eskenazi" data-cap="Margaux Eskenazi"><figcaption>Margaux Eskenazi</figcaption></figure>
@@ -676,6 +676,14 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <p>Entre 2016 et 2023, elle a développé un triptyque "Écrire en pays dominé" consacré aux amnésies coloniales et aux poétiques de la décolonisation&nbsp;: <em>Nous sommes de ceux qui disent non à l'ombre, Et le cœur fume encore, 1983.</em> Au printemps 2021, Margaux Eskenazi crée <em>Gilles ou qu'est-ce qu'un samouraï</em>, à partir de la conférence de Gilles Deleuze, <em>Qu'est-ce que l'acte de création&nbsp;?</em></p>
   <p>En janvier 2024, elle crée <em>Si Vénus avait su</em>, spectacle en lieux non-dédiés, sur une commande du théâtre de la Poudrerie (Sevran) consacré aux socio-esthéticiennes. Elle crée également le spectacle de sortie de la Belle Troupe en juin 2024 au Théâtre de Nanterre-Amandiers, <em>Kaddish-mémoires</em> autour de la littérature d'Imre Kertész. A l'été 2025, Margaux Eskenazi a créé un spectacle consacré aux jeunes filles du Bon Pasteur pour la 17<sup>e</sup> édition du festival du Nouveau Théâtre Populaire.</p>
   <p>Pour la saison 2025-2026, Margaux Eskenazi a créé <em>Kaddish, la femme chauve en peignoir rouge</em> autour des identités juives en France aujourd'hui. Elle prépare un spectacle jeune public prévu à l'automne 2026 et adapte avec Julie Deliquet et Julie André <em>L'instruction</em> de Peter Weiss, prévu pour l'automne 2027 au Théâtre National de la Colline.</p>
+</div>
+<div class="panneau-source" id="src-julia" data-titre="Julia Baudet" hidden>
+  <figure><picture><source srcset="assets/images/julia-baudet.webp" type="image/webp"><img src="assets/images/julia-baudet.jpg" alt="Julia Baudet" data-cap="Julia Baudet"></picture><figcaption>Julia Baudet</figcaption></figure>
+  <p>Originaire d'Annecy, Julia Baudet s'installe à Paris à l'âge de 18 ans pour se former au théâtre. Elle étudie successivement à La Générale, au Studio Théâtral d'Ivry puis au Conservatoire du 14<sup>e</sup> arrondissement, avant de poursuivre sa formation à Londres au sein de Fourth Monkey Actor Training Company, dont elle sort diplômée en 2021.</p>
+  <p>Depuis son retour en France, elle collabore avec plusieurs compagnies théâtrales, notamment la compagnie La Tronçonneuse dirigée par Ambre Maton, la compagnie J'ai tué mon bouc dirigée par Louis Berthelémy, le collectif Les Assoiffés d'Azur, ainsi que la Compagnie des Méridiens. Avec cette dernière, elle participe à une tournée en milieu scolaire autour d'un texte contemporain consacré à la jeunesse, diffusée dans plusieurs établissements de l'Est de la France.</p>
+  <p>Entre 2024 et 2026, elle travaille avec Les Assoiffés d'Azur sur plusieurs formes inspirées de <em>Roméo et Juliette</em>, poursuivant ainsi son exploration de l'œuvre de Shakespeare. En 2026, elle participe avec la compagnie J'ai tué mon bouc à la création d'un cabaret élisabéthain mêlant théâtre et chanson, présenté notamment au Théâtre de la Barcarolle puis au Théâtre d'Hardelot.</p>
+  <p>Elle développe également une activité d'assistanat à la mise en scène, auprès de Louis Berthelémy sur <em>PLOUK(S)</em> en 2019 puis auprès de Christophe Montenez de la Comédie Française sur <em>Mondes possibles</em> en 2026.</p>
+  <p>En parallèle de son activité de comédienne, elle développe un travail de dessin et de peinture en autodidacte. Ses œuvres ont été exposées à Annecy, Paris et Londres. Elle participe également à l'organisation du Festival de Malaz à Annecy.</p>
 </div>
 
 <aside id="panneau-g" class="panneau" role="dialog" aria-modal="false">
