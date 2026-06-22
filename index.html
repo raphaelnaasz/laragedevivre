@@ -59,7 +59,8 @@ img.abs{display:block;}
   border-bottom:1px dashed rgba(239,213,26,.6);line-height:calc(var(--u)*27);}
 .byline .lien-img.mezz-nom::after{content:"\2197";font-size:.62em;vertical-align:.45em;margin-left:.12em;opacity:.8;}
 .noms{font-size:calc(var(--u)*24);line-height:calc(var(--u)*36);letter-spacing:-0.022em;white-space:nowrap;}
-.credits-roles{font-size:calc(var(--u)*6.6);line-height:calc(var(--u)*10.4);letter-spacing:.02em;color:var(--jaune);opacity:.78;}
+.credits-role{display:block;font-size:calc(var(--u)*6.6);line-height:calc(var(--u)*9);letter-spacing:.02em;color:var(--jaune);opacity:0;margin-bottom:calc(var(--u)*10);transition:opacity 1.6s ease;}
+.credits-role.seq-ok{opacity:.78;}
 .entete{position:absolute;left:calc(var(--u)*74.4);width:calc(var(--u)*446);height:calc(var(--u)*33.6);
   border:calc(var(--u)*2) solid var(--jaune);display:flex;align-items:center;justify-content:space-between;
   padding:0 calc(var(--u)*14);color:var(--jaune);font-size:calc(var(--u)*11);letter-spacing:.02em;text-shadow:0 0 1px rgba(0,0,0,.45);}
@@ -443,10 +444,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="abs byline" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)"><span class="seq-cache">D’après le roman de</span><br><span class="lien-img mezz-nom seq-cache" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br><span class="seq-cache">et Bernard Wolfe</span></div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
     <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
+    <span class="credits-role">auteur, interprète, musicien</span>
     <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
+    <span class="credits-role">mise en scène</span>
     <span class="nom-seq nom-lien" data-bio="src-julia">Julia Baudet</span>
+    <span class="credits-role">assistante à la mise en scène</span>
   </div>
-  <div class="abs credits-roles seq-cache" style="left:calc(var(--u)*78.5);top:calc(var(--u)*702);right:calc(var(--u)*30)">Raphaël Naasz — auteur, interprète, musicien<br>Margaux Eskenazi — mise en scène<br>Julia Baudet — assistante à la mise en scène</div>
   <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
 </section>
 
@@ -1041,10 +1044,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       }
     }, 6000);
 
-    // Étapes 4-6 — Raphaël, Margaux, Julia
-    setTimeout(function(){ if(nomSeqs[0]) nomSeqs[0].classList.add('seq-ok'); }, 9000);
-    setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); }, 11000);
-    setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); }, 13000);
+    // Étapes 4-6 — Raphaël, Margaux, Julia (+ rôle en même temps)
+    var roles=[].slice.call(document.querySelectorAll('.credits-role'));
+    setTimeout(function(){ if(nomSeqs[0]) nomSeqs[0].classList.add('seq-ok'); if(roles[0]) roles[0].classList.add('seq-ok'); }, 9000);
+    setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); if(roles[1]) roles[1].classList.add('seq-ok'); }, 11000);
+    setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); if(roles[2]) roles[2].classList.add('seq-ok'); }, 13000);
 
     // Étape 7 — SOUND ON + crédit + scroll rétabli (simultanément)
     setTimeout(function(){
@@ -1478,7 +1482,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(p10&&m10) creerSwitchAB({
       page:p10, mount:m10, legende:'Deux sorties du bebop, et Mezzrow.', defaut:'A',
       faceA:{key:'EMB:ALLB',  lib:'Modal',    titre:'All Blues', artiste:'Miles Davis', annee:1959},
-      faceB:{key:'EMB:SLEEP', lib:'Hard bop', titre:'The Sleeper', artiste:'Cannonball Adderley & John Coltrane', annee:1959},
+      faceB:{key:'EMB:BOO', lib:'Hard bop', titre:'Boogie Stop Shuffle', artiste:'Charles Mingus', annee:1959},
       faceC:{key:'EMB:MEZZ',  lib:'Mezz',     titre:'Mineur Avec Un Pont', artiste:'Mezz Mezzrow', credit:'Paris, France, May 20, 1955'}
     });
   })();
