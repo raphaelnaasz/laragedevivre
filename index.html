@@ -59,8 +59,8 @@ img.abs{display:block;}
   border-bottom:1px dashed rgba(239,213,26,.6);line-height:calc(var(--u)*27);}
 .byline .lien-img.mezz-nom::after{content:"\2197";font-size:.62em;vertical-align:.45em;margin-left:.12em;opacity:.8;}
 .noms{font-size:calc(var(--u)*24);line-height:calc(var(--u)*36);letter-spacing:-0.022em;white-space:nowrap;}
-.credits-role{display:block;font-size:calc(var(--u)*6.6);line-height:calc(var(--u)*9);letter-spacing:.02em;color:var(--jaune);opacity:0;margin-bottom:calc(var(--u)*10);transition:opacity 1.6s ease;}
-.credits-role.seq-ok{opacity:.78;}
+.credits-role{display:inline;font-size:calc(var(--u)*9.5);letter-spacing:.02em;color:var(--jaune);opacity:0;margin-left:calc(var(--u)*7);transition:opacity 1.6s ease;}
+.credits-role.seq-ok{opacity:.72;}
 .entete{position:absolute;left:calc(var(--u)*74.4);width:calc(var(--u)*446);height:calc(var(--u)*33.6);
   border:calc(var(--u)*2) solid var(--jaune);display:flex;align-items:center;justify-content:space-between;
   padding:0 calc(var(--u)*14);color:var(--jaune);font-size:calc(var(--u)*11);letter-spacing:.02em;text-shadow:0 0 1px rgba(0,0,0,.45);}
@@ -91,7 +91,7 @@ img.abs{display:block;}
   border:calc(var(--u)*0.9) solid var(--jaune);border-radius:999px;
   padding:calc(var(--u)*3.2) calc(var(--u)*6.5);background:rgba(0,0,0,.4);}
 .ab-pos{background:none;border:none;cursor:pointer;color:var(--jaune);opacity:.45;font:inherit;
-  font-size:calc(var(--u)*9.6);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*2);
+  font-size:calc(var(--u)*12);letter-spacing:.12em;text-transform:uppercase;padding:0 calc(var(--u)*3);
   transition:opacity .25s;}
 .ab-pos.actif{opacity:1;}
 /* knob = pastille entre les deux libellés, glisse vers la face active */
@@ -106,8 +106,8 @@ img.abs{display:block;}
   height:calc(var(--u)*1.1);background:var(--jaune);border-radius:999px;}
 /* page 9 : switch aligné sur la ligne de fracture verticale de l'image (~53 %) */
 #ab-p9{left:53%;}
-.ab-meta{font-size:calc(var(--u)*7.2);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
-.ab-legende{font-size:calc(var(--u)*6);letter-spacing:.04em;opacity:.62;font-style:italic;}
+.ab-meta{font-size:calc(var(--u)*9.5);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
+.ab-legende{font-size:calc(var(--u)*7.8);letter-spacing:.04em;opacity:.62;font-style:italic;}
 /* phrase de l'encadré reliée au switch (page 9 / 1940) */
 .lien-switch{color:var(--jaune);background:rgba(239,213,26,.12);
   box-shadow:0 0 0 calc(var(--u)*0.6) rgba(239,213,26,.28);border-radius:calc(var(--u)*1.2);
@@ -299,7 +299,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 .seq-cache{opacity:0;transition:opacity 2.5s ease;}
 .seq-cache.seq-ok{opacity:1;}
 /* noms sur page 1 : apparition individuelle */
-.nom-seq{display:block;opacity:0;transition:opacity 1.6s ease;}
+.nom-seq{display:inline;opacity:0;transition:opacity 1.6s ease;}
 .nom-seq.seq-ok{opacity:1;}
 /* lien bio sur les noms */
 .nom-lien{cursor:pointer;border-bottom:1px dashed rgba(239,213,26,.55);}
@@ -443,12 +443,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <div class="abs titre-en seq-cache" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
   <div class="abs byline" style="right:calc(var(--u)*30);left:auto;top:calc(var(--u)*452)"><span class="seq-cache">D’après le roman de</span><br><span class="lien-img mezz-nom seq-cache" data-img-ref="img-mezz-cv" data-cap="Mezz Mezzrow">Mezz Mezzrow</span><br><span class="seq-cache">et Bernard Wolfe</span></div>
   <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
-    <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span>
-    <span class="credits-role">auteur, interprète, musicien</span>
-    <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span>
-    <span class="credits-role">mise en scène</span>
-    <span class="nom-seq nom-lien" data-bio="src-julia">Julia Baudet</span>
-    <span class="credits-role">assistante à la mise en scène</span>
+    <span class="nom-seq nom-lien" data-bio="src-raph">Raphaël Naasz</span><span class="credits-role">auteur, interprète, musicien</span><br>
+    <span class="nom-seq nom-lien" data-bio="src-margaux">Margaux Eskenazi</span><span class="credits-role">mise en scène</span><br>
+    <span class="nom-seq nom-lien" data-bio="src-julia">Julia Baudet</span><span class="credits-role">assistante à la mise en scène</span>
   </div>
   <div class="cv-photo gauche seq-cache"><picture><source srcset="assets/images/img-mezz-cv.webp" type="image/webp"><img id="img-mezz-cv" data-cap="Mezz Mezzrow" src="assets/images/img-mezz-cv.jpg" alt="Mezz Mezzrow"></picture><div class="lg">Mezz Mezzrow</div></div>
 </section>
@@ -609,8 +606,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </main>
 
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
-<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.<br>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé à écouter cette musique comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
-<div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz – une musique aimée parce qu’il y a un manque derrière, une musique habitée plutôt que possédée – est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
+<div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.<br>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé par étudier la musique classique — le basson d’abord —, puis je me suis mis à écouter du jazz comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide. Cette musique ne s’est pas donnée tout de suite ; il a fallu y revenir, insister, pour progressivement la comprendre et enfin l’aimer.</p></div>
+<div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz — une musique aimée parce qu’il y a un manque derrière, habitée plutôt que possédée, atteinte seulement à force d’y revenir — est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
 <div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-p6" data-titre="UNE VIE" hidden>
 <p>Milton Mesirow, dit «&nbsp;Mezz Mezzrow&nbsp;» naît en 1899 sur le West Side de Chicago, dans une famille juive d’origine russe de la petite bourgeoisie. Il est envoyé à la maison de correction de Pontiac, dans l’Illinois. C’est là qu’il découvre le blues, et apprend la musique — d’abord en l’entendant chanté par les détenus noirs, puis en le jouant avec eux, au saxophone, dans l’orchestre mixte de la prison. C’est en jouant qu’il éprouve, pour la première fois, le sentiment d’être des leurs.</p>
@@ -821,7 +818,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
      q≥SON_QF : piste pleine · SON_Q1→SON_QF : fondu sortant ·
      SON_Q0→SON_Q1 : SILENCE atteignable · 0→SON_Q0 : fondu entrant.
      (Modèle robuste quand des pages non-sonores séparent deux morceaux.) */
-  var SON_QF=0.62, SON_Q1=0.40, SON_Q0=0.22;
+  var SON_QF=0.40, SON_Q1=0.20, SON_Q0=0.08;
 
   function prochaineSonore(idx){
     for(var j=idx+1;j<pages.length;j++){ if(pages[j].getAttribute('data-son')) return j; }
