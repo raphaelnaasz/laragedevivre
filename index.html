@@ -142,20 +142,6 @@ img.abs{display:block;}
 
 /* ── double page 13-14 : révélation du texte de Hart's Island (typo du dossier) ── */
 #dip-1314{position:relative;}
-/* cercle jaune pulsant qui auréole le visage du jeune homme (page 14) — rond, taille doublée */
-.hi-cercle{position:absolute;left:69%;top:48%;width:calc(var(--u)*165);height:calc(var(--u)*165);
-  transform:translate(-50%,-50%);border-radius:50%;background:transparent;cursor:pointer;z-index:35;padding:0;
-  border:calc(var(--u)*1.4) solid rgba(239,213,26,.78);box-shadow:0 0 0 0 rgba(239,213,26,.4);
-  animation:hipulse 2.5s cubic-bezier(.4,0,.6,1) infinite;transition:opacity .6s;}
-.hi-cercle:hover{border-color:var(--jaune);}
-@keyframes hipulse{0%{box-shadow:0 0 0 0 rgba(239,213,26,.5);}
-  70%{box-shadow:0 0 0 calc(var(--u)*18) rgba(239,213,26,0);}100%{box-shadow:0 0 0 0 rgba(239,213,26,0);}}
-#dip-1314.revele .hi-cercle{opacity:0;pointer-events:none;animation:none;}
-/* flèche fine et souple invitant au clic sur le cercle */
-.hi-fleche{position:absolute;left:38%;top:22%;width:calc(var(--u)*70);height:calc(var(--u)*70);
-  z-index:34;pointer-events:none;opacity:.82;animation:hifleche 3s ease-in-out infinite;transition:opacity .6s;}
-@keyframes hifleche{0%,100%{opacity:.5;}50%{opacity:.92;}}
-#dip-1314.revele .hi-fleche{opacity:0;animation:none;}
 /* les DEUX photos reculent lentement et ensemble (le texte émerge de l'intérieur) */
 #dip-1314 img.fond{transition:filter 1.9s cubic-bezier(.4,0,.2,1), transform 1.9s cubic-bezier(.4,0,.2,1);}
 #dip-1314.revele img.fond{filter:brightness(.24) grayscale(.5) contrast(1.04);transform:scale(1.055);}
@@ -164,7 +150,7 @@ img.abs{display:block;}
   display:flex;align-items:center;justify-content:center;
   background:radial-gradient(130% 130% at 50% 50%, rgba(6,6,6,.6), rgba(6,6,6,.88));
   opacity:0;pointer-events:none;transition:opacity 1.9s ease;}
-#dip-1314.revele .hi-revele{opacity:1;pointer-events:auto;cursor:pointer;}
+#dip-1314.revele .hi-revele{opacity:1;}
 /* corps : typo du dossier (Helvetica Black, jaune), 2 colonnes remplissant la double page */
 .hi-corps{--u2:calc(var(--pw)/420);box-sizing:border-box;width:92%;max-height:96%;overflow:hidden;
   padding:calc(var(--u2)*7) calc(var(--u2)*15);color:var(--jaune);font-family:inherit;font-weight:900;
@@ -496,11 +482,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page diptique-droite" aria-label="Page 5 (suite)" data-folio="14">
   <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
-<button type="button" class="hi-cercle" id="hi-cercle" aria-label="Révéler le texte de Hart’s Island"></button>
-<svg class="hi-fleche" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-  <path d="M8,10 C 30,18 52,34 78,66" fill="none" stroke="var(--jaune)" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M78,66 L68,58 M78,66 L70,76" fill="none" stroke="var(--jaune)" stroke-width="2.2" stroke-linecap="round"/>
-</svg>
 </section>
 <div class="hi-revele" id="hi-revele" aria-hidden="true">
   <div class="hi-corps">
@@ -553,12 +534,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 14" data-folio="int-basquiat" style="background:#e6e7e6">
+<section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#e6e7e6">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="">
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Jean-Michel Basquiat — sans titre (Now’s the Time)</div>
 </section>
 
-<section class="page" aria-label="Page 15" data-folio="int-rothko" data-panneau-page="src-int-1" data-cote="d">
+<section class="page" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE" data-panneau-page="src-int-1" data-cote="d">
   <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
 </section>
@@ -588,7 +569,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit"></div>
 </section>
 
-<section class="page" aria-label="Page 20" data-folio="18">
+<section class="page" aria-label="Page 20" data-folio="18" data-panneau-page="src-int-6" data-cote="g">
   <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
   <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit"></div>
@@ -687,7 +668,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </div>
 <div class="panneau-source" id="src-int-1" data-titre="INTENTIONS" hidden>
 <p>Il y a dix ans, <em>La Rage de Vivre</em> s’est imposée à moi. L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago qui a passé vingt ans à vouloir devenir noir par la volonté. Un homme qui ne lâche jamais. Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island, il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues. Il croit alors en saisir le message&nbsp;: la vie est belle, il fait bon vivre, malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.</p>
-<p>Ma relecture, c’est que ce message n’est pas celui du blues&nbsp;: c’est tout simplement le sien. Dans l’improvisation, Mezz accepte enfin, sans le voir, qu’il ne sera jamais vraiment ces musiciens noirs qu’il aime, et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur. La joie qu’il en retire est authentique et bouleversante&nbsp;; elle ne vient pas de la conquête ni de la possession, elle vient de son lâcher-prise. Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre, précisément parce qu’elle est née de tout l’écart entre ce qu’il voulait être et ce qu’il était. Une harmonie dissonante, une harmonie jazz.</p>
+<p>Pour moi ce message n’est pas tant celui du blues que tout simplement le sien, celui de Milton Mezzrow. Dans l’improvisation, Mezz accepte enfin, sans le voir, qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant, et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur. La joie qu’il en retire est authentique et bouleversante&nbsp;; elle ne vient pas de la conquête ni de la possession, elle vient de son lâcher-prise. Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre, précisément parce qu’elle est née de tout l’écart entre ce qu’il voulait être et ce qu’il était. Une harmonie dissonante, une harmonie jazz.</p>
 </div>
 <div class="panneau-source" id="src-int-2" data-titre="" hidden>
 <p>C’est donc cela que ce spectacle va quêter et questionner&nbsp;: le lâcher-prise. Par un dispositif qui le met en jeu — moi au plateau, et les spectateurs avec moi, dans une même expérience&nbsp;: ce que veut dire s’abandonner, ne pas retenir, laisser partir ce qu’on aime.</p>
@@ -695,17 +676,19 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Du récit intime à l’incarnation, du roman-dit à des moments purement musicaux, du jeu de clown au cours de musique, le propos s’articulera autour de la multiplicité des strates de lecture, des temporalités et des régimes de présence — dans le jeu d’acteur comme dans l’utilisation du son au plateau.</p>
 </div>
 <div class="panneau-source" id="src-int-3" data-titre="" hidden>
-<p>Un principe de jeu structurera le plateau&nbsp;: je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût, et j’en ferai nécessairement l’économie dans ma proposition. C’est une règle éthique qui s’impose à moi pour ne pas répéter les structures racistes déjà présentes dans le livre, et dont j’accepte pleinement la contrainte en la faisant mienne&nbsp;: j’incarnerai de préférence les figures blanches en face d’eux — un psychanalyste juif en séance avec Charles Mingus (<em>Beneath the Underdog</em>, 1971 — trad. fr. <em>Moins qu’un chien</em>, 1982, coécrit avec son psychanalyste)&nbsp;; l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969 (d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;; Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, 1967)&nbsp;; Dizzy Gillespie interviewé à la radio (<em>To Be or Not to Bop</em>, 1979).</p>
+<p>Un principe de jeu structurera le plateau&nbsp;: je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût, et j’en ferai nécessairement l’économie dans ma proposition. C’est une règle éthique qui s’impose à moi pour ne pas répéter certaines structures racistes déjà présentes dans le livre, et dont j’accepte pleinement la contrainte en la faisant mienne&nbsp;: j’incarnerai de préférence les figures blanches en face d’eux — un psychanalyste juif en séance avec Charles Mingus (<em>Beneath the Underdog</em>, 1971 — trad. fr. <em>Moins qu’un chien</em>, 1982, coécrit avec son psychanalyste)&nbsp;; l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969 (d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;; Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, 1967)&nbsp;; Dizzy Gillespie interviewé à la radio (<em>To Be or Not to Bop</em>, 1979).</p>
+<p>Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;: c’est ce qui me permet d’être en dialogue avec celle de Mezz. Certaines de ces voix passeront par des objets sonorisés — des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet, un mode de diffusion que je veux expérimenter en complément d’une diffusion classique. La voix de Mingus sortant du canapé du psychanalyste, là où le corps absent devrait être allongé&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
 </div>
 <div class="panneau-source" id="src-int-4" data-titre="" hidden>
-<p>Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;: c’est ce qui me permet d’être en dialogue avec celle de Mezz. Certaines de ces voix passeront par des objets sonorisés — des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet, un mode de diffusion que je veux expérimenter en complément d’une diffusion classique. La voix de Mingus sortant du canapé du psychanalyste, là où le corps absent devrait être allongé&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
-<p>Le son ne m’accompagnera pas&nbsp;: il me dominera. Enregistrements historiques, voix parlées, objets sonorisés — tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
+<p>Le son ne fera pas que m’accompagner au plateau&nbsp;: il sera aussi l’acteur d’un jeu avec moi. Enregistrements historiques, voix parlées, objets sonorisés — tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
 </div>
 <div class="panneau-source" id="src-int-5" data-titre="" hidden>
 <p>Reste un rêve. Mezz a voulu monter un orchestre mixte avec Armstrong&nbsp;: il a tenu quelques semaines. Je rêve de reprendre son geste — rassembler un orchestre contemporain, mixte et paritaire, pour composer sur mesure la bande-son du spectacle, et recueillir leurs voix parlées&nbsp;: ce que le jazz représente dans leurs vies aujourd’hui. Les vivants rejoindraient ainsi les morts dans le monde sonore du spectacle. Une créolisation, au sens d’Édouard Glissant&nbsp;: ce métissage qui produit de l’inattendu.</p>
 <p>Le Kaddish ne mentionne pas la mort. Il loue la grandeur du monde. Il crée une durée communautaire (et musicale) autour de l’absent sans prétendre le représenter ni le remplacer. Il organise une cohabitation temporelle avec l’absence.</p>
 <p><em>La Rage de Vivre</em> est un Kaddish qui s’ignore&nbsp;: Mezz sanctifie les musiciens noirs avec une ferveur liturgique, tourne autour de ce qu’il ne peut pas atteindre, fabrique par ses mots une durée autour d’une négritude qu’il ne peut pas habiter. La louange construit l’absence qu’elle voulait combler.</p>
 <p>Allen Ginsberg l’avait pressenti&nbsp;: en 1961, il ouvre son propre <em>Kaddish</em> — pour sa mère Naomi — en récitant la prière juive tout en écoutant Ray Charles (<em>Kaddish and Other Poems 1958–1960</em>). Le pont entre Kaddish et blues est déjà tracé. Deux formes parallèles de parole adressée à une absence — toutes deux refusant de nommer directement ce qui manque, toutes deux créant une durée autour du vide. Un cadre tenu — prière fixe, durée fixe — pour que l’absent, lui, reste insaisi. C’est la forme profonde que cherche le spectacle.</p>
+</div>
+<div class="panneau-source" id="src-int-6" data-titre="" hidden>
 <p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles, depuis <em>Nous sommes de ceux qui disent non à l’ombre</em> — qui traitait de la Négritude et de ses poètes (Aimé Césaire, Léon-Gontran Damas, Édouard Glissant) et où j’étais déjà musicien-acteur au plateau. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
 </div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
@@ -777,8 +760,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       DRM="assets/audio/darn-that-dream-monk.mp3", REINC="assets/audio/reincarnation-of-a-lovebird-1957.mp3",
       BBBSOLO="assets/audio/bye-bye-blackbird-coltrane-1960.mp3",
       MEZZ="assets/audio/mezz-mineur-avec-un-pont.mp3",
-      SLEEP="assets/audio/the-sleeper-coltrane.mp3", JEEP="assets/audio/jeepers-creepers-armstrong.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO, "EMB:MEZZ":MEZZ, "EMB:SLEEP":SLEEP, "EMB:JEEP":JEEP };
+      SLEEP="assets/audio/the-sleeper-coltrane.mp3", JEEP="assets/audio/jeepers-creepers-armstrong.mp3",
+      SILENCE="assets/audio/silence.mp3";
+  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO, "EMB:MEZZ":MEZZ, "EMB:SLEEP":SLEEP, "EMB:JEEP":JEEP, "EMB:SILENCE":SILENCE };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -786,7 +770,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="", gesteActif=false;
   var VOL=0.85;
-  var VOL_PISTES={"EMB:RTB":0.85,"EMB:FRIS":0.8,"EMB:MOOD":0.78,"EMB:STL":0.9,"EMB:DAY":0.95,"EMB:WHAT":0.74,"EMB:HOT":0.94,"EMB:BOO":0.78,"EMB:BBB":0.94,"EMB:ALLB":0.9,"EMB:DRM":0.86,"EMB:REINC":0.96,"EMB:BBBSOLO":0.94,"EMB:MEZZ":0.92,"EMB:SLEEP":0.9,"EMB:JEEP":0.9};
+  var VOL_PISTES={"EMB:RTB":0.85,"EMB:FRIS":0.8,"EMB:MOOD":0.78,"EMB:STL":0.9,"EMB:DAY":0.95,"EMB:WHAT":0.74,"EMB:HOT":0.94,"EMB:BOO":0.78,"EMB:BBB":0.94,"EMB:ALLB":0.9,"EMB:DRM":0.86,"EMB:REINC":0.96,"EMB:BBBSOLO":0.94,"EMB:MEZZ":0.92,"EMB:SLEEP":0.9,"EMB:JEEP":0.9,"EMB:SILENCE":0};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -1577,18 +1561,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       courante=-1; majAudio();
     });
   })();
-  (function(){            // double page 13-14 : révélation du texte (Hart's Island) sur tout le diptyque — pas de son
-    var dip=document.getElementById('dip-1314');
-    var cercle=document.getElementById('hi-cercle'), texte=document.getElementById('hi-revele');
-    if(!dip||!cercle||!texte) return;
-    cercle.addEventListener('click',function(e){
-      e.stopPropagation();
-      dip.classList.add('revele'); texte.setAttribute('aria-hidden','false');
-      var corps=texte.querySelector('.hi-corps'); if(corps) corps.scrollTop=0;
-    });
-    texte.addEventListener('click',function(){
-      dip.classList.remove('revele'); texte.setAttribute('aria-hidden','true');
-    });
+  (function(){            // double page 13-14 « Hart's Island » : révélation pilotée par le SCROLL (même animation que 17 « L'absence ») — pas de son
+    var dip=document.getElementById('dip-1314'), texte=document.getElementById('hi-revele');
+    if(!dip||!texte||!('IntersectionObserver' in window)) return;
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){
+        var on=e.isIntersecting && e.intersectionRatio>=0.6;   // double page ~centrée à l'écran
+        dip.classList.toggle('revele', on);
+        texte.setAttribute('aria-hidden', on?'false':'true');
+      });
+    },{threshold:[0,0.6,1]});
+    io.observe(dip);
   })();
   (function(){            // double page 17 « L'absence » : révélation pilotée par le SCROLL (même animation que 13-14)
     var dip=document.getElementById('dip-absence'), texte=document.getElementById('abs-revele');
