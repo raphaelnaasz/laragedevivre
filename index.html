@@ -151,6 +151,11 @@ img.abs{display:block;}
 @keyframes hipulse{0%{box-shadow:0 0 0 0 rgba(239,213,26,.5);}
   70%{box-shadow:0 0 0 calc(var(--u)*18) rgba(239,213,26,0);}100%{box-shadow:0 0 0 0 rgba(239,213,26,0);}}
 #dip-1314.revele .hi-cercle{opacity:0;pointer-events:none;animation:none;}
+/* flèche fine et souple invitant au clic sur le cercle */
+.hi-fleche{position:absolute;left:38%;top:22%;width:calc(var(--u)*70);height:calc(var(--u)*70);
+  z-index:34;pointer-events:none;opacity:.82;animation:hifleche 3s ease-in-out infinite;transition:opacity .6s;}
+@keyframes hifleche{0%,100%{opacity:.5;}50%{opacity:.92;}}
+#dip-1314.revele .hi-fleche{opacity:0;animation:none;}
 /* les DEUX photos reculent lentement et ensemble (le texte émerge de l'intérieur) */
 #dip-1314 img.fond{transition:filter 1.9s cubic-bezier(.4,0,.2,1), transform 1.9s cubic-bezier(.4,0,.2,1);}
 #dip-1314.revele img.fond{filter:brightness(.24) grayscale(.5) contrast(1.04);transform:scale(1.055);}
@@ -492,6 +497,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <picture><source srcset="assets/images/img-6.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-6.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
 <button type="button" class="hi-cercle" id="hi-cercle" aria-label="Révéler le texte de Hart’s Island"></button>
+<svg class="hi-fleche" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+  <path d="M8,10 C 30,18 52,34 78,66" fill="none" stroke="var(--jaune)" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M78,66 L68,58 M78,66 L70,76" fill="none" stroke="var(--jaune)" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
 </section>
 <div class="hi-revele" id="hi-revele" aria-hidden="true">
   <div class="hi-corps">
@@ -508,7 +517,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <section class="page" aria-label="Page 6" data-folio="6" data-son="EMB:MOOD" data-piste="Mood Indigo — Charles Mingus, 1959" data-panneau-page="src-p6" data-cote="g">
   <picture><source srcset="assets/images/img-3.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-3.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées · [ crédit photo ]</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées</div>
 </section>
 
 <section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:STL" data-piste="East St. Louis Toodle-Oo — Duke Ellington, 1926" data-panneau-page="src-p7" data-cote="d">
@@ -544,14 +553,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 15" data-folio="15" data-panneau-page="src-p15" data-cote="d">
-  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
-</section>
-
-<section class="page" aria-label="Page 16" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957">
+<section class="page" aria-label="Page 14" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" data-panneau-page="src-int-1" data-cote="g">
   <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-12.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
 <button type="button" class="p16-cercle" id="p16-cercle" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
 <figure class="p16-pochette" id="p16-pochette" hidden>
   <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
@@ -559,12 +563,54 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </figure>
 </section>
 
-<div class="diptique-pano" id="dip-absence">
-<section class="page" aria-label="Page 17" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
-  <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit"></div>
+<section class="page" aria-label="Page 15" data-folio="int-rothko" data-panneau-page="src-int-2" data-cote="d">
+  <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
 </section>
-<section class="page diptique-droite" aria-label="Page 17 (suite)" data-folio="17b">
+
+<section class="page" aria-label="Page 16" data-folio="int-montage" data-panneau-page="src-int-3" data-cote="g">
+  <picture><source srcset="assets/images/int-chambre.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*420.9);object-fit:fill" src="assets/images/int-chambre.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/int-kupka.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*420.9);width:100%;height:calc(var(--u)*420.9);object-fit:fill" src="assets/images/int-kupka.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Gregory Crewdson — Boy with Hand in Drain (Twilight, 1998-2002) · František Kupka</div>
+</section>
+
+<section class="page" aria-label="Page 17" data-folio="int-contrebasse" data-panneau-page="src-int-4" data-cote="d">
+  <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit">Roy DeCarava</div>
+</section>
+
+<section class="page" aria-label="Page 18" data-folio="int-kaddish" data-panneau-page="src-int-5" data-cote="g">
+  <picture><source srcset="assets/images/int-kaddish.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-kaddish.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit"></div>
+</section>
+
+<section class="page" aria-label="Page 19" data-folio="18">
+  <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
+  <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit"></div>
+</section>
+
+<section class="page" aria-label="Page 20" data-folio="19">
+  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit">Roy DeCarava</div>
+</section>
+
+<section class="page" aria-label="Page 21" data-folio="20">
+  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Roy DeCarava</div>
+</section>
+
+<section class="page" aria-label="Page 22" data-folio="15" data-panneau-page="src-p15" data-cote="d">
+  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 22</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
+</section>
+
+<div class="diptique-pano" id="dip-absence">
+<section class="page" aria-label="Page 23" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
+  <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 23</span></div><div class="credit"></div>
+</section>
+<section class="page diptique-droite" aria-label="Page 23 (suite)" data-folio="17b">
   <picture><source srcset="assets/images/absence-r.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-r.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
 </section>
@@ -587,22 +633,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     </div>
 </div>
 </div>
-
-<section class="page" aria-label="Page 18" data-folio="18">
-  <picture><source srcset="assets/images/img-14.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:0;width:100%;height:calc(var(--u)*430.9);object-fit:fill" src="assets/images/img-14.jpg" alt=""></picture>
-  <picture><source srcset="assets/images/img-15.webp" type="image/webp"><img class="abs" loading="lazy" decoding="async" style="left:0;top:calc(var(--u)*429.7);width:100%;height:calc(var(--u)*412.2);object-fit:fill" src="assets/images/img-15.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit"></div>
-</section>
-
-<section class="page" aria-label="Page 19" data-folio="19">
-  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Roy DeCarava</div>
-</section>
-
-<section class="page" aria-label="Page 20" data-folio="20">
-  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Roy DeCarava</div>
-</section>
 </main>
 
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
@@ -650,6 +680,29 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Mais au fil des décennies, les Juifs américains s’assimilent, blanchissent socialement. Mezz perd son étrangeté au moment même où son amour de la culture noire se radicalise. Et c’est ici qu’il devient une figure singulière, à contre-courant de toute une génération.</p>
 <p>Le blackface est une pratique théâtrale américaine où des artistes blancs se noircissaient le visage pour jouer des personnages noirs — caricaturaux, serviles, rabaissés. Beaucoup de ces artistes étaient juifs&nbsp;: Al Jolson, Eddie Cantor. L’historien Michael Rogin a analysé ce continuum dans <em>Blackface, White Noise</em> (1996)&nbsp;: pour les Juifs immigrés d’Europe de l’Est, encore perçus comme une altérité raciale douteuse, le blackface fonctionnait comme un rite de passage vers la blancheur. On emprunte le masque du Noir pour devenir, par contraste, blanc. Jolson incarne ça parfaitement&nbsp;: fils d’immigrés juifs lituaniens, il devient une star nationale en se noircissant le visage — et ce faisant, il devient américain, blanc, assimilé. Le masque noir est l’échelle par laquelle on monte.</p>
 <p>Mezz fait le mouvement exactement inverse. Le jazz n’est pas pour lui un costume pour paraître plus américain, un masque qu’on porte pour s’élever. C’est le lieu où il refuse de devenir ce que l’Amérique veut faire de lui. Là où Jolson se noircit pour blanchir, Mezz s’enfonce dans la culture noire pour descendre — jusqu’à se déclarer <em>Negro</em> sur ses papiers de prison, jusqu’au mariage, jusqu’à Harlem. Il prend le même geste que tout le blackface juif et l’inverse terme à terme&nbsp;: non plus un passage vers la norme, mais une désertion de la norme. C’est ce qui le rend à la fois bouleversant et trouble — car ce geste de descente reste un geste qu’il a choisi, contrairement aux musiciens noirs autour de lui.</p>
+</div>
+<div class="panneau-source" id="src-int-1" data-titre="INTENTIONS" hidden>
+<p>Il y a dix ans, <em>La Rage de Vivre</em> s’est imposée à moi. L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago qui a passé vingt ans à vouloir devenir noir par la volonté. Un homme qui ne lâche jamais. Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island, il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues. Il croit alors en saisir le message&nbsp;: la vie est belle, il fait bon vivre, malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.</p>
+<p>Ma relecture, c’est que ce message n’est pas celui du blues&nbsp;: c’est tout simplement le sien. Dans l’improvisation, Mezz accepte enfin, sans le voir, qu’il ne sera jamais vraiment ces musiciens noirs qu’il aime, et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur. La joie qu’il en retire est authentique et bouleversante&nbsp;; elle ne vient pas de la conquête ni de la possession, elle vient de son lâcher-prise. Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre, précisément parce qu’elle est née de tout l’écart entre ce qu’il voulait être et ce qu’il était. Une harmonie dissonante, une harmonie jazz.</p>
+</div>
+<div class="panneau-source" id="src-int-2" data-titre="" hidden>
+<p>C’est donc cela que ce spectacle va quêter et questionner&nbsp;: le lâcher-prise. Par un dispositif qui le met en jeu — moi au plateau, et les spectateurs avec moi, dans une même expérience&nbsp;: ce que veut dire s’abandonner, ne pas retenir, laisser partir ce qu’on aime.</p>
+<p>Ce projet part de ma recherche d’acteur-musicien&nbsp;: intimement, je ne fais jamais vraiment la différence entre les deux&nbsp;; au plateau je suis l’un et l’autre en même temps, et j’interroge l’un avec l’autre. Ce que je cherche&nbsp;: une musique qui n’illustre pas, une dramaturgie du son à part entière, un jeu et une musique non discontinus — chacun se nourrissant de l’autre, se faisant avec et contre l’autre. L’improvisation en est un des outils&nbsp;: j’ai toujours cherché ces espaces de liberté dans les spectacles que j’ai traversés, notamment auprès de Margaux Eskenazi — l’impro comme percée dans la matière textuelle, comme prolongement naturel de l’écriture.</p>
+<p>Du récit intime à l’incarnation, du roman-dit à des moments purement musicaux, du jeu de clown au cours de musique, le propos s’articulera autour de la multiplicité des strates de lecture, des temporalités et des régimes de présence — dans le jeu d’acteur comme dans l’utilisation du son au plateau.</p>
+</div>
+<div class="panneau-source" id="src-int-3" data-titre="" hidden>
+<p>Un principe de jeu structurera le plateau&nbsp;: je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût, et j’en ferai nécessairement l’économie dans ma proposition. C’est une règle éthique qui s’impose à moi pour ne pas répéter les structures racistes déjà présentes dans le livre, et dont j’accepte pleinement la contrainte en la faisant mienne&nbsp;: j’incarnerai de préférence les figures blanches en face d’eux — un psychanalyste juif en séance avec Charles Mingus (<em>Beneath the Underdog</em>, 1971 — trad. fr. <em>Moins qu’un chien</em>, 1982, coécrit avec son psychanalyste)&nbsp;; l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969 (d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;; Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, 1967)&nbsp;; Dizzy Gillespie interviewé à la radio (<em>To Be or Not to Bop</em>, 1979).</p>
+</div>
+<div class="panneau-source" id="src-int-4" data-titre="" hidden>
+<p>Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;: c’est ce qui me permet d’être en dialogue avec celle de Mezz. Certaines de ces voix passeront par des objets sonorisés — des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet, un mode de diffusion que je veux expérimenter en complément d’une diffusion classique. La voix de Mingus sortant du canapé du psychanalyste, là où le corps absent devrait être allongé&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
+<p>Le son ne m’accompagnera pas&nbsp;: il me dominera. Enregistrements historiques, voix parlées, objets sonorisés — tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
+</div>
+<div class="panneau-source" id="src-int-5" data-titre="" hidden>
+<p>Reste un rêve. Mezz a voulu monter un orchestre mixte avec Armstrong&nbsp;: il a tenu quelques semaines. Je rêve de reprendre son geste — rassembler un orchestre contemporain, mixte et paritaire, pour composer sur mesure la bande-son du spectacle, et recueillir leurs voix parlées&nbsp;: ce que le jazz représente dans leurs vies aujourd’hui. Les vivants rejoindraient ainsi les morts dans le monde sonore du spectacle. Une créolisation, au sens d’Édouard Glissant&nbsp;: ce métissage qui produit de l’inattendu.</p>
+<p>Le Kaddish ne mentionne pas la mort. Il loue la grandeur du monde. Il crée une durée communautaire (et musicale) autour de l’absent sans prétendre le représenter ni le remplacer. Il organise une cohabitation temporelle avec l’absence.</p>
+<p><em>La Rage de Vivre</em> est un Kaddish qui s’ignore&nbsp;: Mezz sanctifie les musiciens noirs avec une ferveur liturgique, tourne autour de ce qu’il ne peut pas atteindre, fabrique par ses mots une durée autour d’une négritude qu’il ne peut pas habiter. La louange construit l’absence qu’elle voulait combler.</p>
+<p>Allen Ginsberg l’avait pressenti&nbsp;: en 1961, il ouvre son propre <em>Kaddish</em> — pour sa mère Naomi — en récitant la prière juive tout en écoutant Ray Charles (<em>Kaddish and Other Poems 1958–1960</em>). Le pont entre Kaddish et blues est déjà tracé. Deux formes parallèles de parole adressée à une absence — toutes deux refusant de nommer directement ce qui manque, toutes deux créant une durée autour du vide. Un cadre tenu — prière fixe, durée fixe — pour que l’absent, lui, reste insaisi. C’est la forme profonde que cherche le spectacle.</p>
+<p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles, depuis <em>Nous sommes de ceux qui disent non à l’ombre</em> — qui traitait de la Négritude et de ses poètes (Aimé Césaire, Léon-Gontran Damas, Édouard Glissant) et où j’étais déjà musicien-acteur au plateau. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
 </div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
