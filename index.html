@@ -108,6 +108,10 @@ img.abs{display:block;}
 #ab-p9{left:53%;}
 .ab-meta{font-size:calc(var(--u)*9.5);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
 .ab-legende{font-size:calc(var(--u)*7.8);letter-spacing:.04em;opacity:.62;font-style:italic;}
+/* indication "cliquer ici" — même typo/couleur que .ab-legende, utilisée hors switch (p16, etc.) */
+.indication-clic{font-size:calc(var(--u)*7.8);letter-spacing:.04em;opacity:.62;font-style:italic;
+  color:var(--jaune);text-shadow:0 0 2px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none;transition:opacity .5s;}
+.ab-switch .indication-clic{font-size:calc(var(--u)*10);opacity:.78;margin-top:calc(var(--u)*4);}
 /* phrase de l'encadré reliée au switch (page 9 / 1940) */
 .lien-switch{color:var(--jaune);background:rgba(239,213,26,.12);
   box-shadow:0 0 0 calc(var(--u)*0.6) rgba(239,213,26,.28);border-radius:calc(var(--u)*1.2);
@@ -537,7 +541,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#e6e7e6">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="">
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Jean-Michel Basquiat — sans titre (Now’s the Time)</div>
-<div class="cadre-couv"></div>
+<div class="cadre-couv" style="left:calc(var(--u)*12.7);top:calc(var(--u)*142.7);width:calc(var(--u)*571.4);height:calc(var(--u)*560.1)"></div>
 </section>
 
 <section class="page" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE" data-panneau-page="src-int-1" data-cote="d">
@@ -549,6 +553,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <picture><source srcset="assets/images/img-12.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-12.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Antoine Watteau — Pierrot, vers 1718</div>
 <button type="button" class="p16-cercle" id="p16-cercle" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
+<div class="indication-clic" id="p16-indication" style="position:absolute;left:calc(39.5% + var(--u)*48);top:14.5%;transform:translateY(-50%);z-index:32">cliquer ici</div>
 <figure class="p16-pochette" id="p16-pochette" hidden>
   <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
   <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
@@ -563,13 +568,13 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 18" data-folio="int-crewdson2" data-panneau-page="src-int-4" data-cote="g">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-crewdson2.jpg" alt="">
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Gregory Crewdson — Boy with Hand in Drain (Twilight, 1998-2002)</div>
-<div class="cadre-couv"></div>
+<div class="cadre-couv" style="left:calc(var(--u)*12.7);top:calc(var(--u)*191.4);width:calc(var(--u)*571.4);height:calc(var(--u)*462.6)"></div>
 </section>
 
 <section class="page" aria-label="Page 19" data-folio="int-kaddish" data-panneau-page="src-int-5" data-cote="d">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-kaddish.jpg" alt="">
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit"></div>
-<div class="cadre-couv"></div>
+<div class="cadre-couv" style="left:calc(var(--u)*57.8);top:0;width:calc(var(--u)*481.3);height:calc(var(--u)*841.89)"></div>
 </section>
 
 <section class="page" aria-label="Page 20" data-folio="18" data-panneau-page="src-int-6" data-cote="g">
@@ -970,7 +975,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       html+='<button type="button" class="ab-pos" data-face="'+k+'">'+faces[k].lib+'</button>';
       if(!trio && i===0) html+='<span class="ab-knob" aria-hidden="true"></span>'; /* curseur : mode 2 faces seulement */
     });
-    html+='</div><div class="ab-meta"></div>'+(opts.legende?('<div class="ab-legende">'+opts.legende+'</div>'):'');
+    html+='</div><div class="ab-meta"></div>'+(opts.legende?('<div class="ab-legende">'+opts.legende+'</div>'):'')+(opts.indication?('<div class="indication-clic">'+opts.indication+'</div>'):'');
     mount.innerHTML=html;
     mount.removeAttribute('hidden');
     var meta=mount.querySelector('.ab-meta');
@@ -1513,7 +1518,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   (function(){            // switch Revival/Bebop sur la page 9 (1940)
     var p9=document.querySelector('[data-folio="9"]'), m9=document.getElementById('ab-p9');
     if(p9&&m9) creerSwitchAB({
-      page:p9, mount:m9, legende:'Même grille d’accords, deux époques', defaut:'A',
+      page:p9, mount:m9, legende:'Même grille d’accords, deux époques', indication:'cliquer ici', defaut:'A',
       faceA:{key:'EMB:WHAT', lib:'Revival', titre:'What Is This Thing Called Love', artiste:'Sidney Bechet', annee:1941},
       faceB:{key:'EMB:HOT',  lib:'Bebop',   titre:'Hot House', artiste:'Gillespie & Parker', annee:1948}
     });
@@ -1530,11 +1535,13 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   (function(){            // page 16 : cercle sur le visage → pochette + Reincarnation (silence avant le geste)
     var p16=document.querySelector('[data-folio="16"]');
     var cercle=document.getElementById('p16-cercle'), poch=document.getElementById('p16-pochette');
+    var indication=document.getElementById('p16-indication');
     if(!p16||!cercle) return;
     function montrerPochette(on){ if(!poch) return; if(on){ poch.hidden=false; requestAnimationFrame(function(){ poch.classList.add('montre'); }); } else { poch.classList.remove('montre'); } }
     cercle.addEventListener('click',function(){
       gesteActif=true;
       cercle.classList.add('joue');
+      if(indication) indication.style.opacity='0';
       var pp=assure(SRC['EMB:REINC']||'EMB:REINC');
       /* démarrage IMMÉDIAT : on amorce la lecture au plein volume cible sans attendre le fondu */
       pp.cible=VOL_PISTES['EMB:REINC']||VOL;
