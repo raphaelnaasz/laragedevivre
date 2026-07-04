@@ -80,7 +80,7 @@ img.abs{display:block;}
   border:1px solid var(--jaune);border-radius:50%;width:1.5em;height:1.5em;line-height:1.4em;text-align:center;}
 
 .credit{position:absolute;right:calc(var(--u)*14);bottom:calc(var(--u)*9);color:var(--jaune);
-  font-size:calc(var(--u)*6.5);letter-spacing:.07em;text-transform:uppercase;opacity:.9;text-shadow:0 0 1px rgba(0,0,0,.5);}
+  font-size:calc(var(--u)*7.6);letter-spacing:.07em;text-transform:uppercase;opacity:.9;text-shadow:0 0 1px rgba(0,0,0,.5);}
 .credit.couv{right:calc(var(--u)*20);bottom:calc(var(--u)*18);}
 
 /* switch A/B audio (Revival/Bebop, Modal/Hard bop) : discret, centré sur la page */
@@ -106,12 +106,12 @@ img.abs{display:block;}
   height:calc(var(--u)*1.1);background:var(--jaune);border-radius:999px;}
 /* page 9 : switch aligné sur la ligne de fracture verticale de l'image (~53 %) */
 #ab-p9{left:53%;}
-.ab-meta{font-size:calc(var(--u)*9.5);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
-.ab-legende{font-size:calc(var(--u)*7.8);letter-spacing:.04em;opacity:.62;font-style:italic;}
+.ab-meta{font-size:calc(var(--u)*10.5);letter-spacing:.06em;opacity:.92;text-transform:uppercase;}
+.ab-legende{font-size:calc(var(--u)*9);letter-spacing:.04em;opacity:.62;font-style:italic;}
 /* indication "cliquer ici" — même typo/couleur que .ab-legende, utilisée hors switch (p16, etc.) */
-.indication-clic{font-size:calc(var(--u)*7.8);letter-spacing:.04em;opacity:.62;font-style:italic;
+.indication-clic{font-size:calc(var(--u)*9);letter-spacing:.04em;opacity:.62;font-style:italic;
   color:var(--jaune);text-shadow:0 0 2px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none;transition:opacity .5s;}
-.ab-switch .indication-clic{font-size:calc(var(--u)*10);opacity:.78;margin-top:calc(var(--u)*4);}
+.ab-switch .indication-clic{font-size:calc(var(--u)*11.5);opacity:.78;margin-top:calc(var(--u)*4);}
 /* phrase de l'encadré reliée au switch (page 9 / 1940) */
 .lien-switch{color:var(--jaune);background:rgba(239,213,26,.12);
   box-shadow:0 0 0 calc(var(--u)*0.6) rgba(239,213,26,.28);border-radius:calc(var(--u)*1.2);
@@ -145,17 +145,22 @@ img.abs{display:block;}
 .p16-cercle-panel.joue{animation:none;opacity:0;pointer-events:none;}
 @keyframes p16pulse-panel{0%,100%{box-shadow:0 0 5px rgba(239,213,26,.25);}50%{box-shadow:0 0 11px rgba(239,213,26,.5);}}
 .p16-indication-panel{position:absolute;left:calc(39.5% + 9%);top:14.5%;transform:translateY(-50%);
-  color:var(--jaune);font-style:italic;opacity:.75;font-size:12px;letter-spacing:.02em;
+  color:var(--jaune);font-style:italic;opacity:.75;font-size:14px;letter-spacing:.02em;
   text-shadow:0 0 2px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none;transition:opacity .5s;z-index:5;}
 
 /* texte "Intentions" posé directement sur l'image (p.15-20) — voile léger pour la lisibilité */
 .texte-image{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:78%;max-height:82%;overflow:hidden;box-sizing:border-box;
-  padding:calc(var(--u)*14) calc(var(--u)*16);background:rgba(6,6,6,.28);
+  width:83%;max-height:88%;overflow:hidden;box-sizing:border-box;
+  padding:calc(var(--u)*15) calc(var(--u)*18);background:rgba(6,6,6,.30);
   border-radius:calc(var(--u)*3);color:var(--jaune);font-weight:900;
-  font-size:calc(var(--u)*8);line-height:1.5;text-shadow:0 0 calc(var(--u)*3) rgba(0,0,0,.7);z-index:20;}
-.texte-image p{margin:0 0 calc(var(--u)*6);}
+  font-size:calc(var(--u)*9.6);line-height:1.46;text-shadow:0 0 calc(var(--u)*3) rgba(0,0,0,.72);z-index:20;}
+.texte-image p{margin:0 0 calc(var(--u)*6.5);}
 .texte-image p:last-child{margin-bottom:0;}
+/* page 19 : texte le plus dense (5 §) → typo un peu réduite pour tenir sans débordement */
+.texte-image--dense{font-size:calc(var(--u)*8);line-height:1.4;}
+.texte-image--dense p{margin:0 0 calc(var(--u)*4.5);}
+/* page 18 : texte ancré en bas (l'image Crewdson occupe le haut du Rothko) */
+.texte-image--bas{top:auto;bottom:calc(var(--u)*24);transform:translate(-50%,0);}
 
 /* dates "Une vie" (1920…1960) — gros titre centré sous le bandeau, style .titre réduit */
 .date-annee{position:absolute;left:0;right:0;top:calc(var(--u)*50);text-align:center;
@@ -247,9 +252,14 @@ img.abs{display:block;}
 #panneau-g{left:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));transform:translate(-22px,-50%);}
 #panneau-d{right:max(16px, calc((100vw - var(--pw))/2 - var(--pl-w) - 22px));transform:translate(22px,-50%);}
 .panneau.actif{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,-50%);}
-/* panneau « image seule » (ex. page 5) : la bordure épouse l'image, pas de zone vide */
-.panneau.panneau--image{height:auto;max-height:min(74vh,620px);}
+/* panneau « image seule » (ex. page 5) : la bordure épouse l'image, image entière visible sans scroll */
+.panneau.panneau--image{height:auto;max-height:86vh;}
 .panneau.panneau--image .corps::before,.panneau.panneau--image .corps::after{display:none;}
+.panneau.panneau--image .corps{overflow:visible;}
+.panneau.panneau--image .defile{height:auto;overflow:visible;padding:0 14px 12px;}
+.panneau.panneau--image figure{margin:6px 0 8px;text-align:center;}
+.panneau.panneau--image figure img{display:block;width:auto;max-width:100%;max-height:74vh;margin:0 auto;}
+.panneau.panneau--image figure .p16-holder{display:inline-block;}
 .panneau .tete{display:flex;align-items:baseline;gap:16px;padding:18px 22px 0;}
 .panneau h2{margin:0;color:var(--jaune);font-size:18px;letter-spacing:-0.01em;font-weight:900;}
 .panneau h2:empty{display:none;}
@@ -568,15 +578,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#e6e7e6">
+<section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#000">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="">
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Jean-Michel Basquiat — sans titre (Now’s the Time)</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Jean-Michel Basquiat — Now’s the Time, 1985</div>
 <div class="cadre-couv" style="left:calc(var(--u)*12.7);top:calc(var(--u)*142.7);width:calc(var(--u)*571.4);height:calc(var(--u)*560.1)"></div>
 </section>
 
 <section class="page" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE">
-  <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
+  <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Roy DeCarava</div>
 <div class="texte-image">
 <p>Il y a dix ans, <em>La Rage de Vivre</em> s’est imposée à moi. L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago qui a passé vingt ans à vouloir devenir noir par la volonté. Un homme qui ne lâche jamais. Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island, il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues. Il croit alors en saisir le message&nbsp;: la vie est belle, il fait bon vivre, malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.</p>
 <p>Pour moi ce message n’est pas tant celui du blues que tout simplement le sien, celui de Milton Mezzrow. Dans l’improvisation, Mezz accepte enfin, sans le voir, qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant, et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur. La joie qu’il en retire est authentique et bouleversante&nbsp;; elle ne vient pas de la conquête ni de la possession, elle vient de son lâcher-prise. Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre, précisément parce qu’elle est née de tout l’écart entre ce qu’il voulait être et ce qu’il était. Une harmonie dissonante, une harmonie jazz.</p>
@@ -584,8 +594,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </section>
 
 <section class="page" aria-label="Page 16" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" data-panneau-page="src-watteau" data-cote="g">
-  <picture><source srcset="assets/images/rothko03.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko03.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Mark Rothko</div>
+  <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
 <div class="texte-image">
 <p>C’est donc cela que ce spectacle va quêter et questionner&nbsp;: le lâcher-prise. Par un dispositif qui le met en jeu — moi au plateau, et les spectateurs avec moi, dans une même expérience&nbsp;: ce que veut dire s’abandonner, ne pas retenir, laisser partir ce qu’on aime.</p>
 <p>Ce projet part de ma recherche d’acteur-musicien&nbsp;: intimement, je ne fais jamais vraiment la différence entre les deux&nbsp;; au plateau je suis l’un et l’autre en même temps, et j’interroge l’un avec l’autre. Ce que je cherche&nbsp;: une musique qui n’illustre pas, une dramaturgie du son à part entière, un jeu et une musique non discontinus — chacun se nourrissant de l’autre, se faisant avec et contre l’autre. L’improvisation en est un des outils&nbsp;: j’ai toujours cherché ces espaces de liberté dans les spectacles que j’ai traversés, notamment auprès de Margaux Eskenazi — l’impro comme percée dans la matière textuelle, comme prolongement naturel de l’écriture.</p>
@@ -598,17 +608,18 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 </section>
 
 <section class="page" aria-label="Page 17" data-folio="int-contrebasse">
-  <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit">Roy DeCarava</div>
+  <picture><source srcset="assets/images/rothko03.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko03.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit">Mark Rothko</div>
 <div class="texte-image">
 <p>Un principe de jeu structurera le plateau&nbsp;: je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût, et j’en ferai nécessairement l’économie dans ma proposition. C’est une règle éthique qui s’impose à moi pour ne pas répéter certaines structures racistes déjà présentes dans le livre, et dont j’accepte pleinement la contrainte en la faisant mienne&nbsp;: j’incarnerai de préférence les figures blanches en face d’eux — un psychanalyste juif en séance avec Charles Mingus (<em>Beneath the Underdog</em>, 1971 — trad. fr. <em>Moins qu’un chien</em>, 1982, coécrit avec son psychanalyste)&nbsp;; l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969 (d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;; Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, 1967)&nbsp;; Dizzy Gillespie interviewé à la radio (<em>To Be or Not to Bop</em>, 1979).</p>
 </div>
 </section>
 
-<section class="page" aria-label="Page 18" data-folio="int-crewdson2" data-panneau-page="src-crewdson-img" data-cote="g">
+<section class="page" aria-label="Page 18" data-folio="int-crewdson2">
   <picture><source srcset="assets/images/rothko05.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko05.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Mark Rothko</div>
-<div class="texte-image">
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Gregory Crewdson · Mark Rothko</div>
+<img loading="lazy" decoding="async" style="position:absolute;left:50%;top:33%;transform:translate(-50%,-50%);width:46%;border:calc(var(--u)*1) solid rgba(239,213,26,.6);z-index:15" src="assets/images/int-crewdson2.jpg" alt="Gregory Crewdson — Boy with Hand in Drain">
+<div class="texte-image texte-image--bas">
 <p>Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;: c’est ce qui me permet d’être en dialogue avec celle de Mezz. Certaines de ces voix passeront par des objets sonorisés — des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet, un mode de diffusion que je veux expérimenter en complément d’une diffusion classique. La voix de Mingus sortant du canapé du psychanalyste, là où le corps absent devrait être allongé&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
 <p>Le son ne fera pas que m’accompagner au plateau&nbsp;: il sera aussi l’acteur d’un jeu avec moi. Enregistrements historiques, voix parlées, objets sonorisés — tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
 </div>
@@ -617,43 +628,36 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <section class="page" aria-label="Page 19" data-folio="int-kaddish" data-panneau-page="src-clarinettiste-img" data-cote="d">
   <picture><source srcset="assets/images/rothko02-bg.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko02-bg.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Mark Rothko</div>
-<div class="texte-image">
+<div class="texte-image texte-image--dense">
 <p>Reste un rêve. Mezz a voulu monter un orchestre mixte avec Armstrong&nbsp;: il a tenu quelques semaines. Je rêve de reprendre son geste — rassembler un orchestre contemporain, mixte et paritaire, pour composer sur mesure la bande-son du spectacle, et recueillir leurs voix parlées&nbsp;: ce que le jazz représente dans leurs vies aujourd’hui. Les vivants rejoindraient ainsi les morts dans le monde sonore du spectacle. Une créolisation, au sens d’Édouard Glissant&nbsp;: ce métissage qui produit de l’inattendu.</p>
 <p>Le Kaddish ne mentionne pas la mort. Il loue la grandeur du monde. Il crée une durée communautaire (et musicale) autour de l’absent sans prétendre le représenter ni le remplacer. Il organise une cohabitation temporelle avec l’absence.</p>
 <p><em>La Rage de Vivre</em> est un Kaddish qui s’ignore&nbsp;: Mezz sanctifie les musiciens noirs avec une ferveur liturgique, tourne autour de ce qu’il ne peut pas atteindre, fabrique par ses mots une durée autour d’une négritude qu’il ne peut pas habiter. La louange construit l’absence qu’elle voulait combler.</p>
 <p>Allen Ginsberg l’avait pressenti&nbsp;: en 1961, il ouvre son propre <em>Kaddish</em> — pour sa mère Naomi — en récitant la prière juive tout en écoutant Ray Charles (<em>Kaddish and Other Poems 1958–1960</em>). Le pont entre Kaddish et blues est déjà tracé. Deux formes parallèles de parole adressée à une absence — toutes deux refusant de nommer directement ce qui manque, toutes deux créant une durée autour du vide. Un cadre tenu — prière fixe, durée fixe — pour que l’absent, lui, reste insaisi. C’est la forme profonde que cherche le spectacle.</p>
-</div>
-</section>
-
-<section class="page" aria-label="Page 20" data-folio="18" data-panneau-g="src-img14" data-panneau-d="src-img15">
-  <picture><source srcset="assets/images/rothko07.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko07.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit">Mark Rothko</div>
-<div class="texte-image">
 <p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles, depuis <em>Nous sommes de ceux qui disent non à l’ombre</em> — qui traitait de la Négritude et de ses poètes (Aimé Césaire, Léon-Gontran Damas, Édouard Glissant) et où j’étais déjà musicien-acteur au plateau. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
 </div>
 </section>
 
-<section class="page" aria-label="Page 21" data-folio="15" data-panneau-page="src-p15" data-cote="d">
+<section class="page" aria-label="Page 20" data-folio="15" data-panneau-page="src-p15" data-cote="d">
   <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 </section>
 
-<section class="page" aria-label="Page 22" data-folio="19">
+<section class="page" aria-label="Page 21" data-folio="19">
   <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Roy DeCarava</div>
+</section>
+
+<section class="page" aria-label="Page 22" data-folio="20">
+  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 22</span></div><div class="credit">Roy DeCarava</div>
 </section>
 
-<section class="page" aria-label="Page 23" data-folio="20">
-  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 23</span></div><div class="credit">Roy DeCarava</div>
-</section>
-
 <div class="diptique-pano" id="dip-absence">
-<section class="page" aria-label="Page 24" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
+<section class="page" aria-label="Page 23" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
   <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 24</span></div><div class="credit"></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 23</span></div><div class="credit"></div>
 </section>
-<section class="page diptique-droite" aria-label="Page 24 (suite)" data-folio="17b">
+<section class="page diptique-droite" aria-label="Page 23 (suite)" data-folio="17b">
   <picture><source srcset="assets/images/absence-r.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-r.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
 </section>
@@ -681,9 +685,9 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
 <div class="panneau-source" id="src-p2" data-titre="Pourquoi ce livre" hidden><p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p><p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.<br>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé par étudier la musique classique — le basson d’abord —, puis je me suis mis à écouter du jazz comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p></div>
 <div class="panneau-source" id="src-p3" data-titre="" hidden><p>Ce rapport-là au jazz — une musique aimée parce qu’il y a un manque derrière, habitée plutôt que possédée, atteinte seulement à force d’y revenir — est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p><p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p><p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p></div>
-<div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu d’en avoir une. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
+<div class="panneau-source" id="src-p4" data-titre="" hidden><p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p><p>De quel droit&nbsp;?</p><p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Il n’était pas le plus grand, pas le plus juste, pas le plus fondé à être là. Et pourtant il était là – entier, brûlant, sans défense, convaincu de l’être. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p><p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p></div>
 <div class="panneau-source" id="src-p6" data-titre="UNE VIE" hidden>
-<p>Milton Mesirow, dit «&nbsp;Mezz Mezzrow&nbsp;» naît en 1899 sur le West Side de Chicago, dans une famille juive d’origine russe de la petite bourgeoisie. Il est envoyé à la maison de correction de Pontiac, dans l’Illinois. C’est là qu’il découvre le blues, et apprend la musique — d’abord en l’entendant chanté par les détenus noirs, puis en le jouant avec eux, au saxophone, dans l’orchestre mixte de la prison. C’est en jouant qu’il éprouve, pour la première fois, le sentiment d’être des leurs.</p>
+<p>Milton Mesirow, dit «&nbsp;Mezz Mezzrow&nbsp;» naît en 1899 sur le West Side de Chicago, dans une famille juive d’origine russe de la petite bourgeoisie. Il est envoyé à la maison de correction de Pontiac, dans l’Illinois. C’est là qu’il découvre le blues, et apprend la musique — d’abord en l’entendant chantée par les détenus noirs, puis en le jouant avec eux, au saxophone, dans l’orchestre mixte de la prison. C’est en jouant qu’il éprouve, pour la première fois, le sentiment d’être des leurs.</p>
 <p>C’est là aussi qu’il assiste à une émeute raciale, entre détenus noirs et sudistes, dont il sort bouleversé. Le rapprochement se noue alors&nbsp;: un cafetier du Missouri l’avait chassé, lui le Juif, en le prenant pour un Noir, et le rabbin de son enfance enseignait que Moïse et Salomon étaient noirs. Juifs et Noirs, en conclut-il, sont d’un même bord. Il sort de Pontiac avec une décision arrêtée&nbsp;: il sera musicien, «&nbsp;musicien noir&nbsp;», et révélera le blues comme seuls les Noirs savent le faire.</p>
 <p>La musique qu’il découvre n’a pas encore de soliste-roi. Le style New Orleans est une polyphonie collective, presque anonyme, où cornet, clarinette et trombone s’enroulent ensemble dans une même marche — une joie arrachée à la ségrégation et à trois cents ans d’esclavage, portée dans les corps comme une nécessité partagée, collective.</p>
 <p>Née à la Nouvelle-Orléans au tournant du siècle, dans une ville-carrefour où se croisent Français, Espagnols, Créoles, Africains et Anglo-Américains, elle naît du brassage de leurs musiques&nbsp;: fanfares militaires européennes, rythmes de danse caribéens, chants de travail afro-américains, hymnes religieux et ragtime. C’est une musique de rue, jouée aux parades, aux enterrements et aux fêtes, qui prend le nom de New Orleans avant de remonter vers Chicago — où Mezz, justement, va la rencontrer.</p>
@@ -708,7 +712,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p><em>Really the Blues</em> paraît en 1946, co-écrit avec Bernard Wolfe — intellectuel juif, diplômé de Yale, ancien secrétaire de Trotsky au Mexique. La traduction française, <em>La Rage de vivre</em>, paraît en 1950 aux éditions Corrêa, préfacée par Henry Miller. Le livre tombe à la charnière exacte&nbsp;: Mezz écrit le monument du jazz des origines au moment même où cette musique-là est déjà dépassée, où le bebop a tout renversé. Et le livre se méfie de lui-même&nbsp;: Wolfe rédige en annexe un essai, «&nbsp;Ecstatic in Blackface&nbsp;», où il soutient que l’entertainer noir «&nbsp;authentique&nbsp;», fétichisé pour la pureté et la spontanéité de son expression, est en partie une projection du fan blanc. Ce que Mezz croit aimer dans la négritude est, pour partie, une image fabriquée par le regard blanc — et Mezz en est producteur autant que consommateur.</p>
 </div>
 <div class="panneau-source" id="src-p10" data-titre="" hidden>
-<p>À partir de là, deux tempos se séparent. Celui de Mezz s’arrête&nbsp;: après-guerre, il se fige en gardien d’un jazz «&nbsp;pur&nbsp;», celui de la Nouvelle-Orléans et de Chicago, et combat le bebop qu’il juge décadent. Il joue au festival de Nice en 1948, s’installe en France&nbsp;; Paris devient sa résidence permanente pour ses vingt dernières années. Il monte des orchestres avec des musiciens français comme Claude Luter, enregistre à Paris. L’autre tempo, celui de la musique, continue sans lui&nbsp;: le modal ouvre les grilles et troque la course harmonique contre des nappes (Miles, <em>Kind of Blue</em>), le hard bop durcit le bebop d’un retour au blues et au gospel (Mingus) — et, par l’improvisation collective, retrouve par l’autre bout la polyphonie de la Nouvelle-Orléans, mais codifiée à l’extrême. Et cette avancée n’est pas que formelle&nbsp;: elle est politique.</p>
+<p>À partir de là, deux tempos se séparent. Celui de Mezz s’arrête&nbsp;: après-guerre, il se fige en gardien d’un jazz «&nbsp;pur&nbsp;», celui de la Nouvelle-Orléans et de Chicago, et combat le bebop qu’il juge décadent. Il participe à la première édition du Festival de Jazz de Nice en 1948, s’installe en France&nbsp;; Paris devient sa résidence permanente pour ses vingt dernières années. Il monte des orchestres avec des musiciens français comme Claude Luter, enregistre à Paris. L’autre tempo, celui de la musique, continue sans lui&nbsp;: le modal ouvre les grilles et troque la course harmonique contre des nappes (Miles, <em>Kind of Blue</em>), le hard bop durcit le bebop d’un retour au blues et au gospel (Mingus) — et, par l’improvisation collective, retrouve par l’autre bout la polyphonie de la Nouvelle-Orléans, mais codifiée à l’extrême. Et cette avancée n’est pas que formelle&nbsp;: elle est politique.</p>
 <p>Dans l’Amérique des années 1950 et 1960 — les marches, les bus boycottés, les droits civiques — la musique se fait revendication&nbsp;: fierté noire, colère, affirmation d’une appartenance que personne d’autre n’a le droit de signer (Mingus, Max Roach, le Coltrane d’<em>Alabama</em>, Coleman). En 1957, Baldwin écrivait <em>Sonny’s Blues</em>.</p>
 </div>
 <div class="panneau-source" id="src-p11" data-titre="" hidden>
@@ -750,24 +754,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles, depuis <em>Nous sommes de ceux qui disent non à l’ombre</em> — qui traitait de la Négritude et de ses poètes (Aimé Césaire, Léon-Gontran Damas, Édouard Glissant) et où j’étais déjà musicien-acteur au plateau. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
 </div>
 <div class="panneau-source" id="src-watteau" data-titre="" hidden>
-  <figure style="position:relative;aspect-ratio:744/1100">
-    <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718" style="height:100%">
-    <button type="button" class="p16-cercle-panel" id="p16-cercle-panel" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
-    <div class="indication-clic p16-indication-panel" id="p16-indication-panel">cliquer ici</div>
+  <figure>
+    <span class="p16-holder" style="position:relative;display:inline-block;line-height:0">
+      <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718">
+      <button type="button" class="p16-cercle-panel" id="p16-cercle-panel" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
+      <div class="indication-clic p16-indication-panel" id="p16-indication-panel">cliquer ici</div>
+    </span>
     <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
   </figure>
 </div>
-<div class="panneau-source" id="src-crewdson-img" data-titre="" hidden>
-  <figure><img src="assets/images/int-crewdson2.webp" alt="Gregory Crewdson — Boy with Hand in Drain"><figcaption>Gregory Crewdson — Boy with Hand in Drain (Twilight, 1998-2002)</figcaption></figure>
-</div>
 <div class="panneau-source" id="src-clarinettiste-img" data-titre="" hidden>
   <figure><img src="assets/images/int-kaddish.webp" alt="Clarinettiste"></figure>
-</div>
-<div class="panneau-source" id="src-img14" data-titre="" hidden>
-  <figure><img src="assets/images/img-14.webp" alt=""></figure>
-</div>
-<div class="panneau-source" id="src-img15" data-titre="" hidden>
-  <figure><img src="assets/images/img-15.webp" alt=""></figure>
 </div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
@@ -1615,7 +1612,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       if(!cercle) return;
       gesteActif=true;
       cercle.classList.add('joue');
-      var indication=document.getElementById('p16-indication-panel');
+      var indication=cercle.parentNode && cercle.parentNode.querySelector('.p16-indication-panel');
       if(indication) indication.style.opacity='0';
       var pp=assure(SRC['EMB:REINC']||'EMB:REINC');
       /* démarrage IMMÉDIAT : on amorce la lecture au plein volume cible sans attendre le fondu */
@@ -1651,11 +1648,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     if(!dip||!texte||!('IntersectionObserver' in window)) return;
     var io=new IntersectionObserver(function(ents){
       ents.forEach(function(e){
-        var on=e.isIntersecting && e.intersectionRatio>=0.6;   // double page ~centrée à l'écran
+        var on=e.isIntersecting && e.intersectionRatio>=0.7;   // double page bien centrée (disparaît un peu plus tôt au défilement)
         dip.classList.toggle('revele', on);
         texte.setAttribute('aria-hidden', on?'false':'true');
       });
-    },{threshold:[0,0.6,1]});
+    },{threshold:[0,0.7,1]});
     io.observe(dip);
   })();
   (function(){            // double page 17 « L'absence » : révélation pilotée par le SCROLL (même animation que 13-14)
