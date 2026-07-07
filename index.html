@@ -175,6 +175,9 @@ img.abs{display:block;}
 .date-annee{position:absolute;left:0;right:0;top:calc(var(--u)*50);text-align:center;
   font-size:calc(var(--u)*24);letter-spacing:-0.015em;font-weight:900;color:var(--jaune);
   text-shadow:0 0 2px rgba(0,0,0,.5);z-index:10;}
+/* titre "Note d'intention" (p.15) — même typo/couleur que .date-annee, à l'échelle du page-corps */
+.titre-intention{font-size:calc(var(--u2)*20);letter-spacing:-0.015em;font-weight:900;color:var(--jaune);
+  text-align:center;margin:0 0 calc(var(--u2)*10);text-shadow:0 0 2px rgba(0,0,0,.5);}
 /* pochette « The Clown » révélée en marge, sous le crédit audio (haut-droite) */
 .p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*100);z-index:46;margin:0;width:min(240px,18vw);
   opacity:0;transform:translateY(calc(var(--u)*6));transition:opacity .7s ease,transform .7s ease;pointer-events:none;}
@@ -447,6 +450,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   .diptique-pano{flex-direction:column;}
   .diptique-pano .page{flex:none;width:100%;}
 }
+/* ── triptyque panoramique page 16 : Crewdson / Saul Leiter / clarinettiste côte à côte ── */
+.triptyque-pano{display:flex;flex-direction:row;width:100%;gap:0;align-items:stretch;}
+.triptyque-pano .page{flex:0 0 33.333%;min-width:0;}
+.triptyque-volet .entete{display:none;}
+.triptyque-volet .cadre-volet{position:absolute;inset:calc(var(--u)*14);border:calc(var(--u)*1) solid var(--jaune);pointer-events:none;}
+@media(max-width:760px){
+  .triptyque-pano{flex-direction:column;}
+  .triptyque-pano .page{flex:none;width:100%;}
+}
 @media print{
   body{background:#fff}
   #flux{padding:0;gap:0}
@@ -590,56 +602,46 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#000">
   <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="">
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div><div class="credit">Jean-Michel Basquiat — Now’s the Time, 1985</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div>
 <div class="cadre-couv" style="left:calc(var(--u)*12.7);top:calc(var(--u)*142.7);width:calc(var(--u)*571.4);height:calc(var(--u)*560.1)"></div>
+<div class="credit" style="position:absolute;left:calc(var(--u)*12.7);width:calc(var(--u)*571.4);top:calc(var(--u)*688.6);bottom:auto;right:auto;text-align:right">Jean-Michel Basquiat — Now’s the Time, 1985</div>
 </section>
 
-<section class="page page-textreveal" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE">
-  <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Roy DeCarava</div>
+<section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" data-panneau-page="src-watteau" data-cote="g">
+  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps">
+<p class="titre-intention">Note d’intention</p>
 <p>Il y a dix ans,<br><em>La Rage de Vivre</em> s’est imposée à moi.<br class="saut">
 L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago<br>qui a passé vingt ans à vouloir devenir noir par la volonté.<br>Un homme qui ne lâche jamais.<br class="saut">
 Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island,<br>il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues.<br>Il croit alors en saisir le message&nbsp;:<br>la vie est belle, il fait bon vivre,<br>malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.<br class="saut">
 Pour moi ce message n’est pas tant celui du blues<br>que tout simplement le sien, celui de Milton Mezzrow.<br class="saut">
 Dans l’improvisation, Mezz accepte enfin, sans le voir,<br>qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant,<br>et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur.<br class="saut">
 La joie qu’il en retire est authentique et bouleversante&nbsp;;<br>elle ne vient pas de la conquête ni de la possession,<br>elle vient de son lâcher-prise.<br class="saut">
-Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br>précisément parce qu’elle est née de tout l’écart<br>entre ce qu’il voulait être et ce qu’il était.<br>Une harmonie dissonante, une harmonie jazz.</p>
-</div></div>
-</section>
-
-<section class="page page-textreveal" aria-label="Page 16" data-folio="16" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" data-panneau-page="src-watteau" data-cote="g">
-  <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
-<div class="page-revele" aria-hidden="true"><div class="page-corps">
-<p>C’est donc cela que ce spectacle va quêter et questionner&nbsp;:<br>le lâcher-prise.<br class="saut">
+Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br>précisément parce qu’elle est née de tout l’écart<br>entre ce qu’il voulait être et ce qu’il était.<br>Une harmonie dissonante, une harmonie jazz.<br class="saut">
+C’est donc cela que ce spectacle va quêter et questionner&nbsp;:<br>le lâcher-prise.<br class="saut">
 Par un dispositif qui le met en jeu —<br>moi au plateau, et les spectateurs avec moi, dans une même expérience&nbsp;:<br>ce que veut dire s’abandonner, ne pas retenir, laisser partir ce qu’on aime.<br class="saut">
 Ce projet part de ma recherche d’acteur-musicien&nbsp;:<br>intimement, je ne fais jamais vraiment la différence entre les deux&nbsp;;<br>au plateau je suis l’un et l’autre en même temps,<br>et j’interroge l’un avec l’autre.<br class="saut">
 Ce que je cherche&nbsp;: une musique qui n’illustre pas,<br>une dramaturgie du son à part entière,<br>un jeu et une musique non discontinus —<br>chacun se nourrissant de l’autre, se faisant avec et contre l’autre.<br class="saut">
 L’improvisation en est un des outils&nbsp;:<br>j’ai toujours cherché ces espaces de liberté dans les spectacles que j’ai traversés,<br>notamment auprès de Margaux Eskenazi —<br>l’impro comme percée dans la matière textuelle, comme prolongement naturel de l’écriture.<br class="saut">
 Du récit intime à l’incarnation,<br>du roman-dit à des moments purement musicaux,<br>du jeu de clown au cours de musique,<br>le propos s’articulera autour de la multiplicité des strates de lecture,<br>des temporalités et des régimes de présence —<br>dans le jeu d’acteur comme dans l’utilisation du son au plateau.</p>
 </div></div>
-<figure class="p16-pochette" id="p16-pochette" hidden>
-  <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
-  <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
-</figure>
 </section>
 
-<section class="page page-textreveal" aria-label="Page 17" data-folio="int-contrebasse">
+<div class="triptyque-pano" id="trip-p16">
+<section class="page triptyque-volet" aria-label="Page 16 (volet gauche)" data-folio="int-crewdson2" data-panneau-page="src-crewdson-img" data-cote="g">
+  <picture><source srcset="assets/images/int-crewdson2.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-crewdson2.jpg" alt="Gregory Crewdson — Boy with Hand in Drain"></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit">Gregory Crewdson — Boy with Hand in Drain, 1998-2002</div>
+<div class="cadre-volet"></div>
+</section>
+<section class="page page-textreveal" aria-label="Page 16" data-folio="int-contrebasse">
   <picture><source srcset="assets/images/saul-leiter-femme.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/saul-leiter-femme.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit">photo · Saul Leiter</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">photo · Saul Leiter</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps">
 <p>Un principe de jeu structurera le plateau&nbsp;:<br>je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût,<br>et j’en ferai nécessairement l’économie dans ma proposition.<br class="saut">
 C’est une règle éthique qui s’impose à moi<br>pour ne pas répéter certaines structures racistes déjà présentes dans le livre,<br>et dont j’accepte pleinement la contrainte en la faisant mienne&nbsp;:<br>j’incarnerai de préférence les figures blanches en face d’eux —<br class="saut">
-un psychanalyste juif en séance avec Charles Mingus<br>(<em>Beneath the Underdog</em>, 1971 — trad. fr. <em>Moins qu’un chien</em>, 1982, coécrit avec son psychanalyste)&nbsp;;<br>l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969<br>(d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;;<br>Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, 1967)&nbsp;;<br>Dizzy Gillespie interviewé à la radio (<em>To Be or Not to Bop</em>, 1979).</p>
-</div></div>
-</section>
-
-<section class="page page-textreveal" aria-label="Page 18" data-folio="int-crewdson2" data-panneau-page="src-crewdson-img" data-cote="d">
-  <picture><source srcset="assets/images/rothko05.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko05.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit">Mark Rothko</div>
-<div class="page-revele" aria-hidden="true"><div class="page-corps">
-<p>Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;:<br>c’est ce qui me permet d’être en dialogue avec celle de Mezz.<br class="saut">
+un psychanalyste juif en séance avec Charles Mingus<br>(Charles Mingus, <em>Beneath the Underdog</em>, Knopf, 1971 — trad. fr. <em>Moins qu’un chien</em>, Parenthèses, 1982, coécrit avec son psychanalyste)&nbsp;;<br>l’interviewer de l’ORTF, Henri Renaud, pianiste de jazz français face à Thelonious Monk en 1969<br>(d’après <em>Rewind and Play</em> d’Alain Gomis, 2022)&nbsp;;<br>Boris Vian recevant cette musique depuis la France (<em>Chroniques de jazz</em>, La Jeune Parque, 1967)&nbsp;;<br>Dizzy Gillespie interviewé à la radio (Dizzy Gillespie et Al Fraser, <em>To Be or Not to Bop</em>, Doubleday, 1979).<br class="saut">
+Ouvrir ma lecture à d’autres autobiographies de jazzmen a été essentiel&nbsp;:<br>c’est ce qui me permet d’être en dialogue avec celle de Mezz.<br class="saut">
 Certaines de ces voix passeront par des objets sonorisés —<br>des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet,<br>un mode de diffusion que je veux expérimenter en complément d’une diffusion classique.<br class="saut">
 La voix de Mingus sortant du canapé du psychanalyste,<br>là où le corps absent devrait être allongé&nbsp;;<br>Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…<br class="saut">
 Le son ne fera pas que m’accompagner au plateau&nbsp;:<br>il sera aussi l’acteur d’un jeu avec moi.<br class="saut">
@@ -648,10 +650,16 @@ Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette
 Je ne peux pas posséder cette musique.<br>Mais c’est elle qui me fait jouer.</p>
 </div></div>
 </section>
+<section class="page triptyque-volet" aria-label="Page 16 (volet droit)" data-folio="int-kaddish-volet" data-panneau-page="src-clarinettiste-img" data-cote="d">
+  <picture><source srcset="assets/images/int-kaddish.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-kaddish.jpg" alt="Clarinettiste"></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit">Clarinettiste</div>
+<div class="cadre-volet"></div>
+</section>
+</div>
 
-<section class="page page-textreveal" aria-label="Page 19" data-folio="int-kaddish" data-panneau-page="src-clarinettiste-img" data-cote="d">
+<section class="page page-textreveal" aria-label="Page 17" data-folio="int-kaddish" data-panneau-page="src-clarinettiste-img" data-cote="d">
   <picture><source srcset="assets/images/rothko02-bg.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/rothko02-bg.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Mark Rothko</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div><div class="credit">Mark Rothko</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps page-corps--dense">
 <p>Reste un rêve.<br>Mezz a voulu monter un orchestre mixte avec Armstrong&nbsp;: il a tenu quelques semaines.<br class="saut">
 Je rêve de reprendre son geste —<br>rassembler un orchestre contemporain, mixte et paritaire,<br>pour composer sur mesure la bande-son du spectacle,<br>et recueillir leurs voix parlées&nbsp;: ce que le jazz représente dans leurs vies aujourd’hui.<br>Les vivants rejoindraient ainsi les morts dans le monde sonore du spectacle.<br>Une créolisation, au sens d’Édouard Glissant&nbsp;: ce métissage qui produit de l’inattendu.<br class="saut">
@@ -665,27 +673,12 @@ Ce solo la prolonge&nbsp;: un seul corps en scène,<br>mais un spectacle rhizome
 </div></div>
 </section>
 
-<section class="page" aria-label="Page 20" data-folio="15" data-panneau-page="src-p15" data-cote="d">
-  <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 20</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
-</section>
-
-<section class="page" aria-label="Page 21" data-folio="19">
-  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Roy DeCarava</div>
-</section>
-
-<section class="page" aria-label="Page 22" data-folio="20">
-  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 22</span></div><div class="credit">Roy DeCarava</div>
-</section>
-
 <div class="diptique-pano" id="dip-absence">
-<section class="page" aria-label="Page 23" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
+<section class="page" aria-label="Page 18" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
   <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 23</span></div><div class="credit"></div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit"></div>
 </section>
-<section class="page diptique-droite" aria-label="Page 23 (suite)" data-folio="17b">
+<section class="page diptique-droite" aria-label="Page 18 (suite)" data-folio="17b">
   <picture><source srcset="assets/images/absence-r.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-r.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
 </section>
@@ -708,6 +701,31 @@ Ce solo la prolonge&nbsp;: un seul corps en scène,<br>mais un spectacle rhizome
     </div>
 </div>
 </div>
+
+<!-- ════════ PAGES REJETÉES POUR LE MOMENT (en attente de réintégration) ════════ -->
+<section class="page page-textreveal" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE">
+  <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Roy DeCarava</div>
+<div class="page-revele" aria-hidden="true"><div class="page-corps">
+<p>Il y a dix ans,<br><em>La Rage de Vivre</em> s’est imposée à moi.<br class="saut">
+L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago<br>qui a passé vingt ans à vouloir devenir noir par la volonté.<br>Un homme qui ne lâche jamais.<br class="saut">
+Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island,<br>il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues.<br>Il croit alors en saisir le message&nbsp;:<br>la vie est belle, il fait bon vivre,<br>malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.<br class="saut">
+Pour moi ce message n’est pas tant celui du blues<br>que tout simplement le sien, celui de Milton Mezzrow.<br class="saut">
+Dans l’improvisation, Mezz accepte enfin, sans le voir,<br>qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant,<br>et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur.<br class="saut">
+La joie qu’il en retire est authentique et bouleversante&nbsp;;<br>elle ne vient pas de la conquête ni de la possession,<br>elle vient de son lâcher-prise.<br class="saut">
+Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br>précisément parce qu’elle est née de tout l’écart<br>entre ce qu’il voulait être et ce qu’il était.<br>Une harmonie dissonante, une harmonie jazz.</p>
+</div></div>
+</section>
+
+<section class="page" aria-label="Page 21" data-folio="19">
+  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Roy DeCarava</div>
+</section>
+
+<section class="page" aria-label="Page 22" data-folio="20">
+  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 22</span></div><div class="credit">Roy DeCarava</div>
+</section>
 </main>
 
 <!-- ════════ SOURCES DES ENCADRÉS ════════ -->
