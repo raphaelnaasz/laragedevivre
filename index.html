@@ -1704,6 +1704,16 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     document.addEventListener('keydown',function(e){
       if(e.key==='Escape') fermeBio();
     });
+    /* fermeture auto : si le scroll fait sortir l'utilisateur de la page 1, la bio se ferme
+       (comme les autres textes/photos). Le scroll INTERNE de la bio ne la ferme pas. */
+    var p1bio=document.querySelector('[data-folio="1"]');
+    if(p1bio && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(ents){
+        ents.forEach(function(e){
+          if(panBio.classList.contains('actif') && (!e.isIntersecting || e.intersectionRatio<0.5)) fermeBio();
+        });
+      },{threshold:[0,0.5,1]}).observe(p1bio);
+    }
   })();
 
   dim();
