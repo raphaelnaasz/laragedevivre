@@ -123,8 +123,8 @@ img.abs{display:block;}
 /* bouton « Louis Armstrong » centré sur l'image (page 8 / 1920) — un seul choix */
 .armstrong-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;
   background:rgba(14,14,14,.42);color:var(--jaune);font:inherit;font-weight:900;cursor:pointer;
-  border:calc(var(--u)*1.7) solid var(--jaune);border-radius:999px;
-  padding:calc(var(--u)*10) calc(var(--u)*24);font-size:calc(var(--u)*15);letter-spacing:.06em;
+  border:calc(var(--u)*1.3) solid var(--jaune);border-radius:999px;
+  padding:calc(var(--u)*7) calc(var(--u)*16);font-size:calc(var(--u)*10.5);letter-spacing:.06em;
   text-transform:uppercase;backdrop-filter:blur(2px);transition:background .35s ease,color .35s ease;}
 .armstrong-btn:hover{background:rgba(14,14,14,.62);}
 .armstrong-btn.joue{background:var(--jaune);color:var(--noir);}
@@ -159,7 +159,7 @@ img.abs{display:block;}
   opacity:0;pointer-events:none;transition:opacity 1.2s ease .3s;}
 .page-textreveal.revele .page-revele{opacity:1;}
 /* page 16 (Family Tree) : voile plus opaque en fin d'animation pour mieux détacher le texte */
-.page-textreveal[data-folio="int-contrebasse"] .page-revele{background:radial-gradient(130% 130% at 50% 50%, rgba(6,6,6,.76), rgba(6,6,6,.95));}
+.page-textreveal[data-folio="int-contrebasse"] .page-revele{background:radial-gradient(130% 130% at 50% 50%, rgba(4,4,4,.88), rgba(2,2,2,.99));}
 .page-corps{box-sizing:border-box;width:90%;max-height:95%;overflow:hidden;
   padding:calc(var(--u2)*4) calc(var(--u2)*13);color:var(--jaune);font-family:inherit;font-weight:900;
   font-size:calc(var(--u2)*8.6);line-height:1.5;letter-spacing:.002em;text-align:justify;
@@ -175,16 +175,48 @@ img.abs{display:block;}
 .page-corps--p15 p{margin-bottom:calc(var(--u2)*6.5);}
 .page-corps--p16{font-size:calc(var(--u2)*9.9);line-height:1.54;}
 .page-corps--p16 p{margin-bottom:calc(var(--u2)*10);}
-.page-corps--p17{font-size:calc(var(--u2)*9.1);line-height:1.48;}
+.page-corps--p17{font-size:calc(var(--u2)*9.1);line-height:1.48;
+  transition:opacity .8s ease .35s, filter .8s ease .35s, transform .8s cubic-bezier(.2,.6,.2,1) .35s;}
 .page-corps--p17 p{margin-bottom:calc(var(--u2)*7);}
 .page-corps .signature{margin-top:calc(var(--u2)*7);text-align:right;font-style:italic;letter-spacing:.02em;opacity:.92;}
-/* citation encadrée en marge (ex. Glissant, bas-gauche p.17) */
-.cite-marge{position:absolute;left:calc(var(--u)*20);bottom:calc(var(--u)*20);z-index:40;
-  max-width:calc(var(--u)*300);border:calc(var(--u)*1) solid var(--jaune);background:rgba(6,6,6,.72);
+@media(max-width:760px){ .page-corps{font-size:calc(var(--u)*5);overflow:auto;width:92%;} }
+
+/* ── vignettes latérales synchronisées au texte (p.15/16/17) ── */
+.vignette-lat{position:fixed;top:50%;z-index:45;width:min(240px,17vw);
+  transform:translateY(-50%);opacity:0;pointer-events:none;transition:opacity 1.1s ease .7s;}
+.vignette-lat.gauche{right:calc(50vw + var(--pw)/2 + 16px);left:auto;}
+.vignette-lat.droite{left:calc(50vw + var(--pw)/2 + 16px);right:auto;}
+.page-textreveal.revele .vignette-lat{opacity:1;pointer-events:auto;}
+.vignette-lat figure{margin:0;}
+.vignette-lat .p16-holder{position:relative;display:block;line-height:0;}
+.vignette-lat img{display:block;width:100%;height:auto;border:1px solid rgba(239,213,26,.55);}
+.vignette-lat figcaption{color:var(--jaune);font-size:calc(var(--u)*4.6);letter-spacing:.08em;
+  text-transform:uppercase;text-align:center;padding-top:calc(var(--u)*4);opacity:.85;line-height:1.3;}
+
+/* citation encadrée en marge gauche (Glissant p.17), synchronisée au texte */
+.cite-marge{position:fixed;top:50%;z-index:45;transform:translateY(-50%);
+  right:calc(50vw + var(--pw)/2 + 16px);left:auto;
+  width:min(240px,17vw);opacity:0;pointer-events:none;transition:opacity 1.1s ease .7s;
+  box-sizing:border-box;border:calc(var(--u)*1) solid var(--jaune);background:rgba(6,6,6,.72);
   padding:calc(var(--u)*12) calc(var(--u)*14);color:var(--jaune);font-size:calc(var(--u)*8);
   line-height:1.42;font-style:italic;text-shadow:0 0 calc(var(--u)*2) rgba(0,0,0,.7);}
+.page-textreveal.revele .cite-marge{opacity:1;}
 .cite-marge .cite-sig{display:block;margin-top:calc(var(--u)*6);font-style:normal;opacity:.8;font-size:calc(var(--u)*7);text-align:right;}
-@media(max-width:760px){ .page-corps{font-size:calc(var(--u)*5);overflow:auto;width:92%;} }
+/* p.17 : vignettes + citation apparaissent aussi vite que le texte */
+.page-textreveal[data-folio="int-kaddish"] .vignette-lat,
+.page-textreveal[data-folio="int-kaddish"] .cite-marge{transition:opacity .8s ease .35s;}
+@media(max-width:980px){ .vignette-lat,.cite-marge{display:none;} }
+
+/* ── flèche « cliquer ici » dessinée, réutilisable ── */
+.fleche-indic{position:fixed;z-index:70;pointer-events:none;opacity:0;transition:opacity .45s ease;
+  display:flex;align-items:center;gap:6px;color:var(--jaune);filter:drop-shadow(0 0 3px rgba(0,0,0,.6));}
+.fleche-indic.show{opacity:1;}
+.fleche-indic svg{width:104px;height:60px;overflow:visible;flex:none;}
+.fleche-indic svg path{fill:none;stroke:var(--jaune);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;}
+.fleche-indic .txt{font-family:inherit;font-weight:900;font-size:22px;letter-spacing:.01em;white-space:nowrap;transform:rotate(-3deg);}
+.fleche-indic.vers-bas{flex-direction:column;align-items:center;gap:0;}
+.fleche-indic.vers-bas .txt{transform:rotate(-3deg);}
+.fleche-indic.vers-bas svg{width:70px;height:80px;transform:rotate(-90deg);}
 
 /* dates "Une vie" (1920…1960) — gros titre centré sous le bandeau, style .titre réduit */
 .date-annee{position:absolute;left:0;right:0;top:calc(var(--u)*50);text-align:center;
@@ -259,7 +291,7 @@ img.abs{display:block;}
   .abs-corps.epi-seule .abs-epigraphe{font-size:calc(var(--u)*6);} }
 
 /* photos de couverture (apparition au démarrage du son) */
-.cv-photo{position:fixed;top:50%;z-index:44;width:min(240px, 17vw);
+.cv-photo{position:fixed;top:50%;z-index:44;width:min(285px, 20vw);
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity 1.4s ease, transform 1.4s cubic-bezier(.22,.8,.2,1), visibility 0s linear 1.4s;}
 .cv-photo img{display:block;width:100%;height:auto;border:1px solid rgba(239,213,26,.55);box-shadow:0 10px 30px rgba(0,0,0,.6);}
@@ -281,7 +313,6 @@ img.abs{display:block;}
 .panneau.actif{opacity:1;visibility:visible;pointer-events:auto;transform:translate(0,-50%);}
 /* panneau « image seule » (ex. page 5) : la bordure épouse l'image, image entière visible sans scroll */
 .panneau.panneau--image{height:auto;max-height:86vh;border:0;background:transparent;}
-.panneau.panneau--image figure img{border:0;}
 .panneau.panneau--image .corps::before,.panneau.panneau--image .corps::after{display:none;}
 .panneau.panneau--image .corps{overflow:visible;}
 .panneau.panneau--image .defile{height:auto;overflow:visible;padding:0 14px 12px;}
@@ -343,6 +374,11 @@ img.abs{display:block;}
 #intro .intro-btn:active{transform:scale(.97);}
 #intro .intro-pied{color:var(--jaune);opacity:.5;font-weight:900;text-transform:uppercase;
   letter-spacing:.1em;font-size:clamp(8px,2.2vw,10px);}
+#intro .intro-pdf{color:var(--jaune);opacity:.72;font-weight:900;text-transform:uppercase;
+  letter-spacing:.1em;font-size:clamp(9px,2.3vw,11px);text-decoration:none;
+  border:1px solid rgba(239,213,26,.55);border-radius:999px;padding:.55em 1.4em;
+  transition:background .25s ease,color .25s ease,opacity .25s ease;-webkit-tap-highlight-color:transparent;}
+#intro .intro-pdf:hover{background:var(--jaune);color:var(--noir);opacity:1;}
 
 @media (prefers-reduced-motion: reduce){ .panneau .fleche{animation:none;} }
 
@@ -486,11 +522,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div id="intro" role="dialog" aria-label="Entrée">
   <button id="intro-btn" class="intro-btn">Entrer&nbsp;&amp;&nbsp;écouter</button>
   <div class="intro-sous">Ce dossier se lit avec le son.<br>Activez le son de votre appareil,<br>puis entrez.</div>
+  <!-- PLACEHOLDER : remplacer href par le vrai PDF (fichier assets/… ou URL externe) -->
+  <a class="intro-pdf" href="assets/dossier.pdf" target="_blank" rel="noopener">↓ Télécharger le dossier (PDF)</a>
   <div class="intro-pied">défilez pour parcourir</div>
 </div>
 
 <!-- séquence cinématique (après clic intro, avant défilement) -->
 <div id="seq" role="presentation" aria-hidden="true"></div>
+
+<!-- flèches « cliquer ici » dessinées (positionnées par JS) -->
+<div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M100,15 C74,3 90,41 54,30 C37,25 30,45 15,34 M15,34 l21,-6 M15,34 l15,15"/></svg><span class="txt">cliquer ici</span></div>
+<div class="fleche-indic vers-bas" id="fleche-scroll" aria-hidden="true"><span class="txt">cliquer ici</span><svg viewBox="0 0 104 60"><path d="M100,15 C74,3 90,41 54,30 C37,25 30,45 15,34 M15,34 l21,-6 M15,34 l15,15"/></svg></div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -614,7 +656,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="credit" style="position:absolute;left:calc(var(--u)*12.7);width:calc(var(--u)*571.4);top:calc(var(--u)*688.6);bottom:auto;right:auto;text-align:right">Jean-Michel Basquiat — Now’s the Time, 1985</div>
 </section>
 
-<section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-reveal-early data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" data-panneau-page="src-watteau" data-cote="g">
+<section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-reveal-early data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957">
   <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps page-corps--p15">
@@ -625,9 +667,17 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Ce projet part de ma recherche d’acteur-musicien&nbsp;: intimement, je ne fais jamais vraiment la différence entre les deux&nbsp;; au plateau je suis l’un et l’autre en même temps, et j’interroge l’un avec l’autre. Ce que je cherche&nbsp;: une musique qui n’illustre pas, une dramaturgie du son à part entière, un jeu et une musique non discontinus — chacun se nourrissant de l’autre, se faisant avec et contre l’autre. L’improvisation en est un des outils&nbsp;: j’ai toujours cherché ces espaces de liberté dans les spectacles que j’ai traversés, notamment auprès de Margaux Eskenazi — l’impro comme percée dans la matière textuelle, comme prolongement naturel de l’écriture.</p>
 <p>Du récit intime à l’incarnation, du roman-dit à des moments purement musicaux, du jeu de clown au cours de musique, le propos s’articulera autour de la multiplicité des strates de lecture, des temporalités et des régimes de présence — dans le jeu d’acteur comme dans l’utilisation du son au plateau.</p>
 </div></div>
+<figure class="vignette-lat gauche">
+  <span class="p16-holder">
+    <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718">
+    <button type="button" class="p16-cercle-panel" id="p16-cercle-panel" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
+    <div class="indication-clic p16-indication-panel" id="p16-indication-panel">cliquer ici</div>
+  </span>
+  <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
+</figure>
 </section>
 
-<section class="page page-textreveal" aria-label="Page 16" data-folio="int-contrebasse" data-panneau-g="src-crewdson-img" data-panneau-d="src-clarinettiste-img">
+<section class="page page-textreveal" aria-label="Page 16" data-folio="int-contrebasse">
   <picture><source srcset="assets/images/img-11.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-11.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div><div class="credit">Zhang Huan — Family Tree, 2000</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps page-corps--p16">
@@ -635,6 +685,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p>Certaines de ces voix passeront par des objets sonorisés — des excitateurs de surface, transducteurs qui font vibrer la matière même de l’objet, un mode de diffusion que je veux expérimenter en complément d’une diffusion classique. La voix de Mingus sortant du canapé du psychanalyste, là où le corps absent devrait être allongé&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
 <p>Le son ne fera pas que m’accompagner au plateau&nbsp;: il sera aussi l’acteur d’un jeu avec moi. Enregistrements historiques, voix parlées, objets sonorisés — tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée n’est pas un accident&nbsp;: c’est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
 </div></div>
+<figure class="vignette-lat gauche">
+  <picture><source srcset="assets/images/int-crewdson2.webp" type="image/webp"><img src="assets/images/int-crewdson2.jpg" alt="Gregory Crewdson — Boy with Hand in Drain"></picture>
+  <figcaption>Gregory Crewdson — Boy with Hand in Drain, 1998-2002</figcaption>
+</figure>
 </section>
 
 <section class="page page-textreveal" aria-label="Page 17" data-folio="int-kaddish">
@@ -648,6 +702,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <p class="signature">Raphaël Naasz</p>
 </div></div>
 <div class="cite-marge">«&nbsp;Mais à la racine unique qui tue alentour n’oserons-nous pas proposer par élargissement la racine en rhizome qui ouvre Relation&nbsp;?&nbsp;»<span class="cite-sig">Édouard Glissant, <em>Poétique de la Relation</em>, 1990</span></div>
+<figure class="vignette-lat droite">
+  <picture><source srcset="assets/images/int-kaddish.webp" type="image/webp"><img src="assets/images/int-kaddish.jpg" alt="Clarinettiste"></picture>
+  <figcaption>Clarinettiste</figcaption>
+</figure>
 </section>
 
 <div class="diptique-pano" id="dip-absence">
@@ -659,6 +717,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   <picture><source srcset="assets/images/absence-r.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-r.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div><div class="credit"></div>
 </section>
+<!-- PAGE 18 — TEXTE RETIRÉ TEMPORAIREMENT (reviendra avec un nouveau texte prochainement). Bloc conservé ci-dessous :
 <div class="abs-revele" id="abs-revele" aria-hidden="true">
   <div class="abs-corps">
       <p>Mon histoire avec le jazz commence par un frère qui part. Quinze ans de plus que moi, saxophoniste&nbsp;; je suis à peine adolescent quand il s’installe au Canada. Pas une rupture — une disparition polie du lien, un divorce sourd. Ce qu’il jouait est resté de ce côté de l’Atlantique, dans l’espace qu’il avait vidé, et j’ai appris à écouter cette musique comme on écoute quelqu’un qui n’est plus là.</p>
@@ -676,6 +735,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       <p>Le sujet du spectacle, c’est cet écart — entre la beauté réelle et la suspicion légitime — qui ne se referme jamais, et ne doit pas se refermer. Le refermer serait mentir&nbsp;: prétendre que tout est permis au nom de la sincérité, ou que rien n’est possible au nom de la pureté. Mes absences à moi — le frère, Camille — ne sont pas un ornement intime à côté de cette question. C’est par elles que je sais, dans le corps et pas seulement dans la pensée, ce que veut dire aimer quelqu’un qui n’est pas là. C’est ce que je peux légitimement apporter à une histoire qui, par ailleurs, ne m’appartient pas. Et c’est cette absence-là, sous toutes ses formes, que le spectacle cherche à rendre sonore et théâtrale.</p>
     </div>
 </div>
+-->
 </div>
 
 <!-- ════════ PAGES REJETÉES POUR LE MOMENT (en attente de réintégration) ════════ -->
@@ -1188,10 +1248,11 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
     setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); if(roles[1]) roles[1].classList.add('seq-ok'); }, 11000);
     setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); if(roles[2]) roles[2].classList.add('seq-ok'); }, 13000);
 
-    // Étape 7 — SOUND ON + crédit + scroll rétabli (simultanément)
+    // Étape 7 — SOUND ON + crédit + scroll rétabli + flèche « cliquer ici » vers Mezz (simultanément)
     setTimeout(function(){
       document.body.classList.remove('seq-en-cours');
       document.body.style.overflow='';
+      montrerFlecheIntro();
     }, 15000);
   }
 
@@ -1295,8 +1356,7 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
     P.el.classList.add('actif');
     P.el.style.opacity=String(ap);
     var dx=(1-ap)* (P.el.id==='panneau-d'? 22 : -22);
-    var dyOff=(P._id==='src-clarinettiste-img')? 9 : 0;   /* clarinettiste (p.17) descendu un peu */
-    P.el.style.transform='translate('+dx+'px,calc(-50% + '+dyOff+'vh))';
+    P.el.style.transform='translate('+dx+'px,-50%)';
     // déroulé : scrollTop suit dr
     var max=P.defile.scrollHeight - P.defile.clientHeight;
     if(max>4){
@@ -1361,7 +1421,7 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
     if(cvPhotos.length){
       var r0=pages[0].getBoundingClientRect();
       var avancement = -r0.top / Math.max(1, r0.height);   // 0 en haut, 1 quand p1 entièrement remontée
-      var montrer = !mezzVue && debloque && avancement > 0.15 && r0.bottom > H*0.42;
+      var montrer = !mezzVue && debloque && avancement > 0.02 && r0.bottom > H*0.60;
       cvPhotos.forEach(function(el){ el.classList.toggle('montre', montrer); });
     }
     p6Fade();
@@ -1668,6 +1728,55 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
       pp.cible=VOL_PISTES['EMB:JEEP']||VOL;
       if(pp.audio){ pp.audio.volume=pp.cible; var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
       courante=-1; majAudio();
+    });
+  })();
+  // ── flèches « cliquer ici » dessinées (intro + boutons p.8/p.10) ──
+  function _placerFleche(fleche, target, mode){
+    if(!fleche||!target) return;
+    var r=target.getBoundingClientRect();
+    if(!r.width && !r.height) return;
+    if(mode==='haut'){
+      fleche.style.left=(r.left + r.width/2)+'px';
+      fleche.style.top=(r.top - 84)+'px';
+      fleche.style.transform='translateX(-50%)';
+    } else {                       /* à droite de la cible, pointe vers la gauche */
+      fleche.style.left=(r.right + 12)+'px';
+      fleche.style.top=(r.top + r.height/2)+'px';
+      fleche.style.transform='translateY(-50%)';
+    }
+  }
+  function montrerFlecheIntro(){   /* appelée en fin de séquence, avec SOUND ON */
+    var f=document.getElementById('fleche-intro'), cible=document.querySelector('.mezz-nom');
+    if(!f||!cible) return;
+    _placerFleche(f, cible, 'gauche'); f.classList.add('show');
+    var off=function(){ f.classList.remove('show'); window.removeEventListener('scroll', off); };
+    window.addEventListener('scroll', off, {passive:true});
+    document.addEventListener('click', function(e){ if(e.target.closest('.mezz-nom')) off(); }, {once:true});
+  }
+  (function(){            // flèches éphémères au scroll : p.8 (Armstrong) + p.10 (switch)
+    if(!('IntersectionObserver' in window)) return;
+    var f=document.getElementById('fleche-scroll'); if(!f) return;
+    var supp={}, hideT=null, shown={};
+    function surCible(getT, mode, key){
+      if(supp[key]) return; var t=getT(); if(!t) return;
+      _placerFleche(f, t, mode); f.classList.add('show');
+      if(hideT) clearTimeout(hideT);
+      hideT=setTimeout(function(){ f.classList.remove('show'); }, 2500);
+    }
+    function obs(page, getT, mode, key){
+      if(!page) return;
+      new IntersectionObserver(function(ents){
+        ents.forEach(function(e){
+          if(e.isIntersecting && e.intersectionRatio>=0.6){ if(!shown[key]){ shown[key]=true; surCible(getT, mode, key); } }
+          else shown[key]=false;
+        });
+      },{threshold:[0,0.6,1]}).observe(page);
+    }
+    obs(document.querySelector('[data-folio="7"]'), function(){ return document.getElementById('armstrong-btn'); }, 'haut', 'p8');
+    obs(document.querySelector('[data-folio="9"]'), function(){ var m=document.getElementById('ab-p9'); return m&&(m.querySelector('.ab-toggle')||m); }, 'haut', 'p10');
+    document.addEventListener('click', function(e){
+      if(e.target.closest('#armstrong-btn')){ supp.p8=true; f.classList.remove('show'); }
+      if(e.target.closest('#ab-p9')){ supp.p10=true; f.classList.remove('show'); }
     });
   })();
   (function(){            // double page 13-14 « Hart's Island » : révélation pilotée par le SCROLL (même animation que 17 « L'absence ») — pas de son
