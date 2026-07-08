@@ -164,9 +164,9 @@ img.abs{display:block;}
   padding:calc(var(--u2)*4) calc(var(--u2)*13);color:var(--jaune);font-family:inherit;font-weight:900;
   font-size:calc(var(--u2)*8.6);line-height:1.5;letter-spacing:.002em;text-align:justify;
   text-shadow:0 0 calc(var(--u2)*3) rgba(0,0,0,.6);
-  opacity:0;filter:blur(calc(var(--u2)*3.2));transform:scale(1.032);
-  transition:opacity 1.1s ease .7s, filter 1.1s ease .7s, transform 1.1s cubic-bezier(.2,.6,.2,1) .7s;}
-.page-textreveal.revele .page-corps{opacity:1;filter:blur(0);transform:scale(1);}
+  opacity:0;filter:blur(calc(var(--u2)*2.2));transform:scale(1.05) translateY(calc(var(--u2)*6));
+  transition:opacity .8s ease .28s, filter .8s ease .28s, transform .85s cubic-bezier(.2,.75,.25,1) .28s;}
+.page-textreveal.revele .page-corps{opacity:1;filter:blur(0);transform:scale(1) translateY(0);}
 .page-corps p{margin:0 0 calc(var(--u2)*6);}
 .page-corps p:last-child{margin-bottom:0;}
 .page-corps br.saut{content:"";display:block;margin-top:calc(var(--u2)*4);}
@@ -175,15 +175,14 @@ img.abs{display:block;}
 .page-corps--p15 p{margin-bottom:calc(var(--u2)*6.5);}
 .page-corps--p16{font-size:calc(var(--u2)*9.9);line-height:1.54;}
 .page-corps--p16 p{margin-bottom:calc(var(--u2)*10);}
-.page-corps--p17{font-size:calc(var(--u2)*9.1);line-height:1.48;
-  transition:opacity .8s ease .35s, filter .8s ease .35s, transform .8s cubic-bezier(.2,.6,.2,1) .35s;}
+.page-corps--p17{font-size:calc(var(--u2)*9.1);line-height:1.48;}
 .page-corps--p17 p{margin-bottom:calc(var(--u2)*7);}
 .page-corps .signature{margin-top:calc(var(--u2)*7);text-align:right;font-style:italic;letter-spacing:.02em;opacity:.92;}
 @media(max-width:760px){ .page-corps{font-size:calc(var(--u)*5);overflow:auto;width:92%;} }
 
 /* ── vignettes latérales synchronisées au texte (p.15/16/17) ── */
 .vignette-lat{position:fixed;top:50%;z-index:45;width:min(240px,17vw);
-  transform:translateY(-50%);opacity:0;pointer-events:none;transition:opacity 1.1s ease .7s;}
+  transform:translateY(-50%);opacity:0;pointer-events:none;transition:opacity .8s ease .28s;}
 .vignette-lat.gauche{right:calc(50vw + var(--pw)/2 + 16px);left:auto;}
 .vignette-lat.droite{left:calc(50vw + var(--pw)/2 + 16px);right:auto;}
 .page-textreveal.revele .vignette-lat{opacity:1;pointer-events:auto;}
@@ -192,31 +191,49 @@ img.abs{display:block;}
 .vignette-lat img{display:block;width:100%;height:auto;border:1px solid rgba(239,213,26,.55);}
 .vignette-lat figcaption{color:var(--jaune);font-size:calc(var(--u)*4.6);letter-spacing:.08em;
   text-transform:uppercase;text-align:center;padding-top:calc(var(--u)*4);opacity:.85;line-height:1.3;}
+/* tailles par page (images agrandies) */
+.page-textreveal[data-folio="16"] .vignette-lat{width:min(330px,21vw);}
+.page-textreveal[data-folio="int-contrebasse"] .vignette-lat{width:min(430px,25vw);}
+.page-textreveal[data-folio="int-kaddish"] .vignette-lat.droite{width:min(370px,23vw);}
 
 /* citation encadrée en marge gauche (Glissant p.17), synchronisée au texte */
 .cite-marge{position:fixed;top:50%;z-index:45;transform:translateY(-50%);
   right:calc(50vw + var(--pw)/2 + 16px);left:auto;
-  width:min(240px,17vw);opacity:0;pointer-events:none;transition:opacity 1.1s ease .7s;
-  box-sizing:border-box;border:calc(var(--u)*1) solid var(--jaune);background:rgba(6,6,6,.72);
-  padding:calc(var(--u)*12) calc(var(--u)*14);color:var(--jaune);font-size:calc(var(--u)*8);
-  line-height:1.42;font-style:italic;text-shadow:0 0 calc(var(--u)*2) rgba(0,0,0,.7);}
+  width:min(300px,22vw);opacity:0;pointer-events:none;transition:opacity .8s ease .28s;
+  box-sizing:border-box;border:calc(var(--u)*1.1) solid var(--jaune);background:rgba(6,6,6,.72);
+  padding:calc(var(--u)*15) calc(var(--u)*17);color:var(--jaune);font-size:calc(var(--u)*10.2);
+  line-height:1.4;font-style:italic;text-shadow:0 0 calc(var(--u)*2) rgba(0,0,0,.7);}
 .page-textreveal.revele .cite-marge{opacity:1;}
-.cite-marge .cite-sig{display:block;margin-top:calc(var(--u)*6);font-style:normal;opacity:.8;font-size:calc(var(--u)*7);text-align:right;}
-/* p.17 : vignettes + citation apparaissent aussi vite que le texte */
-.page-textreveal[data-folio="int-kaddish"] .vignette-lat,
-.page-textreveal[data-folio="int-kaddish"] .cite-marge{transition:opacity .8s ease .35s;}
+.cite-marge .cite-sig{display:block;margin-top:calc(var(--u)*8);font-style:normal;opacity:.8;font-size:calc(var(--u)*8.4);text-align:right;}
 @media(max-width:980px){ .vignette-lat,.cite-marge{display:none;} }
+
+/* ── page Contacts (dernière page) ── */
+.contact-voile{position:absolute;inset:0;z-index:5;background:radial-gradient(135% 135% at 50% 45%, rgba(6,6,6,.74), rgba(3,3,3,.93));}
+.contact-corps{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(var(--u)*40);color:var(--jaune);text-align:center;}
+.contact-titre{font-size:calc(var(--u)*48);letter-spacing:-0.015em;font-weight:900;margin:0 0 calc(var(--u)*46);
+  text-shadow:0 0 2px rgba(0,0,0,.5);}
+.contact-liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(var(--u)*36);width:100%;max-width:calc(var(--u)*540);}
+.contact-liste li{display:flex;flex-direction:column;gap:calc(var(--u)*3);}
+.contact-liste .c-nom{font-size:calc(var(--u)*23);font-weight:900;letter-spacing:-0.01em;}
+.contact-liste .c-role{font-size:calc(var(--u)*11);letter-spacing:.06em;text-transform:uppercase;opacity:.8;}
+.contact-liste .c-mail{color:var(--jaune);font-size:calc(var(--u)*15.5);text-decoration:none;align-self:center;
+  margin-top:calc(var(--u)*5);border-bottom:1px dashed rgba(239,213,26,.5);}
+.contact-liste .c-mail:hover{border-bottom-style:solid;}
+.contact-liste .c-tel{font-size:calc(var(--u)*15.5);letter-spacing:.1em;opacity:.92;}
+@media(max-width:760px){ .contact-titre{font-size:calc(var(--u)*30);} .contact-liste .c-nom{font-size:calc(var(--u)*17);} }
 
 /* ── flèche « cliquer ici » dessinée, réutilisable ── */
 .fleche-indic{position:fixed;z-index:70;pointer-events:none;opacity:0;transition:opacity .45s ease;
   display:flex;align-items:center;gap:6px;color:var(--jaune);filter:drop-shadow(0 0 3px rgba(0,0,0,.6));}
 .fleche-indic.show{opacity:1;}
-.fleche-indic svg{width:104px;height:60px;overflow:visible;flex:none;}
-.fleche-indic svg path{fill:none;stroke:var(--jaune);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;}
-.fleche-indic .txt{font-family:inherit;font-weight:900;font-size:22px;letter-spacing:.01em;white-space:nowrap;transform:rotate(-3deg);}
+.fleche-indic svg{width:104px;height:58px;overflow:visible;flex:none;}
+.fleche-indic svg path{fill:none;stroke:var(--jaune);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;}
+.fleche-indic .txt{font-family:inherit;font-weight:900;font-size:20px;letter-spacing:.01em;white-space:nowrap;transform:rotate(-3deg);}
 .fleche-indic.vers-bas{flex-direction:column;align-items:center;gap:0;}
-.fleche-indic.vers-bas .txt{transform:rotate(-3deg);}
-.fleche-indic.vers-bas svg{width:70px;height:80px;transform:rotate(-90deg);}
+.fleche-indic.vers-bas .txt{transform:rotate(-3deg);font-size:14px;}
+.fleche-indic.vers-bas svg{width:46px;height:56px;transform:rotate(-78deg);}
+.fleche-indic.vers-bas svg path{stroke-width:3.2;}
 
 /* dates "Une vie" (1920…1960) — gros titre centré sous le bandeau, style .titre réduit */
 .date-annee{position:absolute;left:0;right:0;top:calc(var(--u)*50);text-align:center;
@@ -531,8 +548,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div id="seq" role="presentation" aria-hidden="true"></div>
 
 <!-- flèches « cliquer ici » dessinées (positionnées par JS) -->
-<div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M100,15 C74,3 90,41 54,30 C37,25 30,45 15,34 M15,34 l21,-6 M15,34 l15,15"/></svg><span class="txt">cliquer ici</span></div>
-<div class="fleche-indic vers-bas" id="fleche-scroll" aria-hidden="true"><span class="txt">cliquer ici</span><svg viewBox="0 0 104 60"><path d="M100,15 C74,3 90,41 54,30 C37,25 30,45 15,34 M15,34 l21,-6 M15,34 l15,15"/></svg></div>
+<div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg><span class="txt">cliquer ici</span></div>
+<div class="fleche-indic vers-bas" id="fleche-scroll" aria-hidden="true"><span class="txt">cliquer ici</span><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -675,6 +692,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   </span>
   <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
 </figure>
+<figure class="p16-pochette" id="p16-pochette" hidden>
+  <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
+  <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
+</figure>
 </section>
 
 <section class="page page-textreveal" aria-label="Page 16" data-folio="int-contrebasse">
@@ -704,12 +725,11 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="cite-marge">«&nbsp;Mais à la racine unique qui tue alentour n’oserons-nous pas proposer par élargissement la racine en rhizome qui ouvre Relation&nbsp;?&nbsp;»<span class="cite-sig">Édouard Glissant, <em>Poétique de la Relation</em>, 1990</span></div>
 <figure class="vignette-lat droite">
   <picture><source srcset="assets/images/int-kaddish.webp" type="image/webp"><img src="assets/images/int-kaddish.jpg" alt="Clarinettiste"></picture>
-  <figcaption>Clarinettiste</figcaption>
 </figure>
 </section>
 
 <div class="diptique-pano" id="dip-absence">
-<section class="page" aria-label="Page 18" data-folio="17" data-son="EMB:BBBSOLO" data-piste="Bye Bye Blackbird (solo de John Coltrane) — Miles Davis Quintet · Olympia, Paris, 1960">
+<section class="page" aria-label="Page 18" data-folio="17" data-son="EMB:SILENCE">
   <picture><source srcset="assets/images/absence-l.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/absence-l.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div><div class="credit"></div>
 </section>
@@ -738,29 +758,34 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 -->
 </div>
 
-<!-- ════════ PAGES REJETÉES POUR LE MOMENT (en attente de réintégration) ════════ -->
-<section class="page page-textreveal" aria-label="Page 15" data-folio="int-rothko" data-son="EMB:SILENCE">
+<!-- ════════ PAGE CONTACTS (dernière page du dossier) ════════ -->
+<section class="page page-contact" aria-label="Page 19" data-folio="contact" data-son="EMB:SILENCE">
   <picture><source srcset="assets/images/int-contrebasse.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-contrebasse.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Roy DeCarava</div>
-<div class="page-revele" aria-hidden="true"><div class="page-corps">
-<p>Il y a dix ans,<br><em>La Rage de Vivre</em> s’est imposée à moi.<br class="saut">
-L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago<br>qui a passé vingt ans à vouloir devenir noir par la volonté.<br>Un homme qui ne lâche jamais.<br class="saut">
-Au point d’orgue du livre, lors d’une parade musicale dans la prison d’Hart’s Island,<br>il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues.<br>Il croit alors en saisir le message&nbsp;:<br>la vie est belle, il fait bon vivre,<br>malgré ses insuffisances, la difficulté d’être au monde, la rudesse de la vie.<br class="saut">
-Pour moi ce message n’est pas tant celui du blues<br>que tout simplement le sien, celui de Milton Mezzrow.<br class="saut">
-Dans l’improvisation, Mezz accepte enfin, sans le voir,<br>qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant,<br>et il nous délivre sa trouvaille à lui&nbsp;: ne plus en avoir peur.<br class="saut">
-La joie qu’il en retire est authentique et bouleversante&nbsp;;<br>elle ne vient pas de la conquête ni de la possession,<br>elle vient de son lâcher-prise.<br class="saut">
-Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br>précisément parce qu’elle est née de tout l’écart<br>entre ce qu’il voulait être et ce qu’il était.<br>Une harmonie dissonante, une harmonie jazz.</p>
-</div></div>
-</section>
-
-<section class="page" aria-label="Page 21" data-folio="19">
-  <picture><source srcset="assets/images/img-16.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-16.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 21</span></div><div class="credit">Roy DeCarava</div>
-</section>
-
-<section class="page" aria-label="Page 22" data-folio="20">
-  <picture><source srcset="assets/images/img-17.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-17.jpg" alt=""></picture>
-<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 22</span></div><div class="credit">Roy DeCarava</div>
+<div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div><div class="credit">Roy DeCarava</div>
+<div class="contact-voile"></div>
+<div class="contact-corps">
+  <h2 class="contact-titre">Contacts</h2>
+  <ul class="contact-liste">
+    <li>
+      <span class="c-nom">Raphaël Naasz</span>
+      <span class="c-role">auteur, interprète, musicien</span>
+      <a class="c-mail" href="mailto:raphael.naasz@gmail.com">raphael.naasz@gmail.com</a>
+      <span class="c-tel">07 66 00 48 38</span>
+    </li>
+    <li>
+      <span class="c-nom">Margaux Eskenazi</span>
+      <span class="c-role">mise en scène</span>
+      <a class="c-mail" href="mailto:margaux@lacompagnienova.org">margaux@lacompagnienova.org</a>
+      <span class="c-tel">06 63 36 31 60</span>
+    </li>
+    <li>
+      <span class="c-nom">Julia Baudet</span>
+      <span class="c-role">assistante à la mise en scène</span>
+      <a class="c-mail" href="mailto:juliabaudet74@gmail.com">juliabaudet74@gmail.com</a>
+      <span class="c-tel">06 49 15 40 42</span>
+    </li>
+  </ul>
+</div>
 </section>
 </main>
 
@@ -1265,11 +1290,14 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
   if(introBtn){ introBtn.addEventListener('click', entrer); }
   // Fallback : si pour une raison quelconque l'écran n'est pas là, tout premier
   // geste débloque quand même l'audio.
+  /* tant que la page 0 (intro) est là, SEUL « Entrer & écouter » démarre le son :
+     un clic ailleurs (ex. lien PDF) ne doit RIEN déclencher. */
+  function debloquerFallback(){ if(document.getElementById('intro')) return; debloquer(); }
   ['pointerdown','touchstart','mousedown','keydown','click'].forEach(function(ev){
-    window.addEventListener(ev,debloquer,{passive:true,capture:true});
+    window.addEventListener(ev,debloquerFallback,{passive:true,capture:true});
   });
-  window.addEventListener('scroll',debloquer,{passive:true});
-  document.addEventListener('touchend',debloquer,{passive:true});
+  window.addEventListener('scroll',debloquerFallback,{passive:true});
+  document.addEventListener('touchend',debloquerFallback,{passive:true});
 
 
   bouton.addEventListener('click', function(){
@@ -1756,27 +1784,31 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
   (function(){            // flèches éphémères au scroll : p.8 (Armstrong) + p.10 (switch)
     if(!('IntersectionObserver' in window)) return;
     var f=document.getElementById('fleche-scroll'); if(!f) return;
-    var supp={}, hideT=null, shown={};
+    var supp={}, hideT=null, shown={}, actif=null;   /* actif = {getT, mode, key} tant que la flèche est visible */
+    function placer(){ if(!actif) return; var t=actif.getT(); if(t) _placerFleche(f, t, actif.mode); }
+    function cacher(){ f.classList.remove('show'); actif=null; }
     function surCible(getT, mode, key){
       if(supp[key]) return; var t=getT(); if(!t) return;
-      _placerFleche(f, t, mode); f.classList.add('show');
+      actif={getT:getT, mode:mode, key:key}; placer(); f.classList.add('show');
       if(hideT) clearTimeout(hideT);
-      hideT=setTimeout(function(){ f.classList.remove('show'); }, 2500);
+      hideT=setTimeout(cacher, 1600);            /* éphémère */
     }
     function obs(page, getT, mode, key){
       if(!page) return;
       new IntersectionObserver(function(ents){
         ents.forEach(function(e){
           if(e.isIntersecting && e.intersectionRatio>=0.6){ if(!shown[key]){ shown[key]=true; surCible(getT, mode, key); } }
-          else shown[key]=false;
+          else { shown[key]=false; if(actif && actif.key===key) cacher(); }   /* quitte la page → disparaît */
         });
       },{threshold:[0,0.6,1]}).observe(page);
     }
     obs(document.querySelector('[data-folio="7"]'), function(){ return document.getElementById('armstrong-btn'); }, 'haut', 'p8');
     obs(document.querySelector('[data-folio="9"]'), function(){ var m=document.getElementById('ab-p9'); return m&&(m.querySelector('.ab-toggle')||m); }, 'haut', 'p10');
+    window.addEventListener('scroll', function(){ if(actif) placer(); }, {passive:true});   /* reste accrochée à sa cible */
+    window.addEventListener('resize', function(){ if(actif) placer(); }, {passive:true});
     document.addEventListener('click', function(e){
-      if(e.target.closest('#armstrong-btn')){ supp.p8=true; f.classList.remove('show'); }
-      if(e.target.closest('#ab-p9')){ supp.p10=true; f.classList.remove('show'); }
+      if(e.target.closest('#armstrong-btn')){ supp.p8=true; cacher(); }
+      if(e.target.closest('#ab-p9')){ supp.p10=true; cacher(); }
     });
   })();
   (function(){            // double page 13-14 « Hart's Island » : révélation pilotée par le SCROLL (même animation que 17 « L'absence ») — pas de son
@@ -1808,13 +1840,13 @@ Une harmonie trouvée en lui qui ne ressemble à celle de personne d’autre,<br
     if(!pages.length || !('IntersectionObserver' in window)) return;
     var io=new IntersectionObserver(function(ents){
       ents.forEach(function(e){
-        var seuil=e.target.hasAttribute('data-reveal-early')?0.6:0.75;  // page 15 : apparition un peu plus tôt
+        var seuil=e.target.hasAttribute('data-reveal-early')?0.5:0.75;  // page 15 : apparition plus tôt
         var on=e.isIntersecting && e.intersectionRatio>=seuil;
         e.target.classList.toggle('revele', on);
         var texte=e.target.querySelector('.page-revele');
         if(texte) texte.setAttribute('aria-hidden', on?'false':'true');
       });
-    },{threshold:[0,0.6,0.75,0.9,1]});
+    },{threshold:[0,0.5,0.75,0.9,1]});
     pages.forEach(function(p){ io.observe(p); });
   })();
   buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
