@@ -416,6 +416,15 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 #seq{position:fixed;inset:0;z-index:88;background:var(--noir);
   pointer-events:none;opacity:0;visibility:hidden;}
 #seq.actif{opacity:1;visibility:visible;}
+/* bouton « passer l'intro » — visible seulement pendant la séquence */
+#seq-skip{position:fixed;bottom:24px;right:24px;z-index:92;display:none;cursor:pointer;
+  border:2px solid var(--jaune);background:rgba(0,0,0,.45);color:var(--jaune);
+  font-family:inherit;font-weight:900;text-transform:uppercase;letter-spacing:.1em;
+  font-size:clamp(9px,2vw,12px);padding:.7em 1.35em;border-radius:999px;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  transition:background .25s ease,color .25s ease;-webkit-tap-highlight-color:transparent;}
+body.seq-en-cours #seq-skip{display:block;}
+#seq-skip:hover{background:var(--jaune);color:var(--noir);}
 /* éléments page 1 cachés au départ, révélés par la séquence */
 .seq-cache{opacity:0;transition:opacity 2.5s ease;}
 .seq-cache.seq-ok{opacity:1;}
@@ -556,6 +565,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 
 <!-- séquence cinématique (après clic intro, avant défilement) -->
 <div id="seq" role="presentation" aria-hidden="true"></div>
+<button id="seq-skip" type="button">Passer l’intro ›</button>
 
 <!-- flèches « cliquer ici » dessinées (positionnées par JS) -->
 <div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg><span class="txt">cliquer ici</span></div>
@@ -870,22 +880,6 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
 <div class="panneau-source" id="src-int-6" data-titre="" hidden>
 <p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles, depuis <em>Nous sommes de ceux qui disent non à l’ombre</em> — qui traitait de la Négritude et de ses poètes (Aimé Césaire, Léon-Gontran Damas, Édouard Glissant) et où j’étais déjà musicien-acteur au plateau. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
 </div>
-<div class="panneau-source" id="src-watteau" data-titre="" hidden>
-  <figure>
-    <span class="p16-holder" style="position:relative;display:inline-block;line-height:0">
-      <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718">
-      <button type="button" class="p16-cercle-panel" id="p16-cercle-panel" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
-      <div class="indication-clic p16-indication-panel" id="p16-indication-panel">cliquer ici</div>
-    </span>
-    <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
-  </figure>
-</div>
-<div class="panneau-source" id="src-clarinettiste-img" data-titre="" hidden>
-  <figure><img src="assets/images/int-kaddish.webp" alt="Clarinettiste"></figure>
-</div>
-<div class="panneau-source" id="src-crewdson-img" data-titre="" hidden>
-  <figure><img src="assets/images/int-crewdson2.webp" alt="Gregory Crewdson — Boy with Hand in Drain"><figcaption>Gregory Crewdson — Boy with Hand in Drain (Twilight, 1998-2002)</figcaption></figure>
-</div>
 <div class="panneau-source" id="src-new-orleans" data-titre="New Orleans Jazz Band" hidden>
   <figure><img src="assets/images/new-orleans-jazz-band.webp" alt="New Orleans Jazz Band" data-cap="New Orleans Jazz Band"><figcaption>New Orleans Jazz Band</figcaption></figure>
 </div>
@@ -952,12 +946,12 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       DAY="assets/audio/daybreak-express-1933.mp3", WHAT="assets/audio/what-is-this-thing-called-love-1941.mp3",
       HOT="assets/audio/hot-house-1948.mp3", BOO="assets/audio/boogie-stop-shuffle-1959.mp3",
       BBB="assets/audio/bye-bye-blackbird-1960.mp3", ALLB="assets/audio/all-blues-1959.mp3",
-      DRM="assets/audio/darn-that-dream-monk.mp3", REINC="assets/audio/reincarnation-of-a-lovebird-1957.mp3",
+      REINC="assets/audio/reincarnation-of-a-lovebird-1957.mp3",
       BBBSOLO="assets/audio/bye-bye-blackbird-coltrane-1960.mp3",
       MEZZ="assets/audio/mezz-mineur-avec-un-pont.mp3",
-      SLEEP="assets/audio/the-sleeper-coltrane.mp3", JEEP="assets/audio/jeepers-creepers-armstrong.mp3",
+      JEEP="assets/audio/jeepers-creepers-armstrong.mp3",
       SILENCE="assets/audio/silence.mp3";
-  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:DRM":DRM, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO, "EMB:MEZZ":MEZZ, "EMB:SLEEP":SLEEP, "EMB:JEEP":JEEP, "EMB:SILENCE":SILENCE };
+  var SRC={ "EMB:RTB":RTB, "EMB:FRIS":FRIS, "EMB:MOOD":MOOD, "EMB:STL":STL, "EMB:DAY":DAY, "EMB:WHAT":WHAT, "EMB:HOT":HOT, "EMB:BOO":BOO, "EMB:BBB":BBB, "EMB:ALLB":ALLB, "EMB:REINC":REINC, "EMB:BBBSOLO":BBBSOLO, "EMB:MEZZ":MEZZ, "EMB:JEEP":JEEP, "EMB:SILENCE":SILENCE };
 
   var bouton=document.getElementById('son');
   var creditAudio=document.getElementById('credit-audio');
@@ -965,7 +959,7 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   var pages=Array.prototype.slice.call(document.querySelectorAll('.page'));
   var actif=true, ctx=null, debloque=false, courante=-1, pisteActuelle="", gesteActif=false;
   var VOL=0.85;
-  var VOL_PISTES={"EMB:RTB":0.85,"EMB:FRIS":0.8,"EMB:MOOD":0.78,"EMB:STL":0.9,"EMB:DAY":0.95,"EMB:WHAT":0.74,"EMB:HOT":0.94,"EMB:BOO":0.78,"EMB:BBB":0.94,"EMB:ALLB":0.9,"EMB:DRM":0.86,"EMB:REINC":0.96,"EMB:BBBSOLO":0.94,"EMB:MEZZ":0.6,"EMB:SLEEP":0.9,"EMB:JEEP":0.9,"EMB:SILENCE":0};
+  var VOL_PISTES={"EMB:RTB":0.85,"EMB:FRIS":0.8,"EMB:MOOD":0.78,"EMB:STL":0.9,"EMB:DAY":0.95,"EMB:WHAT":0.74,"EMB:HOT":0.94,"EMB:BOO":0.78,"EMB:BBB":0.94,"EMB:ALLB":0.9,"EMB:REINC":0.96,"EMB:BBBSOLO":0.94,"EMB:MEZZ":0.6,"EMB:JEEP":0.9,"EMB:SILENCE":0};
 
   /* ════════ AUDIO ════════ */
   var pistes={};   // src -> {audio, ok, noise, gain, cible, raf}
@@ -1011,8 +1005,26 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     }
     return pp;
   }
+  /* iOS/iPadOS ignorent .volume (lecture seule) → le fondu par volume est sans effet
+     et une piste ne se met jamais en pause (sa condition volume===0 n'arrive pas),
+     d'où la SUPERPOSITION des morceaux. On détecte ce cas une fois pour toutes. */
+  var _volOK=null;
+  function volumeOK(){
+    if(_volOK===null){ try{ var a=new Audio(); a.volume=0.5; _volOK=(a.volume===0.5); }catch(e){ _volOK=false; } }
+    return _volOK;
+  }
   function fondu(pp,seed){
     if(pp.raf) cancelAnimationFrame(pp.raf);
+    /* volume non pilotable (iPad) : coupe/joue franc — pause dès que la cible = 0.
+       Le moteur a déjà un « trou de silence » entre 2 morceaux → pas de superposition. */
+    if(!volumeOK()){
+      if(pp.audio && pp.ok!==false){
+        if(pp.cible>0){ if(pp.audio.paused && debloque){ var pr0=pp.audio.play(); if(pr0&&pr0.catch) pr0.catch(function(){}); } }
+        else if(!pp.audio.paused){ try{ pp.audio.pause(); }catch(e){} }
+      }
+      if(pp.gain && ctx){ pp.gain.gain.value=Math.max(0,Math.min(1,pp.cible*0.9)); }
+      return;
+    }
     (function pas(){
       var fini=true;
       if(pp.audio && pp.ok!==false){
@@ -1283,12 +1295,24 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     setTimeout(function(){ if(nomSeqs[1]) nomSeqs[1].classList.add('seq-ok'); if(roles[1]) roles[1].classList.add('seq-ok'); }, 11000);
     setTimeout(function(){ if(nomSeqs[2]) nomSeqs[2].classList.add('seq-ok'); if(roles[2]) roles[2].classList.add('seq-ok'); }, 13000);
 
-    // Étape 7 — SOUND ON + crédit + scroll rétabli + flèche « cliquer ici » vers Mezz (simultanément)
-    setTimeout(function(){
-      document.body.classList.remove('seq-en-cours');
-      document.body.style.overflow='';
-      montrerFlecheIntro();
-    }, 15000);
+    // Étape 7 — fin de séquence (SOUND ON, crédit, scroll rétabli, flèche) à 15 s
+    seqFinTimer=setTimeout(finirSequence, 15000);
+  }
+
+  /* fin de la séquence — atteinte au bout des 15 s OU via le bouton « passer l'intro ».
+     Révèle tout d'un coup, débloque le scroll, retire l'overlay, montre la flèche. */
+  var seqFini=false, seqFinTimer=null;
+  function finirSequence(){
+    if(seqFini) return; seqFini=true;
+    if(seqFinTimer){ clearTimeout(seqFinTimer); seqFinTimer=null; }
+    var p1=document.querySelector('[data-folio="1"]');
+    if(p1){ var reste=p1.querySelectorAll('.seq-cache:not(.seq-ok)'); for(var i=0;i<reste.length;i++) reste[i].classList.add('seq-ok'); }
+    nomSeqs.forEach(function(el){ el.classList.add('seq-ok'); });
+    [].slice.call(document.querySelectorAll('.credits-role')).forEach(function(el){ el.classList.add('seq-ok'); });
+    document.body.classList.remove('seq-en-cours');
+    document.body.style.overflow='';
+    if(seq){ seq.style.transition='opacity .5s ease'; seq.style.opacity='0'; setTimeout(function(){ if(seq) seq.style.visibility='hidden'; }, 520); }
+    montrerFlecheIntro();
   }
 
   function entrer(){
@@ -1298,6 +1322,8 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     setTimeout(function(){ if(intro&&intro.parentNode){ intro.parentNode.removeChild(intro); intro=null; } }, 900);
   }
   if(introBtn){ introBtn.addEventListener('click', entrer); }
+  var seqSkip=document.getElementById('seq-skip');
+  if(seqSkip){ seqSkip.addEventListener('click', finirSequence); }
   // Fallback : si pour une raison quelconque l'écran n'est pas là, tout premier
   // geste débloque quand même l'audio.
   /* tant que la page 0 (intro) est là, SEUL « Entrer & écouter » démarre le son :
@@ -1621,15 +1647,36 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
     } else { PG.corps.classList.remove('dehaut','debas'); }
   }
 
+  /* ════════ FOCUS — accessibilité des modales (bio, lightbox) ════════ */
+  var _focusPrec=null;
+  function focusables(c){ return [].slice.call(c.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"]),input,textarea')).filter(function(el){ return el.offsetWidth||el.offsetHeight||el===document.activeElement; }); }
+  function ouvrirModale(c, cible){ _focusPrec=document.activeElement; var f=cible||focusables(c)[0]||c; if(f&&f.focus){ try{ f.focus(); }catch(e){} } }
+  function fermerModale(){ if(_focusPrec&&_focusPrec.focus){ try{ _focusPrec.focus(); }catch(e){} } _focusPrec=null; }
+  function piegerTab(e, c){
+    if(e.key!=='Tab'||!c) return;
+    var fs=focusables(c); if(!fs.length){ e.preventDefault(); if(c.focus) c.focus(); return; }
+    var first=fs[0], last=fs[fs.length-1], a=document.activeElement;
+    if(e.shiftKey){ if(a===first||!c.contains(a)){ e.preventDefault(); last.focus(); } }
+    else if(a===last||!c.contains(a)){ e.preventDefault(); first.focus(); }
+  }
+  function modaleOuverte(){
+    var lbx=document.getElementById('lightbox'); if(lbx&&lbx.classList.contains('ouvert')) return lbx;
+    var pb=document.getElementById('panneau-bio'); if(pb&&pb.classList.contains('actif')) return pb;
+    return null;
+  }
+  document.addEventListener('keydown', function(e){ var m=modaleOuverte(); if(m) piegerTab(e, m); });
+
   /* ════════ LIGHTBOX (liens-images dans le texte) ════════ */
   var lb=document.getElementById('lightbox');
+  lb.tabIndex=-1;
   var lbImg=lb.querySelector('img'), lbCap=lb.querySelector('.lg-cap');
   function ouvreLightbox(src, cap){
     if(!src) return;
     lbImg.src=src; lbCap.textContent=cap||''; lbCap.style.display=cap?'block':'none';
     lb.classList.add('ouvert');
+    ouvrirModale(lb, lb);
   }
-  function fermeLightbox(){ lb.classList.remove('ouvert'); setTimeout(function(){ if(!lb.classList.contains('ouvert')) lbImg.src=''; },400); }
+  function fermeLightbox(){ if(!lb.classList.contains('ouvert')) return; lb.classList.remove('ouvert'); fermerModale(); setTimeout(function(){ if(!lb.classList.contains('ouvert')) lbImg.src=''; },400); }
   lb.addEventListener('click', fermeLightbox);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') fermeLightbox(); });
   // délégation : tout .lien-img (dans les panneaux montés dynamiquement) ouvre la lightbox
@@ -1686,11 +1733,13 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
       }
       panBio.classList.add('actif');
       panBio.setAttribute('aria-hidden','false');
+      ouvrirModale(panBio, panBio.querySelector('.bio-fermer'));
     }
     function fermeBio(){
-      if(!panBio) return;
+      if(!panBio||!panBio.classList.contains('actif')) return;
       panBio.classList.remove('actif');
       panBio.setAttribute('aria-hidden','true');
+      fermerModale();
     }
     if(bioDefile) bioDefile.addEventListener('scroll', majIndicateurs);
 
