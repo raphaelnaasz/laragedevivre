@@ -191,6 +191,8 @@ img.abs{display:block;}
 /* réglages de densité par page — le texte doit tenir en entier dans la page */
 .page-corps--p15{font-size:calc(var(--u2)*8.6);line-height:1.48;}
 .page-corps--p15 p{margin-bottom:calc(var(--u2)*6.5);}
+/* page 15 : apparition plus rapide (la disparition garde la transition de base) */
+.page-textreveal.revele .page-corps--p15{transition:opacity .5s ease .06s, filter .5s ease .06s, transform .55s cubic-bezier(.2,.75,.25,1) .06s;}
 .page-corps--p16{font-size:calc(var(--u2)*9.9);line-height:1.54;}
 .page-corps--p16 p{margin-bottom:calc(var(--u2)*10);}
 .page-corps--p17{font-size:calc(var(--u2)*9.1);line-height:1.48;}
@@ -211,15 +213,15 @@ img.abs{display:block;}
   text-transform:uppercase;text-align:center;padding-top:calc(var(--u)*4);opacity:.85;line-height:1.3;}
 /* tailles par page (images agrandies : remplissent la marge dispo, plafonnées) */
 .page-textreveal[data-folio="16"] .vignette-lat{width:min(360px, calc((100vw - var(--pw))/2 - 20px), 46vh);}
-.page-textreveal[data-folio="int-contrebasse"] .vignette-lat{width:min(420px, calc((100vw - var(--pw))/2 - 20px), 72vh);}
+.page-textreveal[data-folio="int-contrebasse"] .vignette-lat{width:min(500px, calc((100vw - var(--pw))/2 - 20px), 76vh);}
 .page-textreveal[data-folio="int-kaddish"] .vignette-lat.droite{width:min(380px, calc((100vw - var(--pw))/2 - 20px), 42vh);}
 
 /* citation encadrée en marge gauche (Glissant p.17), synchronisée au texte */
 .cite-marge{position:fixed;top:50%;z-index:45;transform:translateY(-50%);
   right:calc(50vw + var(--pw)/2 + 16px);left:auto;
-  width:min(400px, calc((100vw - var(--pw))/2 - 20px));opacity:0;pointer-events:none;transition:opacity .8s ease .28s;
+  width:min(470px, calc((100vw - var(--pw))/2 - 20px));opacity:0;pointer-events:none;transition:opacity .8s ease .28s;
   box-sizing:border-box;border:calc(var(--u)*1.1) solid var(--jaune);background:rgba(6,6,6,.72);
-  padding:calc(var(--u)*18) calc(var(--u)*20);color:var(--jaune);font-size:calc(var(--u)*12.4);
+  padding:calc(var(--u)*20) calc(var(--u)*22);color:var(--jaune);font-size:calc(var(--u)*13.8);
   line-height:1.4;font-style:italic;text-shadow:0 0 calc(var(--u)*2) rgba(0,0,0,.7);}
 .page-textreveal.revele .cite-marge{opacity:1;}
 .cite-marge .cite-sig{display:block;margin-top:calc(var(--u)*10);font-style:normal;opacity:.8;font-size:calc(var(--u)*9.6);text-align:right;}
@@ -277,6 +279,16 @@ img.abs{display:block;}
 .p16-pochette img{width:100%;display:block;border:calc(var(--u)*0.8) solid rgba(239,213,26,.5);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.5);}
 .p16-pochette figcaption{margin-top:calc(var(--u)*4);color:var(--jaune);text-align:right;display:flex;flex-direction:column;gap:calc(var(--u)*1.5);
   font-size:calc(var(--u)*6.6);letter-spacing:.04em;opacity:.95;text-shadow:0 0 2px rgba(0,0,0,.6);}
+/* citation Fred Moten (page 14) — marge gauche, apparaît au clic sur l'image */
+.moten-cite{position:fixed;z-index:46;right:calc(50vw + var(--pw)/2 + 16px);left:auto;
+  bottom:calc(var(--u)*120);width:min(300px,22vw);
+  opacity:0;transform:translateY(calc(var(--u)*6));transition:opacity .8s ease,transform .8s ease;pointer-events:none;
+  box-sizing:border-box;border:calc(var(--u)*1.1) solid var(--jaune);background:rgba(6,6,6,.72);
+  padding:calc(var(--u)*15) calc(var(--u)*17);color:var(--jaune);font-size:calc(var(--u)*9.4);
+  line-height:1.4;font-style:italic;text-shadow:0 0 calc(var(--u)*2) rgba(0,0,0,.7);}
+.moten-cite.montre{opacity:1;transform:translateY(0);}
+.moten-cite .moten-sig{display:block;margin-top:calc(var(--u)*8);font-style:normal;opacity:.8;font-size:calc(var(--u)*7.4);text-align:right;}
+@media(max-width:980px){ .moten-cite{display:none;} }
 
 /* ── double page 13-14 : révélation du texte de Hart's Island (typo du dossier) ── */
 #dip-1314{position:relative;}
@@ -588,7 +600,7 @@ body.seq-en-cours #seq-skip{display:block;}
 <!-- flèches « cliquer ici » dessinées (positionnées par JS) -->
 <div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg><span class="txt">cliquer ici</span></div>
 <div class="fleche-indic vers-bas" id="fleche-scroll" aria-hidden="true"><span class="txt">cliquer ici</span><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
-<div class="fleche-indic vers-bas sans-texte" id="fleche-basquiat" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
+<div class="fleche-indic sans-texte" id="fleche-basquiat" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -718,6 +730,7 @@ body.seq-en-cours #seq-skip{display:block;}
   <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
   <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
 </figure>
+<div class="moten-cite" id="moten-cite" aria-hidden="true">«&nbsp;The history of blackness is testament to the fact that objects can and do resist.&nbsp;»<span class="moten-sig">Fred Moten, <em>In the Break</em>, 2003</span></div>
 </section>
 
 <section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-reveal-early>
@@ -1807,6 +1820,7 @@ body.seq-en-cours #seq-skip{display:block;}
     var p14=document.querySelector('[data-folio="int-basquiat"]');
     var poch=document.getElementById('p16-pochette');
     var fb=document.getElementById('fleche-basquiat');
+    var moten=document.getElementById('moten-cite');
     if(!p14) return;
     var lance=false;
     function montrerPochette(on){ if(!poch) return; if(on){ poch.hidden=false; requestAnimationFrame(function(){ poch.classList.add('montre'); }); } else { poch.classList.remove('montre'); } }
@@ -1814,16 +1828,17 @@ body.seq-en-cours #seq-skip{display:block;}
       if(lance) return; lance=true; gesteActif=true;
       p14.classList.add('joue');                       /* brève animation de l'image */
       if(fb) fb.classList.remove('show');
+      if(moten) moten.classList.add('montre');         /* citation Fred Moten */
       var pp=assure(SRC['EMB:REINC']||'EMB:REINC');
       pp.cible=VOL_PISTES['EMB:REINC']||VOL;
-      if(pp.audio){ pp.audio.loop=true; try{ pp.audio.currentTime=0.5; }catch(e){}
+      if(pp.audio){ pp.audio.loop=true; try{ pp.audio.currentTime=0.7; }catch(e){}   /* saute 0,7 s d'amorce */
         pp.audio.volume=pp.cible; var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
       montrerPochette(true);
       courante=-1; majAudio();
     });
     if('IntersectionObserver' in window){
       /* pochette visible sur toute la zone Reincarnation (p.14 → p.17), masquée ailleurs */
-      var zone=[p14, document.querySelector('[data-folio="16"]'), document.querySelector('[data-folio="int-contrebasse"]'), document.querySelector('[data-folio="int-kaddish"]')].filter(Boolean);
+      var zone=[p14, document.querySelector('[data-folio="16"]'), document.querySelector('[data-folio="int-contrebasse"]')].filter(Boolean);   /* p.14 → p.16 (pochette masquée dès la p.17) */
       var ioZ=new IntersectionObserver(function(ents){
         ents.forEach(function(e){ e.target._reincVu = e.isIntersecting && e.intersectionRatio>=0.3; });
         var any=false; zone.forEach(function(p){ if(p._reincVu) any=true; });
@@ -1831,10 +1846,13 @@ body.seq-en-cours #seq-skip{display:block;}
       },{threshold:[0,0.3,1]});
       zone.forEach(function(p){ ioZ.observe(p); });
       /* petite flèche (sans libellé) sur l'image tant que la musique n'est pas lancée */
-      function placerFB(){ if(!fb) return; var im=document.getElementById('img-basquiat'); var r=(im||p14).getBoundingClientRect(); fb.style.left=(r.left+r.width/2)+'px'; fb.style.top=(r.top+r.height*0.30)+'px'; fb.style.transform='translateX(-50%)'; }
+      function placerFB(){ if(!fb) return; var im=document.getElementById('img-basquiat'); var r=(im||p14).getBoundingClientRect(); fb.style.left=(r.right + 6)+'px'; fb.style.top=(r.top + r.height*0.47)+'px'; fb.style.transform='translateY(-50%)'; }
       new IntersectionObserver(function(ents){
-        ents.forEach(function(e){ var on=e.isIntersecting && e.intersectionRatio>=0.55 && !lance; if(on) placerFB(); if(fb) fb.classList.toggle('show', on); });
-      },{threshold:[0,0.55,1]}).observe(p14);
+        ents.forEach(function(e){
+          var on=e.isIntersecting && e.intersectionRatio>=0.55 && !lance; if(on) placerFB(); if(fb) fb.classList.toggle('show', on);
+          if(moten) moten.classList.toggle('montre', e.isIntersecting && e.intersectionRatio>=0.4 && lance);   /* Moten visible tant qu'on est sur la p.14 */
+        });
+      },{threshold:[0,0.4,0.55,1]}).observe(p14);
       window.addEventListener('scroll', function(){ if(fb && fb.classList.contains('show')) placerFB(); }, {passive:true});
     }
   })();
@@ -1944,13 +1962,13 @@ body.seq-en-cours #seq-skip{display:block;}
     if(!pages.length || !('IntersectionObserver' in window)) return;
     var io=new IntersectionObserver(function(ents){
       ents.forEach(function(e){
-        var seuil=e.target.hasAttribute('data-reveal-early')?0.5:0.75;  // page 15 : apparition plus tôt
+        var seuil=e.target.hasAttribute('data-reveal-early')?0.4:0.75;  // page 15 : apparition plus tôt dans le scroll
         var on=e.isIntersecting && e.intersectionRatio>=seuil;
         e.target.classList.toggle('revele', on);
         var texte=e.target.querySelector('.page-revele');
         if(texte) texte.setAttribute('aria-hidden', on?'false':'true');
       });
-    },{threshold:[0,0.5,0.75,0.9,1]});
+    },{threshold:[0,0.4,0.75,0.9,1]});
     pages.forEach(function(p){ io.observe(p); });
   })();
   buildMobileContent();  // cache contenu des encadrés mobiles (moteur géométrique, piloté par tick)
