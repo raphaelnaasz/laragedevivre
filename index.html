@@ -128,6 +128,24 @@ img.abs{display:block;}
   text-transform:uppercase;backdrop-filter:blur(2px);transition:background .35s ease,color .35s ease;}
 .armstrong-btn:hover{background:rgba(14,14,14,.62);}
 .armstrong-btn.joue{background:var(--jaune);color:var(--noir);}
+/* deux boutons d'écoute côte à côte au centre (page 8 : Armstrong + Duke Ellington) */
+.btns-ecoute{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;
+  display:flex;gap:calc(var(--u)*14);align-items:center;}
+.btn-ecoute{background:rgba(14,14,14,.42);color:var(--jaune);font:inherit;font-weight:900;cursor:pointer;
+  border:calc(var(--u)*1.3) solid var(--jaune);border-radius:999px;
+  padding:calc(var(--u)*7) calc(var(--u)*16);font-size:calc(var(--u)*10.5);letter-spacing:.06em;
+  text-transform:uppercase;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  transition:background .35s ease,color .35s ease;}
+.btn-ecoute:hover{background:rgba(14,14,14,.62);}
+.btn-ecoute.joue{background:var(--jaune);color:var(--noir);}
+@media(max-width:760px){ .btns-ecoute{flex-direction:column;gap:calc(var(--u)*8);} }
+/* page 14 (Basquiat) : clic n'importe où → lance Reincarnation, brève animation de l'image */
+.basquiat-play{position:absolute;inset:0;z-index:20;background:transparent;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.page-basquiat.joue .basquiat-play{pointer-events:none;cursor:default;}
+@keyframes basquiat-flash{0%{filter:brightness(1) contrast(1);transform:scale(1);}28%{filter:brightness(1.7) contrast(1.12);transform:scale(1.025);}100%{filter:brightness(1) contrast(1);transform:scale(1);}}
+.page-basquiat.joue #img-basquiat{animation:basquiat-flash .6s ease;}
+/* flèche d'indication sans libellé (page 14) */
+.fleche-indic.sans-texte .txt{display:none;}
 
 /* page 16 — cercle élégant autour du visage du Pierrot → déclenche la pochette + le son */
 .p16-cercle{position:absolute;left:39.5%;top:14.5%;width:calc(var(--u)*80);height:calc(var(--u)*106);
@@ -192,9 +210,9 @@ img.abs{display:block;}
 .vignette-lat figcaption{color:var(--jaune);font-size:calc(var(--u)*4.6);letter-spacing:.08em;
   text-transform:uppercase;text-align:center;padding-top:calc(var(--u)*4);opacity:.85;line-height:1.3;}
 /* tailles par page (images agrandies : remplissent la marge dispo, plafonnées) */
-.page-textreveal[data-folio="16"] .vignette-lat{width:min(430px, calc((100vw - var(--pw))/2 - 20px));}
-.page-textreveal[data-folio="int-contrebasse"] .vignette-lat{width:min(580px, calc((100vw - var(--pw))/2 - 20px));}
-.page-textreveal[data-folio="int-kaddish"] .vignette-lat.droite{width:min(480px, calc((100vw - var(--pw))/2 - 20px));}
+.page-textreveal[data-folio="16"] .vignette-lat{width:min(360px, calc((100vw - var(--pw))/2 - 20px), 46vh);}
+.page-textreveal[data-folio="int-contrebasse"] .vignette-lat{width:min(420px, calc((100vw - var(--pw))/2 - 20px), 72vh);}
+.page-textreveal[data-folio="int-kaddish"] .vignette-lat.droite{width:min(380px, calc((100vw - var(--pw))/2 - 20px), 42vh);}
 
 /* citation encadrée en marge gauche (Glissant p.17), synchronisée au texte */
 .cite-marge{position:fixed;top:50%;z-index:45;transform:translateY(-50%);
@@ -253,12 +271,12 @@ img.abs{display:block;}
 .titre-intention{font-size:calc(var(--u2)*20);letter-spacing:-0.015em;font-weight:900;color:var(--jaune);
   text-align:center;margin:0 0 calc(var(--u2)*10);text-shadow:0 0 2px rgba(0,0,0,.5);}
 /* pochette « The Clown » révélée en marge, sous le crédit audio (haut-droite) */
-.p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*100);z-index:46;margin:0;width:min(240px,18vw);
+.p16-pochette{position:fixed;right:calc(var(--u)*10);top:calc(var(--u)*100);z-index:46;margin:0;width:min(268px,20vw);
   opacity:0;transform:translateY(calc(var(--u)*6));transition:opacity .7s ease,transform .7s ease;pointer-events:none;}
 .p16-pochette.montre{opacity:1;transform:translateY(0);}
 .p16-pochette img{width:100%;display:block;border:calc(var(--u)*0.8) solid rgba(239,213,26,.5);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.5);}
-.p16-pochette figcaption{margin-top:calc(var(--u)*3);color:var(--jaune);text-align:right;display:flex;flex-direction:column;gap:calc(var(--u)*1);
-  font-size:calc(var(--u)*4.6);letter-spacing:.04em;opacity:.9;text-shadow:0 0 2px rgba(0,0,0,.6);}
+.p16-pochette figcaption{margin-top:calc(var(--u)*4);color:var(--jaune);text-align:right;display:flex;flex-direction:column;gap:calc(var(--u)*1.5);
+  font-size:calc(var(--u)*6.6);letter-spacing:.04em;opacity:.95;text-shadow:0 0 2px rgba(0,0,0,.6);}
 
 /* ── double page 13-14 : révélation du texte de Hart's Island (typo du dossier) ── */
 #dip-1314{position:relative;}
@@ -417,10 +435,10 @@ body.seq-en-cours #son,body.seq-en-cours #credit-audio{opacity:0;pointer-events:
   pointer-events:none;opacity:0;visibility:hidden;}
 #seq.actif{opacity:1;visibility:visible;}
 /* bouton « passer l'intro » — visible seulement pendant la séquence */
-#seq-skip{position:fixed;bottom:24px;right:24px;z-index:92;display:none;cursor:pointer;
-  border:2px solid var(--jaune);background:rgba(0,0,0,.45);color:var(--jaune);
+#seq-skip{position:fixed;bottom:22px;right:22px;z-index:92;display:none;cursor:pointer;
+  border:1.5px solid var(--jaune);background:rgba(0,0,0,.45);color:var(--jaune);
   font-family:inherit;font-weight:900;text-transform:uppercase;letter-spacing:.1em;
-  font-size:clamp(9px,2vw,12px);padding:.7em 1.35em;border-radius:999px;
+  font-size:clamp(8px,1.6vw,10px);padding:.55em 1.1em;border-radius:999px;
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
   transition:background .25s ease,color .25s ease;-webkit-tap-highlight-color:transparent;}
 body.seq-en-cours #seq-skip{display:block;}
@@ -570,6 +588,7 @@ body.seq-en-cours #seq-skip{display:block;}
 <!-- flèches « cliquer ici » dessinées (positionnées par JS) -->
 <div class="fleche-indic" id="fleche-intro" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg><span class="txt">cliquer ici</span></div>
 <div class="fleche-indic vers-bas" id="fleche-scroll" aria-hidden="true"><span class="txt">cliquer ici</span><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
+<div class="fleche-indic vers-bas sans-texte" id="fleche-basquiat" aria-hidden="true"><svg viewBox="0 0 104 60"><path d="M99,15 C74,7 78,38 48,30 C38,27.5 33,39 18,33 M18,33 l17,-6 M18,33 l12,13"/></svg></div>
 
 <main id="flux">
 <section class="page" aria-label="Page 1" data-folio="1" data-son="EMB:RTB" data-piste="Really the Blues — Mezz Mezzrow &amp; Sidney Bechet, 1938">
@@ -648,11 +667,14 @@ body.seq-en-cours #seq-skip{display:block;}
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div><div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées</div>
 </section>
 
-<section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:STL" data-piste="East St. Louis Toodle-Oo — Duke Ellington, 1926" data-panneau-page="src-p7" data-cote="d">
+<section class="page" aria-label="Page 7" data-folio="7" data-son="EMB:MOOD" data-piste="Mood Indigo — Charles Mingus, 1959" data-panneau-page="src-p7" data-cote="d">
   <picture><source srcset="assets/images/img-4.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/img-4.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div><div class="credit"></div>
 <div class="date-annee">1920</div>
-<button type="button" class="armstrong-btn" id="armstrong-btn" aria-label="Écouter Jeepers Creepers — Louis Armstrong">Louis Armstrong</button>
+<div class="btns-ecoute">
+  <button type="button" class="btn-ecoute" id="armstrong-btn" aria-label="Écouter Jeepers Creepers — Louis Armstrong, 1938">Louis Armstrong</button>
+  <button type="button" class="btn-ecoute" id="ellington-btn" aria-label="Écouter East St. Louis Toodle-Oo — Duke Ellington, 1926">Duke Ellington</button>
+</div>
 </section>
 
 <section class="page" aria-label="Page 8" data-folio="8" data-son="EMB:DAY" data-piste="Daybreak Express — Duke Ellington, 1933" data-panneau-page="src-p8" data-cote="g">
@@ -686,14 +708,19 @@ body.seq-en-cours #seq-skip{display:block;}
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div><div class="credit">photo · Saul Leiter</div>
 </section>
 
-<section class="page" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:SILENCE" style="background:#000">
-  <img loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="">
+<section class="page page-basquiat" id="page-basquiat" aria-label="Page 14" data-folio="int-basquiat" data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957" style="background:var(--noir)">
+  <img id="img-basquiat" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" src="assets/images/int-basquiat.jpg" alt="Jean-Michel Basquiat — Now’s the Time, 1985">
+<button type="button" class="basquiat-play" id="basquiat-play" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus, 1957"></button>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div>
 <div class="cadre-couv" style="left:calc(var(--u)*12.7);top:calc(var(--u)*142.7);width:calc(var(--u)*571.4);height:calc(var(--u)*560.1)"></div>
-<div class="credit" style="position:absolute;left:calc(var(--u)*12.7);width:calc(var(--u)*571.4);top:calc(var(--u)*688.6);bottom:auto;right:auto;text-align:right">Jean-Michel Basquiat — Now’s the Time, 1985</div>
+<div class="credit">Jean-Michel Basquiat — Now’s the Time, 1985</div>
+<figure class="p16-pochette" id="p16-pochette" hidden>
+  <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
+  <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
+</figure>
 </section>
 
-<section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-reveal-early data-son="EMB:REINC" data-son-geste="1" data-piste="Reincarnation of a Lovebird — Charles Mingus, 1957">
+<section class="page page-textreveal" aria-label="Page 15" data-folio="16" data-reveal-early>
   <picture><source srcset="assets/images/int-rothko.webp" type="image/webp"><img class="fond" loading="lazy" decoding="async" src="assets/images/int-rothko.jpg" alt=""></picture>
 <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div><div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
 <div class="page-revele" aria-hidden="true"><div class="page-corps page-corps--p15">
@@ -705,16 +732,8 @@ body.seq-en-cours #seq-skip{display:block;}
 <p>Du récit intime à l’incarnation, du roman-dit à des moments purement musicaux, du jeu de clown au cours de musique, le propos s’articulera autour de la multiplicité des strates de lecture, des temporalités et des régimes de présence — dans le jeu d’acteur comme dans l’utilisation du son au plateau.</p>
 </div></div>
 <figure class="vignette-lat gauche">
-  <span class="p16-holder">
-    <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718">
-    <button type="button" class="p16-cercle-panel" id="p16-cercle-panel" aria-label="Écouter Reincarnation of a Lovebird — Charles Mingus"></button>
-    <div class="indication-clic p16-indication-panel" id="p16-indication-panel">cliquer ici</div>
-  </span>
+  <img src="assets/images/img-12.webp" alt="Antoine Watteau — Pierrot, vers 1718">
   <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
-</figure>
-<figure class="p16-pochette" id="p16-pochette" hidden>
-  <img src="assets/images/the-clown-mingus.webp" alt="Charles Mingus — The Clown, 1957" decoding="async">
-  <figcaption><span>Charles Mingus — <em>The Clown</em>, 1957</span><span>Reincarnation of a Lovebird</span></figcaption>
 </figure>
 </section>
 
@@ -1784,48 +1803,57 @@ body.seq-en-cours #seq-skip{display:block;}
       faceC:{key:'EMB:MEZZ',  lib:'Mezz',     titre:'Mineur Avec Un Pont', artiste:'Mezz Mezzrow', credit:'Paris, France, May 20, 1955'}
     });
   })();
-  (function(){            // page 16 : cercle sur le Watteau (en vignette latérale) → pochette + Reincarnation (silence avant le geste)
-    var p16=document.querySelector('[data-folio="16"]');
+  (function(){            // page 14 (Basquiat) : clic sur l'image → Reincarnation of a Lovebird (court jusqu'à la p.17) + pochette + brève animation
+    var p14=document.querySelector('[data-folio="int-basquiat"]');
     var poch=document.getElementById('p16-pochette');
-    if(!p16) return;
+    var fb=document.getElementById('fleche-basquiat');
+    if(!p14) return;
+    var lance=false;
     function montrerPochette(on){ if(!poch) return; if(on){ poch.hidden=false; requestAnimationFrame(function(){ poch.classList.add('montre'); }); } else { poch.classList.remove('montre'); } }
-    // délégation : le cercle vit dans le panneau latéral, monté/démonté dynamiquement
-    document.addEventListener('click',function(e){
-      var cercle=e.target.closest('#p16-cercle-panel');
-      if(!cercle) return;
-      gesteActif=true;
-      cercle.classList.add('joue');
-      var indication=cercle.parentNode && cercle.parentNode.querySelector('.p16-indication-panel');
-      if(indication) indication.style.opacity='0';
+    p14.addEventListener('click',function(){
+      if(lance) return; lance=true; gesteActif=true;
+      p14.classList.add('joue');                       /* brève animation de l'image */
+      if(fb) fb.classList.remove('show');
       var pp=assure(SRC['EMB:REINC']||'EMB:REINC');
-      /* démarrage IMMÉDIAT : on amorce la lecture au plein volume cible sans attendre le fondu */
       pp.cible=VOL_PISTES['EMB:REINC']||VOL;
-      if(pp.audio){ pp.audio.loop=true; try{ pp.audio.currentTime=0.5; }catch(e){}  /* saute la petite amorce → la musique démarre 0,5 s plus tôt */
+      if(pp.audio){ pp.audio.loop=true; try{ pp.audio.currentTime=0.5; }catch(e){}
         pp.audio.volume=pp.cible; var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
       montrerPochette(true);
-      courante=-1; majAudio();           /* lance Reincarnation */
-    });
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(ents){
-        ents.forEach(function(e){ montrerPochette(e.isIntersecting && gesteActif); });
-      },{threshold:0.35});
-      io.observe(p16);
-    }
-  })();
-  (function(){            // page 8 (1920) : bouton « Louis Armstrong » au centre → lance Jeepers Creepers
-    var p7=document.querySelector('[data-folio="7"]');
-    var btn=document.getElementById('armstrong-btn');
-    if(!p7||!btn) return;
-    btn.addEventListener('click',function(){
-      btn.classList.add('joue');
-      p7.setAttribute('data-son','EMB:JEEP');
-      p7.setAttribute('data-piste','Jeepers Creepers — Louis Armstrong, 1938');
-      var pp=assure(SRC['EMB:JEEP']||'EMB:JEEP');
-      muterAutres('EMB:JEEP');                 /* coupe East St. Louis Toodle-Oo */
-      pp.cible=VOL_PISTES['EMB:JEEP']||VOL;
-      if(pp.audio){ pp.audio.volume=pp.cible; var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
       courante=-1; majAudio();
     });
+    if('IntersectionObserver' in window){
+      /* pochette visible sur toute la zone Reincarnation (p.14 → p.17), masquée ailleurs */
+      var zone=[p14, document.querySelector('[data-folio="16"]'), document.querySelector('[data-folio="int-contrebasse"]'), document.querySelector('[data-folio="int-kaddish"]')].filter(Boolean);
+      var ioZ=new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ e.target._reincVu = e.isIntersecting && e.intersectionRatio>=0.3; });
+        var any=false; zone.forEach(function(p){ if(p._reincVu) any=true; });
+        montrerPochette(gesteActif && lance && any);
+      },{threshold:[0,0.3,1]});
+      zone.forEach(function(p){ ioZ.observe(p); });
+      /* petite flèche (sans libellé) sur l'image tant que la musique n'est pas lancée */
+      function placerFB(){ if(!fb) return; var im=document.getElementById('img-basquiat'); var r=(im||p14).getBoundingClientRect(); fb.style.left=(r.left+r.width/2)+'px'; fb.style.top=(r.top+r.height*0.30)+'px'; fb.style.transform='translateX(-50%)'; }
+      new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ var on=e.isIntersecting && e.intersectionRatio>=0.55 && !lance; if(on) placerFB(); if(fb) fb.classList.toggle('show', on); });
+      },{threshold:[0,0.55,1]}).observe(p14);
+      window.addEventListener('scroll', function(){ if(fb && fb.classList.contains('show')) placerFB(); }, {passive:true});
+    }
+  })();
+  (function(){            // page 8 (1920) : deux boutons — Armstrong → Jeepers Creepers ; Ellington → East St. Louis (fond par défaut = Mood Indigo)
+    var p7=document.querySelector('[data-folio="7"]');
+    var bA=document.getElementById('armstrong-btn'), bE=document.getElementById('ellington-btn');
+    if(!p7) return;
+    function jouer(btn, key, piste){
+      [bA,bE].forEach(function(b){ if(b) b.classList.toggle('joue', b===btn); });
+      p7.setAttribute('data-son', key);
+      p7.setAttribute('data-piste', piste);
+      var pp=assure(SRC[key]||key);
+      muterAutres(key);
+      pp.cible=VOL_PISTES[key]||VOL;
+      if(pp.audio){ pp.audio.volume=pp.cible; var pr=pp.audio.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+      courante=-1; majAudio();
+    }
+    if(bA) bA.addEventListener('click',function(){ jouer(bA,'EMB:JEEP','Jeepers Creepers — Louis Armstrong, 1938'); });
+    if(bE) bE.addEventListener('click',function(){ jouer(bE,'EMB:STL','East St. Louis Toodle-Oo — Duke Ellington, 1926'); });
   })();
   // ── flèches « cliquer ici » dessinées (intro + boutons p.8/p.10) ──
   function _placerFleche(fleche, target, mode){
@@ -1860,7 +1888,7 @@ body.seq-en-cours #seq-skip{display:block;}
       if(supp[key]) return; var t=getT(); if(!t) return;
       actif={getT:getT, mode:mode, key:key}; placer(); f.classList.add('show');
       if(hideT) clearTimeout(hideT);
-      hideT=setTimeout(cacher, 1600);            /* éphémère */
+      hideT=setTimeout(cacher, 900);            /* éphémère */
     }
     function obs(page, getT, mode, key){
       if(!page) return;
@@ -1871,12 +1899,12 @@ body.seq-en-cours #seq-skip{display:block;}
         });
       },{threshold:[0,0.6,1]}).observe(page);
     }
-    obs(document.querySelector('[data-folio="7"]'), function(){ return document.getElementById('armstrong-btn'); }, 'haut', 'p8');
+    obs(document.querySelector('[data-folio="7"]'), function(){ return document.querySelector('.btns-ecoute')||document.getElementById('armstrong-btn'); }, 'haut', 'p8');
     obs(document.querySelector('[data-folio="9"]'), function(){ var m=document.getElementById('ab-p9'); return m&&(m.querySelector('.ab-toggle')||m); }, 'haut', 'p10');
     window.addEventListener('scroll', function(){ if(actif) placer(); }, {passive:true});   /* reste accrochée à sa cible */
     window.addEventListener('resize', function(){ if(actif) placer(); }, {passive:true});
     document.addEventListener('click', function(e){
-      if(e.target.closest('#armstrong-btn')){ supp.p8=true; cacher(); }
+      if(e.target.closest('.btns-ecoute')){ supp.p8=true; cacher(); }
       if(e.target.closest('#ab-p9')){ supp.p10=true; cacher(); }
     });
   })();
