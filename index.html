@@ -436,6 +436,15 @@ img.abs{display:block;}
   border:1px solid rgba(239,213,26,.55);border-radius:999px;padding:.55em 1.4em;
   transition:background .25s ease,color .25s ease,opacity .25s ease;-webkit-tap-highlight-color:transparent;}
 #intro .intro-pdf:hover{background:var(--jaune);color:var(--noir);opacity:1;}
+/* sélecteur de langue FR/EN (écran d'entrée) — purement additif */
+#intro .intro-lang{display:flex;align-items:center;gap:10px;}
+#intro .lang-btn{cursor:pointer;background:transparent;border:1px solid rgba(239,213,26,.45);
+  color:var(--jaune);font-family:inherit;font-weight:900;text-transform:uppercase;
+  letter-spacing:.14em;font-size:clamp(9px,2.3vw,12px);padding:.55em 1.3em;border-radius:999px;
+  opacity:.55;transition:opacity .25s ease,background .25s ease,color .25s ease,border-color .25s ease;
+  -webkit-tap-highlight-color:transparent;}
+#intro .lang-btn:hover{opacity:1;}
+#intro .lang-btn.actif{opacity:1;background:var(--jaune);color:var(--noir);border-color:var(--jaune);}
 
 @media (prefers-reduced-motion: reduce){ .panneau .fleche{animation:none;} }
 
@@ -586,6 +595,10 @@ body.seq-en-cours #seq-skip{display:block;}
 <div id="credit-audio"><span class="slot"></span></div>
 
 <div id="intro" role="dialog" aria-label="Entrée">
+  <div class="intro-lang" role="group" aria-label="Langue / Language">
+    <button type="button" class="lang-btn actif" data-lang="fr" aria-pressed="true">Français</button>
+    <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">English</button>
+  </div>
   <button id="intro-btn" class="intro-btn">Entrer&nbsp;&amp;&nbsp;écouter</button>
   <div class="intro-sous">Ce dossier se lit avec le son.<br>Activez le son de votre appareil,<br>puis entrez.</div>
   <a class="intro-pdf" href="assets/dossier.pdf" download="La Rage de Vivre - dossier.pdf" target="_blank" rel="noopener">↓ Télécharger le dossier (PDF)</a>
@@ -1976,5 +1989,10 @@ body.seq-en-cours #seq-skip{display:block;}
 })();
 
 </script>
+
+<!-- Traduction FR/EN : le français reste la source, ces scripts ne remplacent
+     le texte qu'à l'affichage. S'ils manquent, le site reste en français. -->
+<script src="i18n/en.js"></script>
+<script src="i18n/apply.js"></script>
 </body>
 </html>
