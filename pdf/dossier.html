@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>La Rage de Vivre — dossier</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   VERSION PRINT — PDF A4 · identité de index.html
+   Canvas natif du site = 595.276 × 841.89 (A4 en pt) → --u = 210mm/595.276
+   IMPORTANT : AUCUNE transparence par-dessus les images (les voiles
+   semi-transparents forçaient Chrome à découper chaque page en centaines
+   d'images+masques → lag). L'assombrissement est CUIT dans les fonds
+   (pdf/bg/*.jpg, cf. prepare-bg.mjs). Texte jaune opaque directement dessus.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@font-face{
+  font-family:'Archivo Black';
+  src:url('fonts/ArchivoBlack.ttf') format('truetype');
+  font-weight:900; font-style:normal; font-display:block;
+}
+
+@page{ size:A4; margin:0; }
+*{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+:root{ --jaune:#EFD51A; --noir:#0e0e0e; }
+html,body{ margin:0; padding:0; background:var(--noir); }
+body{ font-family:'Archivo Black','Arial Black',Arial,sans-serif; font-weight:900; }
+
+.page{
+  position:relative; width:210mm; height:297mm;
+  --u:calc(210mm/595.276); --pw:210mm;
+  overflow:hidden; background:#000;
+}
+.page:not(:last-child){ page-break-after:always; break-after:page; }
+
+img.fond{ position:absolute; inset:0; width:100%; height:100%; object-fit:fill; display:block; }
+.abs{ position:absolute; color:var(--jaune); z-index:6; }
+
+/* ── bandeau d'en-tête ── */
+.entete{ position:absolute; left:calc(var(--u)*74.4); width:calc(var(--u)*446); height:calc(var(--u)*33.6);
+  border:calc(var(--u)*2) solid var(--jaune); display:flex; align-items:center; justify-content:space-between;
+  padding:0 calc(var(--u)*14); color:var(--jaune); font-size:calc(var(--u)*11); letter-spacing:.02em; z-index:6; }
+
+/* ── crédit image ── */
+.credit{ position:absolute; right:calc(var(--u)*16); bottom:calc(var(--u)*12); color:var(--jaune);
+  font-size:calc(var(--u)*8); letter-spacing:.07em; text-transform:uppercase; opacity:.92; z-index:8; }
+.credit.gauche{ left:calc(var(--u)*74.4); right:auto; text-align:left; }
+
+/* ══════════ COUVERTURE ══════════ */
+.cadre-couv{ position:absolute; left:calc(var(--u)*12.7); top:calc(var(--u)*14.9);
+  width:calc(var(--u)*571.4); height:calc(var(--u)*815.6); border:calc(var(--u)*1) solid var(--jaune); z-index:5; }
+.titre{ font-size:calc(var(--u)*80); line-height:1; letter-spacing:-0.017em; white-space:nowrap; }
+.titre-en{ font-size:calc(var(--u)*15.5); letter-spacing:.205em; white-space:nowrap; opacity:.95; }
+.byline{ font-size:calc(var(--u)*12); line-height:calc(var(--u)*15.2); letter-spacing:-0.012em; white-space:nowrap; text-align:right; }
+.byline .mezz-nom{ display:inline-block; font-size:calc(var(--u)*22); letter-spacing:.004em; line-height:calc(var(--u)*27); }
+.noms{ font-size:calc(var(--u)*24); line-height:calc(var(--u)*36); letter-spacing:-0.022em; white-space:nowrap; }
+.credits-role{ font-size:calc(var(--u)*9.5); letter-spacing:.02em; color:var(--jaune); opacity:.72; margin-left:calc(var(--u)*7); }
+.creation{ position:absolute; right:calc(var(--u)*20); bottom:calc(var(--u)*18); font-size:calc(var(--u)*16);
+  letter-spacing:.04em; color:#E9DFB8; text-transform:uppercase; opacity:.9; z-index:6; }
+/* QR retour-au-site (couverture) : tuile jaune, cliquable + scannable */
+.cover-qr{ position:absolute; left:calc(var(--u)*74); bottom:calc(var(--u)*34);
+  width:calc(var(--u)*96); height:calc(var(--u)*96); background:var(--jaune);
+  border-radius:calc(var(--u)*6); padding:calc(var(--u)*6); z-index:9; display:block; }
+.cover-qr img{ width:100%; height:100%; display:block; }
+.cover-qr-label{ position:absolute; left:calc(var(--u)*182); bottom:calc(var(--u)*44); z-index:9;
+  color:var(--jaune); font-size:calc(var(--u)*11); letter-spacing:.1em; text-transform:uppercase;
+  line-height:1.5; opacity:.92; }
+
+/* ══════════ TITRES / DATES ══════════ */
+.date-annee{ position:absolute; left:0; right:0; top:calc(var(--u)*58); text-align:center; z-index:8;
+  font-size:calc(var(--u)*44); letter-spacing:-0.015em; color:var(--jaune); }
+.bloc-titre{ position:absolute; left:calc(var(--u)*54); top:calc(var(--u)*60); z-index:8;
+  color:var(--jaune); font-size:calc(var(--u)*44); letter-spacing:.005em; }
+
+/* ══════════ CORPS DE TEXTE (grand, remplit la page) ══════════ */
+.corps{ position:absolute; left:calc(var(--u)*54); right:calc(var(--u)*54);
+  top:calc(var(--u)*150); bottom:calc(var(--u)*54); z-index:6;
+  display:flex; flex-direction:column; justify-content:center;
+  color:var(--jaune); line-height:1.5; letter-spacing:.004em; text-align:justify; }
+.corps.plein{ top:calc(var(--u)*118); }
+.corps.debut{ justify-content:flex-start; }
+.corps p{ margin:0 0 calc(var(--u)*11); }
+.corps p:last-child{ margin-bottom:0; }
+.corps em{ font-style:italic; }
+.corps sup{ font-size:.6em; }
+.corps .credit-src{ margin-top:calc(var(--u)*16); text-align:right; font-size:.62em; letter-spacing:.05em; opacity:.72; }
+
+/* ══════════ CITATIONS (page 5) — conteneur flex : les deux encadrés se
+   partagent l'espace disponible et restent toujours entiers dans la page. */
+.cadre4-wrap{ position:absolute; left:calc(var(--u)*40); right:calc(var(--u)*40);
+  top:calc(var(--u)*128); bottom:calc(var(--u)*40); z-index:6;
+  display:flex; flex-direction:column; justify-content:space-between; gap:calc(var(--u)*22); }
+.cadre4{ border:calc(var(--u)*1.4) solid var(--jaune); display:flex; flex-direction:column;
+  justify-content:center; padding:calc(var(--u)*28) calc(var(--u)*38); flex:1 1 0; min-height:0; }
+.citation .ex{ color:var(--jaune); font-size:calc(var(--u)*20.5); line-height:1.32; letter-spacing:-0.015em; margin:0; }
+.citation .qui{ color:var(--jaune); font-size:calc(var(--u)*11); letter-spacing:.16em; margin:calc(var(--u)*16) 0 0; text-transform:uppercase; opacity:.92; }
+
+/* ══════════ NOTE D'INTENTION (texte + rail marges) ══════════ */
+.ni-corps{ position:absolute; left:calc(var(--u)*48); top:calc(var(--u)*150); bottom:calc(var(--u)*54);
+  width:calc(var(--u)*340); z-index:6; display:flex; flex-direction:column; justify-content:center;
+  color:var(--jaune); line-height:1.48; letter-spacing:.004em; text-align:justify; }
+.ni-corps p{ margin:0 0 calc(var(--u)*10); }
+.ni-corps p:last-child{ margin-bottom:0; }
+.ni-corps em{ font-style:italic; }
+.titre-intention{ font-size:calc(var(--u)*36); letter-spacing:-0.015em; text-align:left; margin:0 0 calc(var(--u)*18); }
+.ni-corps .signature{ margin-top:calc(var(--u)*14); text-align:right; font-style:italic; letter-spacing:.02em; opacity:.92; }
+.ni-rail{ position:absolute; right:calc(var(--u)*40); top:calc(var(--u)*150); bottom:calc(var(--u)*54);
+  width:calc(var(--u)*150); z-index:6; display:flex; flex-direction:column; justify-content:center; gap:calc(var(--u)*22); }
+.ni-inset{ margin:0; }
+.ni-inset img{ display:block; width:100%; height:auto; border:calc(var(--u)*1) solid var(--jaune); }
+.ni-inset figcaption{ color:var(--jaune); font-size:calc(var(--u)*7); letter-spacing:.06em; text-transform:uppercase;
+  text-align:center; padding-top:calc(var(--u)*5); opacity:.88; line-height:1.3; }
+.ni-cite{ border:calc(var(--u)*1.2) solid var(--jaune); background:#0b0b0b;
+  padding:calc(var(--u)*16) calc(var(--u)*18); color:var(--jaune); font-size:calc(var(--u)*9.5);
+  line-height:1.42; font-style:italic; }
+.ni-cite .cite-sig{ display:block; margin-top:calc(var(--u)*10); font-style:normal; opacity:.82;
+  font-size:calc(var(--u)*7.6); text-align:right; }
+
+/* ══════════ BASQUIAT ══════════ */
+.basq-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2; }
+
+/* ══════════ CONTACTS ══════════ */
+.contact-corps{ position:absolute; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:calc(var(--u)*40); color:var(--jaune); text-align:center; }
+.contact-titre{ font-size:calc(var(--u)*56); letter-spacing:-0.015em; margin:0 0 calc(var(--u)*54); }
+.contact-liste{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:calc(var(--u)*44); width:100%; max-width:calc(var(--u)*560); }
+.contact-liste li{ display:flex; flex-direction:column; gap:calc(var(--u)*4); }
+.contact-liste .c-nom{ font-size:calc(var(--u)*27); letter-spacing:-0.01em; }
+.contact-liste .c-role{ font-size:calc(var(--u)*12.5); letter-spacing:.06em; text-transform:uppercase; opacity:.82; }
+.contact-liste .c-mail{ color:var(--jaune); font-size:calc(var(--u)*17); align-self:center; margin-top:calc(var(--u)*6); }
+.contact-liste .c-tel{ font-size:calc(var(--u)*17); letter-spacing:.1em; opacity:.92; }
+
+/* ══════════ PAGE 0 — accès à la version en ligne ══════════ */
+.page0{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  padding:calc(var(--u)*70) calc(var(--u)*60); background:var(--noir); }
+.p0-titre{ color:var(--jaune); font-size:calc(var(--u)*66); line-height:.92; letter-spacing:-0.02em; }
+.p0-intro{ color:var(--jaune); font-size:calc(var(--u)*15.5); line-height:1.5; letter-spacing:.01em; opacity:.92;
+  max-width:calc(var(--u)*430); margin-top:calc(var(--u)*28); }
+.p0-tuile{ width:calc(var(--u)*228); height:calc(var(--u)*228); background:var(--jaune); border-radius:calc(var(--u)*12);
+  padding:calc(var(--u)*13); margin:calc(var(--u)*42) 0 calc(var(--u)*24); display:block; }
+.p0-tuile img{ width:100%; height:100%; display:block; }
+.p0-flash{ color:var(--jaune); font-size:calc(var(--u)*13); letter-spacing:.16em; text-transform:uppercase; }
+.p0-lien{ display:inline-block; color:var(--jaune); font-family:'Consolas','Courier New',monospace; font-weight:700;
+  font-size:calc(var(--u)*13.5); letter-spacing:.01em; border:calc(var(--u)*1.5) solid var(--jaune);
+  border-radius:calc(var(--u)*6); padding:calc(var(--u)*13) calc(var(--u)*20); margin-top:calc(var(--u)*20); text-decoration:none; }
+
+/* ══════════ BIOGRAPHIES ══════════ */
+.bio-page{ background:var(--noir); }
+.bio-nom{ position:absolute; left:calc(var(--u)*54); top:calc(var(--u)*70); z-index:6; color:var(--jaune);
+  font-size:calc(var(--u)*34); letter-spacing:.005em; }
+.bio-role{ position:absolute; left:calc(var(--u)*56); top:calc(var(--u)*116); z-index:6; color:var(--jaune);
+  font-size:calc(var(--u)*12.5); letter-spacing:.14em; text-transform:uppercase; opacity:.8; }
+.bio-portrait{ position:absolute; right:calc(var(--u)*54); top:calc(var(--u)*60); z-index:6; margin:0;
+  width:calc(var(--u)*132); height:calc(var(--u)*160); overflow:hidden; border:calc(var(--u)*1) solid var(--jaune); }
+.bio-portrait img{ width:100%; height:100%; object-fit:cover; object-position:50% 20%; display:block; }
+.bio-texte{ position:absolute; left:calc(var(--u)*54); right:calc(var(--u)*54); top:calc(var(--u)*238);
+  bottom:calc(var(--u)*48); z-index:6; color:var(--jaune); line-height:1.44; letter-spacing:.004em; text-align:justify; }
+.bio-texte p{ margin:0 0 calc(var(--u)*8.5); }
+.bio-texte p:last-child{ margin-bottom:0; }
+.bio-texte em{ font-style:italic; }
+.bio-texte sup{ font-size:.62em; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ 0 · ACCÈS EN LIGNE (comme la page 0 du site) ══════════ -->
+<section class="page page0">
+  <div class="cadre-couv"></div>
+  <div class="p0-titre">La Rage<br>de Vivre</div>
+  <div class="p0-intro">Ce dossier existe aussi en version en ligne — interactive et sonore.</div>
+  <a class="p0-tuile" href="https://raphaelnaasz.github.io/laragedevivre/" target="_blank" rel="noopener"><img src="qr-site.svg" alt="QR vers le site en ligne"></a>
+  <div class="p0-flash">Scannez ou cliquez pour la version en ligne</div>
+  <a class="p0-lien" href="https://raphaelnaasz.github.io/laragedevivre/" target="_blank" rel="noopener">https://raphaelnaasz.github.io/laragedevivre/</a>
+</section>
+
+<!-- ══════════ 1 · COUVERTURE ══════════ -->
+<section class="page">
+  <img class="fond" src="../assets/images/couverture-fond.jpg" alt="">
+  <div class="cadre-couv"></div>
+  <div class="abs titre" style="left:calc(var(--u)*63.8);top:calc(var(--u)*66.8)">La Rage de</div>
+  <div class="abs titre" style="left:calc(var(--u)*63.8);top:calc(var(--u)*184.8)">Vivre</div>
+  <div class="abs titre-en" style="left:calc(var(--u)*63.8);top:calc(var(--u)*289)">Really the Blues</div>
+  <div class="abs byline" style="right:calc(var(--u)*30);top:calc(var(--u)*452)">
+    D’après le roman de<br><span class="mezz-nom">Mezz Mezzrow</span><br>et Bernard Wolfe
+  </div>
+  <div class="abs noms" style="left:calc(var(--u)*78.5);top:calc(var(--u)*585.4)">
+    Raphaël Naasz<span class="credits-role">auteur, interprète, musicien</span><br>
+    Margaux Eskenazi<span class="credits-role">mise en scène</span><br>
+    Julia Baudet<span class="credits-role">assistante à la mise en scène</span>
+  </div>
+  <div class="creation">Création 2027-2028</div>
+</section>
+
+<!-- ══════════ 2 · PAGE 2 — Pourquoi ce livre (src-p2) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p02.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*8.1)"><span>LA RAGE DE VIVRE</span><span>PAGE 2</span></div>
+  <div class="bloc-titre">Pourquoi ce livre</div>
+  <div class="corps" style="top:calc(var(--u)*140);font-size:calc(var(--u)*15)">
+    <p>J’ai une histoire avec le jazz qui est d’abord une histoire d’absences.</p>
+    <p>Mon grand frère était saxophoniste. Il avait quinze ans de plus que moi, et comme un petit frère bien plus jeune, j’aimais ce qu’il aimait, je lui prenais tout, je le copiais, tentais toujours de lui ressembler en tout, il était mon idole.</p>
+    <p>Quand j’avais treize ans, il est parti s’installer au Canada – pas une rupture violente, plutôt une disparition polie du lien, un divorce sourd. Le jazz qu’il jouait et aimait est resté là, de ce côté de l’Atlantique, dans l’espace qu’il avait quitté. J’ai commencé par étudier la musique classique — le basson d’abord —, puis je me suis mis à écouter du jazz comme on écoute quelqu’un qui n’est plus là. Pour faire exister son absence autrement que comme un vide.</p>
+  </div>
+</section>
+
+<!-- ══════════ 3 · PAGE 3 (src-p3) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p03.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*9.1)"><span>LA RAGE DE VIVRE</span><span>PAGE 3</span></div>
+  <div class="corps plein" style="font-size:calc(var(--u)*14.5)">
+    <p>Ce rapport-là au jazz — une musique aimée parce qu’il y a un manque derrière, habitée plutôt que possédée, atteinte seulement à force d’y revenir — est peut-être la première chose que je partage avec Mezzrow. Pas la musique elle-même. La structure.</p>
+    <p>J’ai découvert La Rage de vivre au CNSAD, en troisième année, sur les conseils de Xavier Gallais, Margaux Eskenazi et Florient Azoulay. On m’avait fait jouer la scène de la parade – sans encore tous les questionnements que ce travail a fini par soulever. Quelques semaines plus tôt, Camille – une collègue de promotion – était décédée d’un arrêt cardiaque devant moi, dans la rue. J’ai tenté de la réanimer avec un défibrillateur qui ne fonctionnait pas. Ça n’a pas marché.</p>
+    <p>Dix ans plus tard, j’ai écrit un texte sur cet instant. Je l’ai construit en reprenant la forme incidentelle des solos de John Coltrane – ces cris que j’entendais au fond de moi et que je me forçais à ravaler pour rester lucide et tenter de la sauver. Et même dans ce geste-là – prendre la forme de Coltrane pour dire ce que je ne pouvais pas crier – je me servais d’un langage culturel qui n’était pas le mien.</p>
+  </div>
+  <div class="credit">Idris Khan</div>
+</section>
+
+<!-- ══════════ 4 · PAGE 4 (src-p4) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p04.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 4</span></div>
+  <div class="corps plein" style="font-size:calc(var(--u)*14.5)">
+    <p>Et c’est ça qui revient maintenant comme une question que je ne peux pas esquiver&nbsp;: même ce qu’il y a de plus intime dans mon rapport au jazz est déjà une succession d’emprunts, d’absences habitées par des formes prises ailleurs.</p>
+    <p>De quel droit&nbsp;?</p>
+    <p>Je ne peux pas complètement répondre à cette question&nbsp;: je suis blanc, je ne suis pas juif, je ne suis pas américain. Je n’ai aucune légitimité évidente à porter cette histoire. Mezz Mezzrow non plus n’en avait aucune – pas de légitimité raciale, peu de légitimité musicale, ni de légitimité narrative. Et pourtant il était là – entier, brûlant, sans défense, convaincu de l’être. Et c’est peut-être aussi la condition de l’acteur, de l’interprète-musicien que je suis devenu.</p>
+    <p>Ce livre s’est imposé à moi à un moment où je rencontrais la mort pour la première fois. Je n’y reviens pas pour l’adapter. J’y reviens pour lui répondre – un dialogue, dix ans après, fait d’accords, de désaccords, de réconciliations et de contradictions tenues ensemble, sans que rien ne se referme.</p>
+  </div>
+</section>
+
+<!-- ══════════ 5 · PAGE 5 — Parade / citations ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p05.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 5</span></div>
+  <div class="cadre4-wrap">
+    <div class="cadre4">
+      <div class="citation">
+        <p class="ex">«&nbsp;Et savez-vous qui j’étais, subitement&nbsp;? J’étais Jimmy Noone, Johnny Dodds, Sidney Bechet, en train de swinguer dans les rues du quartier noir de La Nouvelle-Orléans.&nbsp;»</p>
+        <p class="qui">Mezz Mezzrow — La Rage de vivre, p.&nbsp;423</p>
+      </div>
+    </div>
+    <div class="cadre4">
+      <div class="citation">
+        <p class="ex">«&nbsp;Et savez-vous ce que j’avais à dire&nbsp;? Quelque chose de très simple&nbsp;: la vie est belle, il fait bon vivre&nbsp;! Qu’importe la faim, qu’importe si la lutte est dure, il fait bon vivre, vieux frère&nbsp;!&nbsp;»</p>
+        <p class="qui">Mezz Mezzrow — La Rage de vivre, p.&nbsp;424</p>
+      </div>
+    </div>
+  </div>
+  <div class="credit">New Orleans Jazz Band</div>
+</section>
+
+<!-- ══════════ 6 · PAGE 6 — Parade Hart's Island (gauche) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p06.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 6</span></div>
+  <div class="corps" style="font-size:calc(var(--u)*13.5)">
+    <p>«&nbsp;Et brusquement, par un bel après-midi, ce fut l’explosion. Nous marchions tous ensemble en jouant ce vieil air pompier. Nous passons devant la centrale électrique, où travaillait la 9<sup>e</sup> Division, entièrement composée de Noirs, et tous accourent comme d’habitude, pour nous écouter.</p>
+    <p>À la seule idée qu’on paradait tout l’après-midi pendant que ces gars-là se crevaient le cul, je me faisais l’effet d’un minable, d’un fils à papa, d’une lavette, et il fallait que je me justifie d’une manière ou d’une autre, alors je m’appliquais à mettre dans mes mouvements le plus possible de rythme et de souplesse.</p>
+    <p>Nous défilons donc, et voilà qu’au tempo frénétique de la marche, je me sens devenir léger, aérien, et je me dis, tant pis, je brise mes chaînes et je me lance à fond. J’oublie complètement la partition du professeur et je me mets à improviser. Et alors, bon Dieu, me voilà parti comme en rêve, où mes doigts volaient sur les touches sans le moindre effort, comme si quelqu’un avait pris ma place et commandé à tous mes muscles.</p>
+  </div>
+</section>
+
+<!-- ══════════ 7 · PAGE 6 (suite, droite) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p06b.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div>
+  <div class="corps" style="font-size:calc(var(--u)*13.5)">
+    <p>C’est que, voyez-vous, pour la toute première fois de ma vie, j’étais complètement dans le bain, je jouais le vrai jazz authentique&nbsp;: pas Chicago, ni Dixieland, pas le swing ni le jump, mais le jazz, primitif, simple, direct, trépidant et envoûtant. Maintenant, je n’avais plus peur.</p>
+    <p>Et savez-vous ce que j’avais à dire&nbsp;? Quelque chose de très simple&nbsp;: la vie est belle, il fait bon vivre&nbsp;! Qu’importent la faim, les coups de pied au cul et les coups de matraque sur la tête, qu’importe si la lutte est dure, il fait bon vivre, vieux frère&nbsp;! Jimmy Noone, Johnny Dodds et Sidney Bechet l’avaient en eux depuis toujours, et à présent ils étaient dans ma peau et actionnaient mes doigts, pour que je sorte ce que j’avais à sortir.</p>
+    <p>Oui, c’est à cette seconde-là que j’ai sauté de la galère où je me débattais moralement pour trouver ma vraie voie et voir enfin fondre mon fardeau de misère.&nbsp;»</p>
+    <p class="credit-src">— Milton Mezzrow &amp; Bernard Wolfe, <em>La Rage de Vivre</em> (<em>Really the Blues</em>, 1946) · chap. «&nbsp;Hors de la galère&nbsp;», p.&nbsp;422–424</p>
+  </div>
+</section>
+
+<!-- ══════════ 8 · PAGE 7 — UNE VIE (src-p6) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p07.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 7</span></div>
+  <div class="bloc-titre">Une vie</div>
+  <div class="corps" style="top:calc(var(--u)*146);font-size:calc(var(--u)*12.8)">
+    <p>Milton Mesirow, dit «&nbsp;Mezz Mezzrow&nbsp;» naît en 1899 sur le West Side de Chicago, dans une famille juive d’origine russe de la petite bourgeoisie. Il est envoyé à la maison de correction de Pontiac, dans l’Illinois. C’est là qu’il découvre le blues, et apprend la musique — d’abord en l’entendant chantée par les détenus noirs, puis en le jouant avec eux, au saxophone, dans l’orchestre mixte de la prison. C’est en jouant qu’il éprouve, pour la première fois, le sentiment d’être des leurs.</p>
+    <p>C’est là aussi qu’il assiste à une émeute raciale, dont il sort bouleversé. Le rapprochement se noue&nbsp;: un cafetier du Missouri l’avait chassé, lui le Juif, en le prenant pour un Noir, et le rabbin de son enfance enseignait que Moïse et Salomon étaient noirs. Juifs et Noirs, en conclut-il, sont d’un même bord. Il sort de Pontiac avec une décision arrêtée&nbsp;: il sera musicien, «&nbsp;musicien noir&nbsp;», et révélera le blues comme seuls les Noirs savent le faire.</p>
+    <p>La musique qu’il découvre n’a pas encore de soliste-roi. Le style New Orleans est une polyphonie collective, presque anonyme, où cornet, clarinette et trombone s’enroulent dans une même marche — une joie arrachée à la ségrégation et à trois cents ans d’esclavage, portée dans les corps comme une nécessité partagée.</p>
+  </div>
+  <div class="credit">Mezz Mezzrow · Théâtre des Champs-Élysées</div>
+</section>
+
+<!-- ══════════ 9 · PAGE 8 — 1920 (src-p7) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p08.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 8</span></div>
+  <div class="date-annee">1920</div>
+  <div class="corps" style="font-size:calc(var(--u)*13)">
+    <p>Dans le Chicago des années 1920, Mezz devient une figure de la scène. Il croise King Oliver, Armstrong, Bechet, Jimmy Noone, Baby Dodds, le jeune Bix Beiderbecke. L’admiration tourne à la dévotion&nbsp;: il raconte avoir roulé des heures jusqu’en Indiana, un disque d’Armstrong sous le bras, pour le faire entendre à son ami Bix.</p>
+    <p>Et c’est précisément dans ces années-là que le jazz change de centre de gravité. Armstrong invente le solo&nbsp;: la voix d’un seul se détache de la polyphonie, le chorus improvisé devient le cœur de la musique. Le style Chicago que Mezz apprend est déjà une dérivation blanche de cette invention noire. Il en est conscient et l’écrit.</p>
+    <p>Il est clarinettiste, saxophoniste et techniquement insuffisant. Boris Vian note qu’il «&nbsp;tend à laisser sa clarinette jouer toute seule&nbsp;» et use de «&nbsp;clichés vite lassants&nbsp;». Il côtoie les plus grands et il est moins bon qu’eux. Il le sait. Et pourtant rien n’entame sa foi&nbsp;: il se croit porteur de ce qui ne s’apprend pas — l’esprit des origines, la joie du vrai blues.</p>
+  </div>
+</section>
+
+<!-- ══════════ 10 · PAGE 9 — 1930 (src-p8) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p09.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 9</span></div>
+  <div class="date-annee">1930</div>
+  <div class="corps" style="font-size:calc(var(--u)*12.8)">
+    <p>Le jazz, qui avait déjà quitté la Nouvelle-Orléans pour Chicago, fuit maintenant vers New York. Mezz suit&nbsp;: les contrats se raréfient, et juste avant la crise de 1929 il rejoint Harlem.</p>
+    <p>Il y découvre le chômage, la misère. Pour s’en sortir, il commence à vendre de la marijuana mexicaine et devient le dealer d’herbe le plus célèbre de la ville. Il parle le jive, s’immerge entièrement dans la culture noire&nbsp;: il dit entrer dans la communauté par le service, la combine, la langue et le quotidien partagé.</p>
+    <p>Ces années 1930 sont aussi celles où le jazz devient une industrie. Le swing — grands orchestres, disques, tubes — est une musique faite pour faire danser les foules. C’est l’époque de Tin Pan Alley, la «&nbsp;rue des casseroles&nbsp;» où l’on fabrique les tubes à la chaîne. C’est exactement ce que Mezz méprise.</p>
+    <p>Contre cette industrialisation, il se retourne vers les origines&nbsp;: il devient l’un des artisans du New Orleans revival. En 1938, pour Hugues Panassié, il finance des séances réunissant Tommy Ladnier et Sidney Bechet. Il rêve d’un orchestre mixte avec Louis Armstrong, y parvient quelques semaines, puis doit l’arrêter, rattrapé par l’opium et l’héroïne.</p>
+  </div>
+</section>
+
+<!-- ══════════ 11 · PAGE 10 — 1940 (src-p9) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p10.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 10</span></div>
+  <div class="date-annee">1940</div>
+  <div class="corps" style="font-size:calc(var(--u)*12.8)">
+    <p>En 1940, il est arrêté à l’entrée d’un club avec une soixantaine de joints sur lui. En prison, il exige d’être traité comme un Noir et obtient son transfert dans la section noire — c’est de là que sortira la scène centrale du livre, celle de la parade.</p>
+    <p>Il a épousé Johnnie Mae, une femme noire&nbsp;; il vit à Harlem&nbsp;; il s’est déclaré «&nbsp;voluntary negro&nbsp;» sur sa carte de conscription. Il ne joue pas à être noir&nbsp;: il est convaincu d’avoir «&nbsp;traversé la ligne&nbsp;» pour de bon.</p>
+    <p>Et au moment précis où il s’enfonce dans le passé du jazz, à quelques rues de là, sans lui, le jazz invente déjà son avenir. Au Minton’s Playhouse, Gillespie, Parker, Monk élaborent le bebop&nbsp;: tempos infernaux, grilles retournées, harmonie saturée. Le but est explicite&nbsp;: décourager ceux qui viennent récupérer le jazz sans en payer le prix. La complexité devient une arme, une frontière.</p>
+    <p><em>Really the Blues</em> paraît en 1946, co-écrit avec Bernard Wolfe — juif, diplômé de Yale, ancien secrétaire de Trotsky. Le livre tombe à la charnière exacte&nbsp;: Mezz écrit le monument du jazz des origines au moment même où le bebop a tout renversé.</p>
+  </div>
+</section>
+
+<!-- ══════════ 12 · PAGE 11 — 1950 (src-p10) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p11.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 11</span></div>
+  <div class="date-annee">1950</div>
+  <div class="corps" style="font-size:calc(var(--u)*13.5)">
+    <p>À partir de là, deux tempos se séparent. Celui de Mezz s’arrête&nbsp;: après-guerre, il se fige en gardien d’un jazz «&nbsp;pur&nbsp;» et combat le bebop qu’il juge décadent. Il participe au premier Festival de Jazz de Nice en 1948, s’installe en France&nbsp;; Paris devient sa résidence pour ses vingt dernières années. L’autre tempo, celui de la musique, continue sans lui&nbsp;: le modal ouvre les grilles (Miles, <em>Kind of Blue</em>), le hard bop durcit le bebop d’un retour au blues et au gospel (Mingus). Et cette avancée n’est pas que formelle&nbsp;: elle est politique.</p>
+    <p>Dans l’Amérique des années 1950 et 1960 — les marches, les bus boycottés, les droits civiques — la musique se fait revendication&nbsp;: fierté noire, colère, affirmation d’une appartenance que personne d’autre n’a le droit de signer (Mingus, Max Roach, le Coltrane d’<em>Alabama</em>, Coleman). En 1957, Baldwin écrivait <em>Sonny’s Blues</em>.</p>
+  </div>
+</section>
+
+<!-- ══════════ 13 · PAGE 12 — 1960 (src-p11) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p12.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 12</span></div>
+  <div class="date-annee">1960</div>
+  <div class="corps" style="font-size:calc(var(--u)*15)">
+    <p>Puis le free jazz.</p>
+    <p>Ornette Coleman ouvre la brèche — un jazz sans grille fixe, sans accord imposé, où la mélodie va où elle veut&nbsp;; Coltrane s’y engage à son tour, bientôt Albert Ayler, Archie Shepp. Ils rompent avec la tonalité, le tempo, la grille, et renouent avec le blues des origines mais affranchis de toute règle. Chez Coltrane, le saxophone devient une transe&nbsp;: des phrases déchirées qui se superposent à une vitesse inouïe — ce que la critique appellera des <em>sheets of sound</em> —, une chute vertigineuse dans le grave suivie d’une montée hallucinante dans le suraigu. Une rage, une violence sombre et tragique, inséparable de l’Amérique de ces années-là. Ce n’est plus une école, c’est une échappée offerte à tous&nbsp;: le jazz quitte une fois de plus tout ce à quoi on pouvait l’assigner.</p>
+  </div>
+</section>
+
+<!-- ══════════ 14 · PAGE 13 (src-p12) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p13.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 13</span></div>
+  <div class="corps plein" style="font-size:calc(var(--u)*17)">
+    <p>Le temps d’une vie, le jazz est passé de la fanfare de rue à l’abstraction, à la lutte politique. Mezz meurt à Paris en 1972, fidèle jusqu’au bout à la musique qu’il aimait, enterré au Père-Lachaise, gardien d’une musique que le jazz avait quittée trente ans plus tôt.</p>
+    <p>C’est le récit d’un homme qui a voulu <em>devenir</em> ce qu’il aimait — et ce que son regard, à son tour, fabriquait.</p>
+  </div>
+</section>
+
+<!-- ══════════ 15 · PAGE 14 — Basquiat ══════════ -->
+<section class="page" style="background:#000">
+  <img class="basq-img" src="../assets/images/int-basquiat.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 14</span></div>
+  <div class="credit gauche" style="bottom:calc(var(--u)*40)">Jean-Michel Basquiat — Now’s the Time, 1985</div>
+</section>
+
+<!-- ══════════ 16 · PAGE 15 — Note d'intention (I) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p15.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 15</span></div>
+  <div class="ni-corps" style="font-size:calc(var(--u)*12.5)">
+    <p class="titre-intention">Note d’intention</p>
+    <p>Il y a dix ans, <em>La Rage de Vivre</em> s’est imposée à moi. L’autobiographie d’un clarinettiste et saxophoniste juif de Chicago qui a passé vingt ans à vouloir devenir noir par la volonté. Au point d’orgue du livre, lors d’une parade dans la prison d’Hart’s Island, il lâche quelque chose&nbsp;: il improvise, et croit enfin jouer le blues. Il croit en saisir le message&nbsp;: la vie est belle, il fait bon vivre, malgré la rudesse de la vie.</p>
+    <p>Pour moi ce message n’est pas tant celui du blues que le sien, celui de Milton Mezzrow. Dans l’improvisation, Mezz accepte enfin qu’il ne sera jamais vraiment l’un de ces musiciens noirs qu’il aime tant, et il nous délivre sa trouvaille&nbsp;: <em>ne plus en avoir peur</em>. La joie qu’il en retire ne vient pas de la conquête ni de la possession, elle vient de son lâcher-prise. Une harmonie dissonante, une harmonie jazz.</p>
+    <p>C’est donc cela que ce spectacle va quêter&nbsp;: le lâcher-prise. Par un dispositif qui le met en jeu — moi au plateau, et les spectateurs avec moi&nbsp;: ce que veut dire s’abandonner, laisser partir ce qu’on aime.</p>
+  </div>
+  <div class="ni-rail">
+    <figure class="ni-inset">
+      <img src="../assets/images/img-12.jpg" alt="">
+      <figcaption>Antoine Watteau — Pierrot, vers 1718</figcaption>
+    </figure>
+  </div>
+  <div class="credit">Mark Rothko — Untitled (Black on Gray), 1969</div>
+</section>
+
+<!-- ══════════ 17 · PAGE 16 — Note d'intention (II) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p16.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 16</span></div>
+  <div class="ni-corps" style="font-size:calc(var(--u)*11.8);width:calc(var(--u)*260)">
+    <p>Un principe de jeu structurera le plateau&nbsp;: je n’interpréterai pas les artistes ou penseur·se·s noir·e·s sans en reconnaître le coût. C’est une règle éthique qui s’impose à moi pour ne pas répéter certaines structures racistes déjà présentes dans le livre&nbsp;: j’incarnerai de préférence les figures blanches en face d’eux — un psychanalyste juif en séance avec Charles Mingus&nbsp;; Henri Renaud face à Thelonious Monk&nbsp;; Boris Vian recevant cette musique depuis la France&nbsp;; Dizzy Gillespie interviewé à la radio.</p>
+    <p>Certaines de ces voix passeront par des objets sonorisés — des transducteurs qui font vibrer la matière même de l’objet. La voix de Mingus sortant du canapé du psychanalyste&nbsp;; Dizzy par la radio, l’objet par lequel le jazz est arrivé en France…</p>
+    <p>Le son ne fera pas que m’accompagner&nbsp;: il sera l’acteur d’un jeu avec moi. Tout ce monde sonore arrive de l’extérieur du plateau et peut, à tout moment, prendre le pouvoir sur moi. Cette échappée est la nature même de cette musique — ce que Fred Moten appelle la fugitivité, ce qui, dans l’histoire de la Négritude, résiste à la possession. Je ne peux pas posséder cette musique. Mais c’est elle qui me fait jouer.</p>
+  </div>
+  <div class="ni-rail" style="width:calc(var(--u)*230)">
+    <figure class="ni-inset">
+      <img src="../assets/images/int-crewdson2.jpg" alt="">
+      <figcaption>Gregory Crewdson — Boy with Hand in Drain, 1998-2002</figcaption>
+    </figure>
+  </div>
+  <div class="credit">Zhang Huan — Family Tree, 2000</div>
+</section>
+
+<!-- ══════════ 18 · PAGE 17 — Note d'intention (III) ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p17.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 17</span></div>
+  <div class="ni-corps" style="font-size:calc(var(--u)*12)">
+    <p>Reste un rêve. Mezz a voulu monter un orchestre mixte avec Armstrong&nbsp;: il a tenu quelques semaines. Je rêve de reprendre son geste — rassembler un orchestre contemporain, mixte et paritaire, pour composer la bande-son du spectacle et recueillir leurs voix&nbsp;: ce que le jazz représente dans leurs vies aujourd’hui. Les vivants rejoindraient les morts dans le monde sonore du spectacle. Une créolisation, au sens de Glissant. Le Kaddish ne mentionne pas la mort&nbsp;: il loue la grandeur du monde, il organise une cohabitation temporelle avec l’absence.</p>
+    <p><em>La Rage de Vivre</em> est un Kaddish qui s’ignore&nbsp;: Mezz sanctifie les musiciens noirs avec une ferveur liturgique, fabrique par ses mots une durée autour d’une négritude qu’il ne peut pas habiter. La louange construit l’absence qu’elle voulait combler.</p>
+    <p>Allen Ginsberg l’avait pressenti&nbsp;: en 1961, il ouvre son propre <em>Kaddish</em> — pour sa mère Naomi — en récitant la prière juive tout en écoutant Ray Charles. Deux formes parallèles de parole adressée à une absence, refusant de nommer ce qui manque, créant une durée autour du vide.</p>
+    <p>Je porte ce projet avec Margaux Eskenazi. Notre langue commune s’est construite sur dix ans et quatre spectacles. Ce solo la prolonge&nbsp;: un seul corps en scène, mais un spectacle rhizome, au sens de Glissant — pas de racine unique, des racines multiples qui font relation&nbsp;: les morts, les vivants, les objets, la régie, la salle. Seul au plateau, et jamais le centre.</p>
+    <p class="signature">Raphaël Naasz</p>
+  </div>
+  <div class="ni-rail">
+    <figure class="ni-inset">
+      <img src="../assets/images/int-kaddish.jpg" alt="">
+    </figure>
+    <div class="ni-cite">«&nbsp;Mais à la racine unique qui tue alentour n’oserons-nous pas proposer par élargissement la racine en rhizome qui ouvre Relation&nbsp;?&nbsp;»<span class="cite-sig">Édouard Glissant, <em>Poétique de la Relation</em>, 1990</span></div>
+  </div>
+  <div class="credit">photo · Saul Leiter</div>
+</section>
+
+<!-- ══════════ 19 · PAGE 18 — Absence (gauche) ══════════ -->
+<section class="page">
+  <img class="fond" src="../assets/images/absence-l.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 18</span></div>
+</section>
+
+<!-- ══════════ 20 · PAGE 18 — Absence (droite) ══════════ -->
+<section class="page">
+  <img class="fond" src="../assets/images/absence-r.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span></span></div>
+</section>
+
+<!-- ══════════ BIO · Raphaël Naasz ══════════ -->
+<section class="page bio-page">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>BIOGRAPHIE</span></div>
+  <div class="bio-nom">Raphaël Naasz</div>
+  <div class="bio-role">Auteur, interprète, musicien</div>
+  <figure class="bio-portrait"><img src="portraits/raph.jpg" alt="Raphaël Naasz"></figure>
+  <div class="bio-texte" style="font-size:calc(var(--u)*10.6)">
+    <p>Raphaël Naasz se forme d’abord à la musique, au basson et au violoncelle, au conservatoire de Nice. Cette formation musicale reste au cœur de son travail d’acteur et de metteur en scène, et la relation entre théâtre et musique traverse l’ensemble de son parcours. En 2013, il entre au Conservatoire National Supérieur d’Art Dramatique (CNSAD), où il travaille auprès de Sandy Ouvrier, Nada Strancar, Mario Gonzales, Stuart Seide et Xavier Gallais.</p>
+    <p>En 2016, il co-met en scène avec Antoine Sarrasin « Blue Train », spectacle de théâtre musical d’après la Prose du Transsibérien de Blaise Cendrars, créé au Théâtre de l’Étoile du Nord à l’invitation de Sarah Tick. La même année, il fait un passage par le cinéma d’auteur avec « L’amant d’un jour » de Philippe Garrel.</p>
+    <p>Au théâtre, il joue dans « Lourdes » de Paul Toucang (Théâtre National de la Colline, 2017) et « Les Bacchantes » d’Euripide, mises en scène par Marcus Borja, dont le travail repose sur le chœur et la voix (2017). En 2019, il rejoint Margaux Eskenazi pour « Et le Cœur Fume Encore ». Il est Hippolyte dans « Phèdre » (2020) puis Treplev dans « La Mouette » (2022), deux mises en scène de Brigitte Jacques-Wajeman au Théâtre de la Ville. Il retrouve Margaux Eskenazi pour « 1983 » (2023), puis pour « Kaddish, la femme chauve en peignoir rouge », créé au Théâtre Gérard Philipe de Saint-Denis en avril 2026.</p>
+    <p>Il réalise en 2022 un premier court métrage, « Hémisphère », et se forme au montage vidéo. Il développe aujourd’hui « La Rage de Vivre », un solo de théâtre musical autour du jazz, qui prolonge le travail amorcé avec « Blue Train ».</p>
+    <p>Raphaël Naasz est interprète dans <em>Kaddish, la femme chauve en peignoir rouge</em> (Cie Nova, création 2026). <em>La Rage de Vivre</em> espère prolonger, en solo, certaines questions de ce cycle — mémoire, judéité, légitimité — déplacées vers le jazz.</p>
+  </div>
+</section>
+
+<!-- ══════════ BIO · Margaux Eskenazi ══════════ -->
+<section class="page bio-page">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>BIOGRAPHIE</span></div>
+  <div class="bio-nom" style="font-size:calc(var(--u)*29)">Margaux Eskenazi</div>
+  <div class="bio-role">Mise en scène</div>
+  <figure class="bio-portrait"><img src="portraits/margaux.jpg" alt="Margaux Eskenazi"></figure>
+  <div class="bio-texte" style="font-size:calc(var(--u)*10)">
+    <p>Diplômée d’un Master II recherche en Études Théâtrales à Paris III et de la section mise en scène du CNSAD en 2014, Margaux Eskenazi crée la Compagnie Nova en 2007. Avec la Compagnie, son travail est fortement implanté en Seine-Saint-Denis où elle met en place depuis 2007 de nombreuses actions sur le territoire en lien avec ses créations. Elle intervient également dans les Écoles Supérieures d’Art Dramatique pour mener des ateliers auprès des élèves&nbsp;: l’École de la Comédie de Saint-Etienne, l’Esad à Paris, l’École du Nord à Lille. Après un travail sur les textes de répertoire, elle fonde une nouvelle recherche depuis 2016 qu’elle ne cesse d’expérimenter d’un théâtre alliant l’intime, le politique et le poétique. Chaque spectacle est une exploration de plusieurs matériaux pour faire naître une théâtralité polysémique et rizomathique. Toute sa recherche est centrée sur le travail mémoriel et les récits manquants qui nous aident à penser nos identités.</p>
+    <p>Entre 2016 et 2023, elle a développé un triptyque «&nbsp;Écrire en pays dominé&nbsp;» consacré aux amnésies coloniales et aux poétiques de la décolonisation&nbsp;: <em>Nous sommes de ceux qui disent non à l’ombre, Et le cœur fume encore, 1983.</em> Au printemps 2021, Margaux Eskenazi crée <em>Gilles ou qu’est-ce qu’un samouraï</em>, à partir de la conférence de Gilles Deleuze, <em>Qu’est-ce que l’acte de création&nbsp;?</em></p>
+    <p>En janvier 2024, elle crée <em>Si Vénus avait su</em>, spectacle en lieux non-dédiés, sur une commande du théâtre de la Poudrerie (Sevran) consacré aux socio-esthéticiennes. Elle crée également le spectacle de sortie de la Belle Troupe en juin 2024 au Théâtre de Nanterre-Amandiers, <em>Kaddish-mémoires</em> autour de la littérature d’Imre Kertész. À l’été 2025, Margaux Eskenazi a créé un spectacle consacré aux jeunes filles du Bon Pasteur pour la 17<sup>e</sup> édition du festival du Nouveau Théâtre Populaire.</p>
+    <p>Pour la saison 2025-2026, Margaux Eskenazi a créé <em>Kaddish, la femme chauve en peignoir rouge</em> autour des identités juives en France aujourd’hui. Elle prépare un spectacle jeune public prévu à l’automne 2026 et adapte avec Julie Deliquet et Julie André <em>L’instruction</em> de Peter Weiss, prévu pour l’automne 2027 au Théâtre National de la Colline.</p>
+  </div>
+</section>
+
+<!-- ══════════ BIO · Julia Baudet ══════════ -->
+<section class="page bio-page">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>BIOGRAPHIE</span></div>
+  <div class="bio-nom">Julia Baudet</div>
+  <div class="bio-role">Assistante à la mise en scène</div>
+  <figure class="bio-portrait"><img src="portraits/julia.jpg" alt="Julia Baudet"></figure>
+  <div class="bio-texte" style="font-size:calc(var(--u)*10.6)">
+    <p>Originaire d’Annecy, Julia Baudet s’installe à Paris à l’âge de 18 ans pour se former au théâtre. Elle étudie successivement à La Générale, au Studio Théâtral d’Ivry puis au Conservatoire du 14<sup>e</sup> arrondissement, avant de poursuivre sa formation à Londres au sein de Fourth Monkey Actor Training Company, dont elle sort diplômée en 2021.</p>
+    <p>Depuis son retour en France, elle collabore avec plusieurs compagnies théâtrales, notamment la compagnie La Tronçonneuse dirigée par Ambre Maton, la compagnie J’ai tué mon bouc dirigée par Louis Berthelémy, le collectif Les Assoiffés d’Azur, ainsi que la Compagnie des Méridiens. Avec cette dernière, elle participe à une tournée en milieu scolaire autour d’un texte contemporain consacré à la jeunesse, diffusée dans plusieurs établissements de l’Est de la France.</p>
+    <p>Entre 2024 et 2026, elle travaille avec Les Assoiffés d’Azur sur plusieurs formes inspirées de <em>Roméo et Juliette</em>, poursuivant ainsi son exploration de l’œuvre de Shakespeare. En 2026, elle participe avec la compagnie J’ai tué mon bouc à la création d’un cabaret élisabéthain mêlant théâtre et chanson, présenté notamment au Théâtre de la Barcarolle puis au Théâtre d’Hardelot.</p>
+    <p>Elle développe également une activité d’assistanat à la mise en scène, auprès de Louis Berthelémy sur <em>PLOUK(S)</em> en 2019 puis auprès de Christophe Montenez de la Comédie Française sur <em>Mondes possibles</em> en 2026.</p>
+    <p>En parallèle de son activité de comédienne, elle développe un travail de dessin et de peinture en autodidacte. Ses œuvres ont été exposées à Annecy, Paris et Londres. Elle participe également à l’organisation du Festival de Malaz à Annecy.</p>
+  </div>
+</section>
+
+<!-- ══════════ 21 · PAGE 19 — Contacts ══════════ -->
+<section class="page">
+  <img class="fond" src="bg/p19.jpg" alt="">
+  <div class="entete" style="top:calc(var(--u)*11.3)"><span>LA RAGE DE VIVRE</span><span>PAGE 19</span></div>
+  <div class="contact-corps">
+    <h2 class="contact-titre">Contacts</h2>
+    <ul class="contact-liste">
+      <li>
+        <span class="c-nom">Raphaël Naasz</span>
+        <span class="c-role">auteur, interprète, musicien</span>
+        <span class="c-mail">raphael.naasz@gmail.com</span>
+        <span class="c-tel">07 66 00 48 38</span>
+      </li>
+      <li>
+        <span class="c-nom">Margaux Eskenazi</span>
+        <span class="c-role">mise en scène</span>
+        <span class="c-mail">margaux@lacompagnienova.org</span>
+        <span class="c-tel">06 63 36 31 60</span>
+      </li>
+      <li>
+        <span class="c-nom">Julia Baudet</span>
+        <span class="c-role">assistante à la mise en scène</span>
+        <span class="c-mail">juliabaudet74@gmail.com</span>
+        <span class="c-tel">06 49 15 40 42</span>
+      </li>
+    </ul>
+  </div>
+  <div class="credit">Roy DeCarava</div>
+</section>
+
+<!-- Traduction : n'agit QUE si l'URL porte ?lang=en. Sans ça, document français intact. -->
+<script src="i18n/en.js"></script>
+<script src="i18n/apply.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Sorties générées — reproductibles depuis les sources versionnées.
+#   PDF      : powershell -File pdf\build.ps1
+#   fonds    : node pdf/prepare-bg.mjs
+#   carte QR : node pdf/qr-card.mjs  (puis rendu Chrome)
+*.pdf
+*.png
+bg/
+qr-card.html
+_*.png
